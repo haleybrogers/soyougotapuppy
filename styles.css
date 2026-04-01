@@ -1078,8 +1078,14 @@ a:hover {
   }
 
   .couple-illustration {
-    max-width: 220px;
+    max-width: 180px;
     margin: 0 auto;
+    display: block;
+  }
+
+  .story-hero-left {
+    display: flex;
+    justify-content: center;
   }
 
   .story-detail,
