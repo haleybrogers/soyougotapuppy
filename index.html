@@ -4,9 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sally + Haley | March 20, 2027</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Elma Mono';
+      src: url('fonts/Elma-Mono-Light-Demo.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Elma Mono';
+      src: url('fonts/Elma-Mono-Light-Italic-Demo.otf') format('opentype');
+      font-weight: 300;
+      font-style: italic;
+    }
+    @font-face {
+      font-family: 'Elma Mono';
+      src: url('fonts/Elma-Mono-Regular-Demo.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Elma Mono';
+      src: url('fonts/Elma-Mono-Regular-Italic-Demo.otf') format('opentype');
+      font-weight: 400;
+      font-style: italic;
+    }
+  </style>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,7 +41,7 @@
       <div class="nav-links">
         <a href="#our-story">Our Story</a>
         <a href="#details">Details</a>
-        <a href="#greensboro">Greensboro</a>
+        <a href="#greensboro">Winston-Salem</a>
         <a href="#rsvp">RSVP</a>
       </div>
       <button class="nav-toggle" aria-label="Menu">
@@ -31,7 +54,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#our-story">Our Story</a>
     <a href="#details">Details</a>
-    <a href="#greensboro">Greensboro</a>
+    <a href="#greensboro">Winston-Salem</a>
     <a href="#rsvp">RSVP</a>
   </div>
 
@@ -44,7 +67,7 @@
         <span class="ampersand">&</span>
         <span class="name name-2">Haley</span>
       </h1>
-      <p class="hero-location">Greensboro, North Carolina</p>
+      <p class="hero-location">Winston-Salem, North Carolina</p>
       <div class="hero-scroll">
         <span>Scroll</span>
         <div class="scroll-line"></div>
@@ -113,8 +136,8 @@
             </svg>
           </div>
           <h3>Ceremony</h3>
-          <p class="detail-venue">Greensboro City Hall</p>
-          <p class="detail-address">300 W Washington St<br>Greensboro, NC 27401</p>
+          <p class="detail-venue">Winston-Salem City Hall</p>
+          <p class="detail-address">101 N Main St<br>Winston-Salem, NC 27101</p>
           <p class="detail-time">4:00 PM</p>
         </div>
         <div class="detail-card">
@@ -125,7 +148,7 @@
           </div>
           <h3>Reception</h3>
           <p class="detail-venue">Little Pep</p>
-          <p class="detail-address">Wine bar &amp; shop<br>Greensboro, NC</p>
+          <p class="detail-address">533 N Trade St<br>Winston-Salem, NC 27101</p>
           <p class="detail-time">Following the ceremony</p>
         </div>
         <div class="detail-card">
@@ -167,36 +190,36 @@
     </div>
   </section>
 
-  <!-- Greensboro -->
+  <!-- Winston-Salem -->
   <section id="greensboro" class="greensboro">
     <div class="container">
-      <h2 class="section-title">Greensboro</h2>
+      <h2 class="section-title">Winston-Salem</h2>
       <p class="section-subtitle">Our city. A few of our favorites.</p>
       <div class="places-grid">
         <div class="place-card">
           <h4>Stay</h4>
           <ul>
-            <li>Proximity Hotel</li>
-            <li>Revolution Mill Lofts</li>
-            <li>O.Henry Hotel</li>
+            <li>Kimpton Cardinal Hotel</li>
+            <li>Graylyn Estate</li>
+            <li>Historic Brookstown Inn</li>
           </ul>
         </div>
         <div class="place-card">
           <h4>Eat + Drink</h4>
           <ul>
             <li>Little Pep <span class="tag">our spot</span></li>
-            <li>Print Works Bistro</li>
-            <li>Scrambled Southern Diner</li>
-            <li>Gia</li>
+            <li>Mozelle's</li>
+            <li>Bobby Boy Bakeshop</li>
+            <li>The Katharine Brasserie</li>
           </ul>
         </div>
         <div class="place-card">
           <h4>Do</h4>
           <ul>
-            <li>Walk the Revolution Mill Greenway</li>
-            <li>Weatherspoon Art Museum</li>
-            <li>Bog Garden</li>
-            <li>Downtown First Friday</li>
+            <li>Reynolda House Museum</li>
+            <li>Old Salem</li>
+            <li>Bailey Park</li>
+            <li>Yadkin Valley Wine Country</li>
           </ul>
         </div>
       </div>
@@ -256,7 +279,7 @@
   <footer class="footer">
     <div class="container">
       <p class="footer-names">Sally & Haley</p>
-      <p class="footer-date">03.20.27 &middot; Greensboro, NC</p>
+      <p class="footer-date">03.20.27 &middot; Winston-Salem, NC</p>
       <p class="footer-note">There you are.</p>
     </div>
   </footer>
