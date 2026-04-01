@@ -707,6 +707,16 @@ a:hover {
   margin-bottom: 0.6rem;
 }
 
+.detail-venue a {
+  color: var(--cream);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.detail-venue a:hover {
+  opacity: 0.8;
+}
+
 .detail-address {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -831,6 +841,16 @@ a:hover {
 
 .place-card li:last-child {
   border-bottom: none;
+}
+
+.place-card li a {
+  color: var(--cream);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.place-card li a:hover {
+  opacity: 1;
 }
 
 .tag {
