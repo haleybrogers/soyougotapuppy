@@ -66,19 +66,20 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 1.2rem 0;
-  transition: background 0.4s, backdrop-filter 0.4s;
+  padding: 1rem 0;
+  background: var(--gold);
+  border-bottom: 2px solid var(--red);
+  transition: background 0.4s;
 }
 
 #nav.scrolled {
-  background: rgba(221, 16, 0, 0.95);
-  backdrop-filter: blur(10px);
+  background: var(--gold);
 }
 
 .nav-inner {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -86,40 +87,41 @@ a:hover {
 
 .nav-logo {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--cream);
+  color: var(--red);
   text-decoration: none;
-  transform: rotate(-4deg);
+  transform: rotate(-8deg);
   display: inline-block;
 }
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 4rem;
+  align-items: center;
 }
 
 .nav-links a {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--cream);
+  color: var(--red);
   display: inline-block;
   transition: color 0.3s ease-in-out;
+  padding: 0.3rem 0;
 }
 
-/* Little Pep signature: rotated nav items */
-.nav-links a:nth-child(1) { transform: rotate(-7deg); }
-.nav-links a:nth-child(2) { transform: rotate(5deg); }
-.nav-links a:nth-child(3) { transform: rotate(-4deg); }
-.nav-links a:nth-child(4) { transform: rotate(6deg); }
+/* Little Pep signature: dramatic rotated nav items */
+.nav-links a:nth-child(odd) { transform: rotate(-13deg); }
+.nav-links a:nth-child(even) { transform: rotate(20deg); }
 
 .nav-links a:hover {
-  color: var(--gold);
+  color: var(--brown);
 }
 
 .nav-toggle {
@@ -136,7 +138,7 @@ a:hover {
   display: block;
   width: 22px;
   height: 1.5px;
-  background: var(--cream);
+  background: var(--red);
   transition: 0.3s;
 }
 
@@ -172,6 +174,30 @@ a:hover {
 .mobile-menu a:nth-child(2) { transform: rotate(3deg); }
 .mobile-menu a:nth-child(3) { transform: rotate(-2deg); }
 .mobile-menu a:nth-child(4) { transform: rotate(7deg); }
+
+/* ---- Welcome Banner ---- */
+.welcome-banner {
+  background: var(--cream);
+  padding: 70px 2rem 1.2rem;
+  text-align: center;
+  border-bottom: 2px solid var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1.2rem;
+  /* equal visual padding below text to match above */
+  padding-top: calc(52px + 2rem); /* nav height + matching padding */
+}
+
+.welcome-banner p {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin: 0;
+}
 
 /* ---- Hero ---- */
 .hero {
@@ -359,14 +385,42 @@ a:hover {
   transform: rotate(15deg);
 }
 
-.story-content {
-  display: grid;
-  grid-template-columns: 5fr 3fr;
+.story-hero {
+  display: flex;
   gap: 4rem;
-  margin-top: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
 }
 
-.story-text p {
+.story-hero-left {
+  flex: 1;
+}
+
+.story-hero-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.story-title {
+  font-size: 5rem !important;
+  margin-bottom: 0;
+}
+
+.story-details-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.story-text-block {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.story-text-block p {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.9;
@@ -383,13 +437,6 @@ a:hover {
   display: inline-block;
   margin-bottom: 1.5rem !important;
   line-height: 1.4 !important;
-}
-
-.story-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding-top: 0.5rem;
 }
 
 .story-detail {
@@ -455,6 +502,151 @@ a:hover {
   color: var(--gold);
   transform: rotate(-4deg);
   display: inline-block;
+}
+
+/* ---- Origin Map ---- */
+.origin-map {
+  padding: 5rem 0;
+  background: var(--gold);
+  text-align: center;
+}
+
+.origin-map .section-title {
+  color: var(--brown);
+}
+
+.map-illustration {
+  max-width: 700px;
+  margin: 3rem auto 0;
+}
+
+.map-layout {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+}
+
+.map-left {
+  flex: 1;
+  text-align: left;
+}
+
+.couple-illustration {
+  max-width: 300px;
+  margin: 2rem auto;
+  display: block;
+}
+
+@keyframes coupleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(1.5deg); }
+  75% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+.couple-float {
+  animation: coupleFloat 6s ease-in-out infinite;
+}
+
+.map-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  flex: 1;
+}
+
+.map-state {
+  text-align: center;
+}
+
+.state-svg {
+  width: 100%;
+  height: auto;
+  max-height: 140px;
+}
+
+.map-float-2 .state-svg {
+  max-height: 100px;
+}
+
+/* Gentle floating animations */
+@keyframes float1 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(-1deg); }
+}
+
+.map-float-1 {
+  animation: float1 4s ease-in-out infinite;
+}
+
+.map-float-2 {
+  animation: float2 5s ease-in-out infinite;
+}
+
+.state-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.state-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(221, 16, 0, 0.25);
+}
+
+/* Baltimore dot - west shore of Chesapeake Bay */
+.map-float-1 .state-dot {
+  top: 18%;
+  left: 58%;
+}
+
+/* Kernersville dot - Piedmont Triad area */
+.map-float-2 .state-dot {
+  top: 28%;
+  left: 52%;
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(221, 16, 0, 0.25); }
+  50% { box-shadow: 0 0 0 8px rgba(221, 16, 0, 0.1); }
+}
+
+.dot-float-1 {
+  animation: dotPulse 3s ease-in-out infinite;
+}
+
+.dot-float-2 {
+  animation: dotPulse 3.5s ease-in-out infinite 0.5s;
+}
+
+.map-callout {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.callout-place {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brown);
+}
+
+.callout-name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--red);
 }
 
 /* ---- Details ---- */
