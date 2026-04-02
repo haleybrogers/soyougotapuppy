@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracker — Puppy Training for Puppies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Panic</a></li>
+      <li><a href="rules.html">The Rules</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="drills.html">Drills</a></li>
+      <li><a href="by-age.html">By Age</a></li>
+      <li><a href="routine.html">Routine</a></li>
+      <li><a href="tracker.html" class="nav__link--active">Tracker</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section--cream page-top" id="tracker">
+  <div class="container">
+    <div class="fade-in">
+      <h2>Behavior tracker</h2>
+      <p class="text-lg" style="margin-bottom: 0.5rem;">Your dog is learning from everything you do. Let's see what you're actually teaching.</p>
+      <p class="text-muted text-sm" style="margin-bottom: 2rem;">This tracks YOUR behavior, not your dog's. Because your dog isn't the problem.</p>
+
+      <div class="dashboard">
+        <div class="dashboard__header">
+          <div class="dashboard__date" id="trackerDate"></div>
+          <h3 style="margin-top: 0.75rem;">your dog is learning this right now:</h3>
+          <div class="consistency-bar" id="consistencyBar" style="display:none;">
+            <div class="consistency-bar__track">
+              <div class="consistency-bar__fill" id="consistencyFill" style="width: 50%;"></div>
+            </div>
+            <div class="consistency-bar__labels">
+              <span class="text-sm" style="color: var(--red-soft);">chaos works</span>
+              <span class="text-sm" id="consistencyPct" style="font-weight: 700;">—</span>
+              <span class="text-sm" style="color: var(--green-soft);">calm works</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat__number stat__number--green" id="calmCount">0</div>
+            <div class="stat__label">rewarded calm</div>
+          </div>
+          <div class="stat">
+            <div class="stat__number stat__number--red" id="chaosCount">0</div>
+            <div class="stat__label">rewarded chaos</div>
+          </div>
+          <div class="stat">
+            <div class="stat__number stat__number--gold" id="totalCount">0</div>
+            <div class="stat__label">total interactions</div>
+          </div>
+        </div>
+
+        <div class="streak" id="streakSection" style="display:none;">
+          <div class="streak__fire">🔥</div>
+          <div class="streak__count" id="streakCount">0</div>
+          <div class="streak__label" id="streakLabel">day streak of not rewarding crate whining</div>
+        </div>
+
+        <div style="margin: 2rem 0;">
+          <h3>What just happened?</h3>
+          <p class="text-sm text-muted" style="margin-bottom: 1rem;">Log your interactions. Be honest. Your dog is taking notes and so are we.</p>
+
+          <div class="grid grid--2" style="margin-bottom: 1.5rem;">
+            <button class="btn btn--primary btn--small" onclick="logBehavior('calm', 'Rewarded calm behavior')">🟢 I rewarded calm</button>
+            <button class="btn btn--small" style="background: var(--red-soft); color: white;" onclick="logBehavior('chaos', 'Rewarded chaos / gave in')">🔴 I gave in to chaos</button>
+          </div>
+
+          <!-- VOICE NOTE -->
+          <div class="voice-note" style="margin-bottom: 1.5rem;">
+            <button class="btn btn--small btn--secondary voice-note__btn" id="voiceNoteBtn" onclick="toggleVoiceNote()">
+              <span id="voiceIcon">🎙️</span> <span id="voiceLabel">Record a note</span>
+            </button>
+            <div class="voice-note__status" id="voiceStatus" style="display:none;">
+              <div class="voice-note__recording" id="voiceRecording">
+                <span class="voice-note__dot"></span> Recording...
+                <button class="btn btn--small btn--ghost" onclick="stopVoiceNote()" style="margin-left: 0.5rem;">Stop</button>
+              </div>
+              <div class="voice-note__result" id="voiceResult" style="display:none;">
+                <textarea class="voice-note__text" id="voiceText" rows="2" placeholder="Your transcription will appear here..."></textarea>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                  <button class="btn btn--small btn--primary" onclick="saveVoiceNote('calm')">🟢 Log as calm</button>
+                  <button class="btn btn--small" style="background: var(--red-soft); color: white;" onclick="saveVoiceNote('chaos')">🔴 Log as chaos</button>
+                  <button class="btn btn--small btn--ghost" onclick="cancelVoiceNote()">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <details style="margin-bottom: 1rem;">
+            <summary style="cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--rust);">Log something specific ↓</summary>
+            <div class="grid grid--2" style="margin-top: 0.75rem; gap: 0.5rem;">
+              <button class="dt-btn" onclick="logBehavior('chaos', 'Opened crate while whining')"><span>🏠</span> Opened crate while whining</button>
+              <button class="dt-btn" onclick="logBehavior('chaos', 'Rewarded jumping on greeting')"><span>🦘</span> Rewarded jumping</button>
+              <button class="dt-btn" onclick="logBehavior('chaos', 'Gave attention during barking')"><span>🗣️</span> Gave attention for barking</button>
+              <button class="dt-btn" onclick="logBehavior('chaos', 'Gave treat to stop crying')"><span>😭</span> Gave treat to stop crying</button>
+              <button class="dt-btn" onclick="logBehavior('calm', 'Waited for calm before crate release')"><span>✅</span> Waited for calm, then released</button>
+              <button class="dt-btn" onclick="logBehavior('calm', 'Ignored jumping, rewarded sit')"><span>🧘</span> Ignored chaos, rewarded calm</button>
+              <button class="dt-btn" onclick="logBehavior('calm', 'Rewarded voluntary check-in')"><span>👀</span> Rewarded a check-in</button>
+              <button class="dt-btn" onclick="logBehavior('calm', 'Successful recall practice')"><span>🎯</span> Successful recall</button>
+            </div>
+          </details>
+        </div>
+
+        <div id="behaviorLog">
+          <h3>Today's log</h3>
+          <div id="logEntries" style="margin-top: 0.5rem;">
+            <p class="text-muted text-sm" id="emptyLog">No entries yet. Go interact with your puppy and come back.</p>
+          </div>
+        </div>
+
+        <div id="dailySummary" style="display:none; margin-top: 2rem;">
+          <div class="card card--bark">
+            <h3 style="font-size: 1rem;">Today's honest truth:</h3>
+            <p id="summaryText" style="margin-top: 0.5rem;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
+</footer>
+
+<!-- ============ ACCOUNTABILITY POP-UP ============ -->
+<div class="accountability" id="accountability" style="display:none;">
+  <div class="accountability__text" id="accountabilityText"></div>
+  <div class="accountability__options" id="accountabilityOptions"></div>
+</div>
+
+<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
+  <span>🚨</span> my dog is being insane
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Routine — Puppy Training for Puppies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Panic</a></li>
+      <li><a href="rules.html">The Rules</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="drills.html">Drills</a></li>
+      <li><a href="by-age.html">By Age</a></li>
+      <li><a href="routine.html" class="nav__link--active">Routine</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section--cream page-top" id="routine">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2>Sample daily routine</h2>
+      <p class="text-lg" style="margin-bottom: 1rem;">Structure prevents chaos. Puppies thrive on routine like toddlers thrive on nap schedules.</p>
+
+      <div class="callout callout--savage" style="margin-bottom: 2rem;">
+        <span class="callout__label">puppy being crazy right now?</span>
+        Check this schedule. What did you miss? A skipped nap or missed play session = demon mode. <a href="index.html" style="font-weight: 700;">Or hit the panic button →</a>
+      </div>
+
+      <div class="tabs" id="routineTabs">
+        <button class="tab active" data-tab="routine-baby" onclick="switchTab('routineTabs', 'routine-baby')">8-16 wks</button>
+        <button class="tab" data-tab="routine-teen" onclick="switchTab('routineTabs', 'routine-teen')">4-6 mo</button>
+        <button class="tab" data-tab="routine-older" onclick="switchTab('routineTabs', 'routine-older')">6-12 mo</button>
+      </div>
+
+      <div class="tab-content active" id="routine-baby">
+        <div class="schedule">
+          <div class="schedule__block"><div class="schedule__time">6:30 AM</div><div class="schedule__activity"><strong>Wake up → potty IMMEDIATELY</strong> Carry them outside if needed. Reward the second they go.</div></div>
+          <div class="schedule__block"><div class="schedule__time">6:45 AM</div><div class="schedule__activity"><strong>Breakfast (hand-fed)</strong> Use meal for recall game or training. Food = learning tool, not just a bowl.</div></div>
+          <div class="schedule__block"><div class="schedule__time">7:00 AM</div><div class="schedule__activity"><strong>Potty → short play</strong> 10-15 min of interaction. Then let them settle.</div></div>
+          <div class="schedule__block"><div class="schedule__time">7:30 AM</div><div class="schedule__activity"><strong>Crate nap (1.5-2 hrs)</strong> They need SO much sleep. Enforced nap time is not cruel, it's necessary.</div></div>
+          <div class="schedule__block"><div class="schedule__time">9:30 AM</div><div class="schedule__activity"><strong>Potty → training session (2-3 min)</strong> One skill. Keep it short and fun. End on a win.</div></div>
+          <div class="schedule__block"><div class="schedule__time">10:00 AM</div><div class="schedule__activity"><strong>Supervised exploration / socialization</strong> New surface, new sound, new person. Brief and positive.</div></div>
+          <div class="schedule__block"><div class="schedule__time">10:30 AM</div><div class="schedule__activity"><strong>Crate nap (1.5-2 hrs)</strong> Yes, another one. Puppies need 18-20 hrs of sleep per day.</div></div>
+          <div class="schedule__block"><div class="schedule__time">12:30 PM</div><div class="schedule__activity"><strong>Potty → lunch (hand-fed or puzzle toy)</strong> More training reps with their meal.</div></div>
+          <div class="schedule__block"><div class="schedule__time">1:00 PM</div><div class="schedule__activity"><strong>Play + enrichment</strong> Snuffle mat, Kong, tug. Engage their brain.</div></div>
+          <div class="schedule__block"><div class="schedule__time">1:30 PM</div><div class="schedule__activity"><strong>Crate nap</strong> Sensing a pattern? Good.</div></div>
+          <div class="schedule__block"><div class="schedule__time">3:30 PM</div><div class="schedule__activity"><strong>Potty → training (2-3 min) → play</strong> Practice a different skill than morning.</div></div>
+          <div class="schedule__block"><div class="schedule__time">4:00 PM</div><div class="schedule__activity"><strong>Crate nap or supervised chill</strong> Capture calm if they're just hanging out.</div></div>
+          <div class="schedule__block"><div class="schedule__time">5:30 PM</div><div class="schedule__activity"><strong>Potty → dinner (hand-fed)</strong> More recall game or capturing good behaviors.</div></div>
+          <div class="schedule__block"><div class="schedule__time">6:00 PM</div><div class="schedule__activity"><strong>Family time / supervised play</strong> Practice calm greetings if people come home.</div></div>
+          <div class="schedule__block"><div class="schedule__time">7:00 PM</div><div class="schedule__activity"><strong>Last potty → wind down → crate for bed</strong> Low energy evening. No hype before bed.</div></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="routine-teen">
+        <div class="schedule">
+          <div class="schedule__block"><div class="schedule__time">7:00 AM</div><div class="schedule__activity"><strong>Potty → breakfast → training (5 min)</strong> Longer sessions now. Work on recall, leave it, or impulse control.</div></div>
+          <div class="schedule__block"><div class="schedule__time">7:30 AM</div><div class="schedule__activity"><strong>Walk (15-20 min)</strong> Practice loose leash. Reward check-ins. Let them sniff.</div></div>
+          <div class="schedule__block"><div class="schedule__time">8:00 AM</div><div class="schedule__activity"><strong>Settle time / crate</strong> Still need enforced rest but can handle longer awake periods.</div></div>
+          <div class="schedule__block"><div class="schedule__time">11:00 AM</div><div class="schedule__activity"><strong>Potty → enrichment / puzzle toy</strong> Mental stimulation session.</div></div>
+          <div class="schedule__block"><div class="schedule__time">11:30 AM</div><div class="schedule__activity"><strong>Nap / crate</strong> 1-2 hours.</div></div>
+          <div class="schedule__block"><div class="schedule__time">1:00 PM</div><div class="schedule__activity"><strong>Potty → lunch → training (5 min)</strong> Work a different skill than morning.</div></div>
+          <div class="schedule__block"><div class="schedule__time">1:30 PM</div><div class="schedule__activity"><strong>Play session / socialization outing</strong> On/off switch practice. New environments.</div></div>
+          <div class="schedule__block"><div class="schedule__time">2:30 PM</div><div class="schedule__activity"><strong>Settle time</strong> Practice place/mat training or just capture calm.</div></div>
+          <div class="schedule__block"><div class="schedule__time">5:00 PM</div><div class="schedule__activity"><strong>Walk (20-30 min) + potty</strong> Longer walk. Practice recall on long line in safe area.</div></div>
+          <div class="schedule__block"><div class="schedule__time">6:00 PM</div><div class="schedule__activity"><strong>Dinner → training → play</strong> Use dinner for the most challenging skill you're working on.</div></div>
+          <div class="schedule__block"><div class="schedule__time">8:00 PM</div><div class="schedule__activity"><strong>Wind down → last potty → bed</strong> Calm evening. Chew toy in crate.</div></div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="routine-older">
+        <div class="schedule">
+          <div class="schedule__block"><div class="schedule__time">7:00 AM</div><div class="schedule__activity"><strong>Potty → breakfast → walk (30 min)</strong> Morning walk is the main exercise. Practice everything you've been working on.</div></div>
+          <div class="schedule__block"><div class="schedule__time">8:00 AM</div><div class="schedule__activity"><strong>Training session (5-10 min)</strong> Proofing skills in different contexts. Generalize.</div></div>
+          <div class="schedule__block"><div class="schedule__time">8:30 AM</div><div class="schedule__activity"><strong>Settle / alone time practice</strong> They should be able to chill while you work. Reward it.</div></div>
+          <div class="schedule__block"><div class="schedule__time">12:00 PM</div><div class="schedule__activity"><strong>Midday potty → enrichment → lunch</strong> Puzzle feeder, snuffle mat, or scatter feeding in yard.</div></div>
+          <div class="schedule__block"><div class="schedule__time">12:30 PM</div><div class="schedule__activity"><strong>Nap or supervised chill</strong> They still need rest periods even at this age.</div></div>
+          <div class="schedule__block"><div class="schedule__time">4:00 PM</div><div class="schedule__activity"><strong>Afternoon walk/play (30-45 min)</strong> Higher energy activity. Fetch, play dates, long line recall practice.</div></div>
+          <div class="schedule__block"><div class="schedule__time">5:30 PM</div><div class="schedule__activity"><strong>Dinner → training → wind down</strong> Use dinner calories for the hardest thing you're teaching right now.</div></div>
+          <div class="schedule__block"><div class="schedule__time">8:00 PM</div><div class="schedule__activity"><strong>Evening chill → last potty → bed</strong> By now they should be settling into a predictable rhythm.</div></div>
+        </div>
+      </div>
+
+      <div class="callout callout--savage fade-in" style="margin-top: 2rem;">
+        <span class="callout__label">just so you know</span>
+        If your puppy is being a demon at 2pm, check this schedule. Did they miss a nap? Did they miss a training session? Structure prevents chaos. Your puppy isn't bad — they're just under-scheduled.
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
+</footer>
+
+<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
+  <span>🚨</span> my dog is being insane
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>

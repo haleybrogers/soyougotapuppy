@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary — Puppy Training for Puppies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Panic</a></li>
+      <li><a href="rules.html">The Rules</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="drills.html">Drills</a></li>
+      <li><a href="by-age.html">By Age</a></li>
+      <li><a href="routine.html">Routine</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="glossary.html" class="nav__link--active">Glossary</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section--warm page-top" id="glossary">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2>Glossary</h2>
+      <p class="text-lg" style="margin-bottom: 1.5rem;">Dog training has a lot of jargon. Here's what it actually means.</p>
+
+      <input type="text" class="glossary__search" placeholder="Search terms..." id="glossarySearch" oninput="filterGlossary()">
+
+      <div id="glossaryList">
+        <div class="glossary__item" data-term="capturing">
+          <div class="glossary__term">Capturing</div>
+          <div class="glossary__haley">"When your puppy accidentally does something good and you throw food at them like a crazy person."</div>
+          <div class="glossary__real">Rewarding behaviors the dog offers naturally, without prompting. One of the most powerful training methods.</div>
+        </div>
+        <div class="glossary__item" data-term="marker">
+          <div class="glossary__term">Marker / marker word</div>
+          <div class="glossary__haley">"The 'yes!' or click that tells your dog 'THAT. That exact thing you just did. That's why food is coming.'"</div>
+          <div class="glossary__real">A sound (clicker or verbal "yes") that precisely marks the moment the dog did the right thing, followed by a reward.</div>
+        </div>
+        <div class="glossary__item" data-term="positive reinforcement">
+          <div class="glossary__term">Positive reinforcement</div>
+          <div class="glossary__haley">"Adding something good (food, play, attention) to make a behavior happen more. AKA: bribery that works."</div>
+          <div class="glossary__real">The only scientifically backed training methodology. Adding a desirable stimulus to increase behavior frequency.</div>
+        </div>
+        <div class="glossary__item" data-term="threshold">
+          <div class="glossary__term">Threshold</div>
+          <div class="glossary__haley">"The invisible line between 'I see that thing and I'm cool' and 'I SEE THAT THING AND I AM NOT COOL.' Work below it."</div>
+          <div class="glossary__real">The point at which a stimulus becomes too intense for the dog to focus or learn. Effective training happens below threshold.</div>
+        </div>
+        <div class="glossary__item" data-term="shaping">
+          <div class="glossary__term">Shaping</div>
+          <div class="glossary__haley">"Rewarding baby steps until your dog accidentally invents the behavior you wanted. It's like hot/cold but with kibble."</div>
+          <div class="glossary__real">Reinforcing successive approximations toward a target behavior. The dog learns to problem-solve actively.</div>
+        </div>
+        <div class="glossary__item" data-term="luring">
+          <div class="glossary__term">Luring</div>
+          <div class="glossary__haley">"Holding a treat in front of their nose and guiding them like a little food-motivated puppet."</div>
+          <div class="glossary__real">Using a treat or toy to physically guide the dog into position. Fade the lure within 3-5 reps or they become dependent on it.</div>
+        </div>
+        <div class="glossary__item" data-term="impulse control">
+          <div class="glossary__term">Impulse control</div>
+          <div class="glossary__haley">"Teaching your puppy that screaming, biting, and being pushy doesn't get them what they want. Basically... adulting."</div>
+          <div class="glossary__real">The ability to resist an immediate desire in order to achieve a better outcome. A foundational life skill for dogs.</div>
+        </div>
+        <div class="glossary__item" data-term="desensitization">
+          <div class="glossary__term">Desensitization</div>
+          <div class="glossary__haley">"Making scary stuff boring by introducing it reallyyy slowly while feeding them so much they forget to be scared."</div>
+          <div class="glossary__real">Gradual, controlled exposure to a stimulus at sub-threshold intensity, paired with positive associations.</div>
+        </div>
+        <div class="glossary__item" data-term="counter-conditioning">
+          <div class="glossary__term">Counter-conditioning</div>
+          <div class="glossary__haley">"Changing your dog's emotional response from 'THAT IS SCARY' to 'oh that thing means cheese happens.' "</div>
+          <div class="glossary__real">Pairing a stimulus that causes an undesired response with something the dog loves to change the emotional association.</div>
+        </div>
+        <div class="glossary__item" data-term="extinction burst">
+          <div class="glossary__term">Extinction burst</div>
+          <div class="glossary__haley">"When you stop rewarding a behavior and they go HARDER before they give up. Like pressing an elevator button 47 times when it doesn't come."</div>
+          <div class="glossary__real">A temporary increase in frequency/intensity of a behavior when reinforcement is removed. It gets worse before it gets better.</div>
+        </div>
+        <div class="glossary__item" data-term="place training">
+          <div class="glossary__term">Place / mat training</div>
+          <div class="glossary__haley">"Teaching them that this specific mat = chill zone. It's portable calm. Take it to restaurants, friends' houses, anywhere."</div>
+          <div class="glossary__real">Training a dog to go to a designated spot and remain there calmly. Builds duration and distraction tolerance.</div>
+        </div>
+        <div class="glossary__item" data-term="generalization">
+          <div class="glossary__term">Generalization</div>
+          <div class="glossary__haley">"Your puppy knows 'sit' in the kitchen but acts like they've never heard the word at the park. They need to learn skills transfer to new places."</div>
+          <div class="glossary__real">A behavior learned in one context being performed in new contexts. Requires practice in multiple environments.</div>
+        </div>
+        <div class="glossary__item" data-term="enrichment">
+          <div class="glossary__term">Enrichment</div>
+          <div class="glossary__haley">"Stuff that makes your dog use their brain so they don't use their teeth on your couch. Puzzle toys, sniff walks, frozen Kongs."</div>
+          <div class="glossary__real">Activities that stimulate the dog's mind and fulfill species-typical needs. Essential for preventing boredom-based behavior problems.</div>
+        </div>
+        <div class="glossary__item" data-term="management">
+          <div class="glossary__term">Management</div>
+          <div class="glossary__haley">"Setting up the environment so your puppy can't practice the behavior you don't want. Baby gates, crates, keeping shoes in closets. Prevention > correction."</div>
+          <div class="glossary__real">Environmental modification to prevent unwanted behaviors. Easier than training and should be used alongside it.</div>
+        </div>
+        <div class="glossary__item" data-term="fear period">
+          <div class="glossary__term">Fear period</div>
+          <div class="glossary__haley">"A developmental window where your puppy suddenly decides that the trash can they've walked past 100 times is actually a serial killer. Don't force them through it."</div>
+          <div class="glossary__real">Developmental stages (~8-10 weeks and ~6-14 months) where puppies are hypersensitive to negative experiences. Requires gentle handling.</div>
+        </div>
+        <div class="glossary__item" data-term="dominance theory">
+          <div class="glossary__term">Dominance theory</div>
+          <div class="glossary__haley">"That thing your uncle keeps bringing up at Thanksgiving. It's been debunked. Even the original researcher said he was wrong. Let it go."</div>
+          <div class="glossary__real">An outdated framework based on flawed 1930s captive wolf studies. Debunked by the original researcher. Not supported by modern behavioral science.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
+</footer>
+
+<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
+  <span>🚨</span> my dog is being insane
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>

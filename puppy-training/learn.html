@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn — Puppy Training for Puppies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Panic</a></li>
+      <li><a href="rules.html">The Rules</a></li>
+      <li><a href="learn.html" class="nav__link--active">Learn</a></li>
+      <li><a href="drills.html">Drills</a></li>
+      <li><a href="by-age.html">By Age</a></li>
+      <li><a href="routine.html">Routine</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section--sage page-top" id="modules">
+  <div class="container">
+    <div class="fade-in">
+      <h2>Learning modules</h2>
+      <p class="text-lg" style="margin-bottom: 2rem;">The full curriculum. Pick what you need right now.</p>
+
+      <div class="grid grid--3">
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">🏠</div>
+          <h3>Crate training</h3>
+          <p class="text-muted text-sm">Making the crate a happy place, not a prison.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Crate = den, not punishment. Ever.</li>
+              <li>Size: big enough to stand + turn around, not so big they potty in one end</li>
+              <li>Start with door open, treats inside. Let THEM choose to go in</li>
+              <li>Pair crate time with high-value chews (stuffed Kongs, bully sticks)</li>
+              <li>Release when CALM. Never when fussing.</li>
+              <li>Max 3-4 hours during the day for puppies</li>
+              <li>Night time: crate near your bed so they can smell/hear you</li>
+            </ul>
+            <div class="callout callout--savage" style="margin-top: 1rem;">
+              <span class="callout__label">girl...</span>
+              If you only put them in the crate when you leave, they'll associate it with abandonment. Use it randomly throughout the day so it's just... a normal place.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">🦷</div>
+          <h3>Bite inhibition</h3>
+          <p class="text-muted text-sm">Teaching a land shark to have a soft mouth.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Puppy mouthing is NORMAL. Don't try to suppress it all immediately</li>
+              <li>Step 1: teach them not to bite HARD (say "ouch" calmly, remove attention 30 sec)</li>
+              <li>Step 2: gradually reduce any pressure to near-zero</li>
+              <li>Redirect to appropriate chew toys when they mouth on you</li>
+              <li>Best learning window: 3-5 months old</li>
+              <li>Hard bites = fun ENDS. That's the lesson.</li>
+            </ul>
+            <div class="callout callout--warning" style="margin-top: 1rem;">
+              <span class="callout__label">don't</span>
+              Hold their mouth shut, squeeze paws, or tap their nose. This creates fear and hand-shyness. And they might bite harder out of defense.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">🏡</div>
+          <h3>Potty training</h3>
+          <p class="text-muted text-sm">Schedule + supervision + patience = success.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Take them out: after waking, after eating, after playing, every 1-2 hours</li>
+              <li>Rule of thumb: age in months + 1 = hours they can hold it (daytime)</li>
+              <li>Reward IMMEDIATELY after they go outside (not after coming back in)</li>
+              <li>If you can't watch them: crate, pen, or leash tether to you</li>
+              <li>Accidents? Clean with enzymatic cleaner. Regular cleaners leave a "go here again" scent</li>
+              <li>Consistency > intensity. Stick to the schedule.</li>
+            </ul>
+            <div class="callout callout--warning" style="margin-top: 1rem;">
+              <span class="callout__label">outdated advice alert</span>
+              Rubbing their nose in it does NOTHING except make them scared of you. They can't connect punishment to something that happened minutes ago. Just clean it up and take them out more.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">👋</div>
+          <h3>Socialization</h3>
+          <p class="text-muted text-sm">The most important window you'll ever miss if you're not careful.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Critical window: 3-14 weeks. Their brain is primed to absorb new stuff with curiosity</li>
+              <li>After 14-16 weeks, they get cautious. Still possible, just harder</li>
+              <li>Socialization ≠ just meeting other dogs</li>
+              <li>Expose to: different people, surfaces, sounds, environments, car rides, vet clinics</li>
+              <li>Quality over quantity. Brief, positive experiences > overwhelming ones</li>
+              <li>Read their body: loose = good. Tucked tail/lip licking = stressed. Back off</li>
+            </ul>
+            <div class="callout callout--key" style="margin-top: 1rem;">
+              <span class="callout__label">important</span>
+              Don't wait until they're fully vaccinated to socialize. Controlled environments with healthy dogs are fine. The behavioral risk of NOT socializing is bigger than the disease risk.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">😰</div>
+          <h3>Separation anxiety</h3>
+          <p class="text-muted text-sm">Teaching them the world doesn't end when you leave.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Practice VERY short absences first (30 seconds). Build up slowly</li>
+              <li>Keep arrivals and departures LOW KEY. No big productions</li>
+              <li>Leave enrichment during alone time (puzzle toys, chews)</li>
+              <li>Don't make "leaving" a thing. Just... leave. And come back. Boring</li>
+              <li>Different from crate crying — true separation anxiety needs gradual work</li>
+            </ul>
+            <div class="callout callout--savage" style="margin-top: 1rem;">
+              <span class="callout__label">real talk</span>
+              If you make a huge fuss every time you leave AND every time you come back, you're basically telling them that you leaving is a BIG DEAL. Make it boring. You leave. You come back. Nothing happened.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">🛁</div>
+          <h3>Desensitization</h3>
+          <p class="text-muted text-sm">Baths, nails, sounds, vet visits — make it all boring.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <p style="font-size: 0.9rem; margin-bottom: 1rem;">The formula is always the same: <strong>go slow + pair with food + never force it.</strong></p>
+            <div class="desen-item">
+              <span class="desen-item__emoji">🐾</span>
+              <div class="desen-item__info">
+                <div class="desen-item__name">Handling paws/ears/mouth</div>
+                <div class="desen-item__tip">Touch briefly → treat. Touch longer → treat. Build duration over days, not hours.</div>
+              </div>
+            </div>
+            <div class="desen-item">
+              <span class="desen-item__emoji">💅</span>
+              <div class="desen-item__info">
+                <div class="desen-item__name">Nail trims</div>
+                <div class="desen-item__tip">Day 1: show clippers → treat. Day 3: touch paw with clippers → treat. Day 5: clip ONE nail → party. Don't rush.</div>
+              </div>
+            </div>
+            <div class="desen-item">
+              <span class="desen-item__emoji">🚿</span>
+              <div class="desen-item__info">
+                <div class="desen-item__name">Baths</div>
+                <div class="desen-item__tip">Let them explore the tub empty first. Lick mat with peanut butter on the wall. Warm water, gentle, lots of treats.</div>
+              </div>
+            </div>
+            <div class="desen-item">
+              <span class="desen-item__emoji">🔊</span>
+              <div class="desen-item__info">
+                <div class="desen-item__name">Loud sounds</div>
+                <div class="desen-item__tip">Play recordings at LOW volume during meals. Gradually increase over weeks. Vacuum, thunder, fireworks, construction.</div>
+              </div>
+            </div>
+            <div class="desen-item">
+              <span class="desen-item__emoji">🏥</span>
+              <div class="desen-item__info">
+                <div class="desen-item__name">Vet visits</div>
+                <div class="desen-item__tip">Do "happy visits" — go to the vet just for treats and pets. No needles. Just vibes. Build a positive association.</div>
+              </div>
+            </div>
+            <div class="desen-item">
+              <span class="desen-item__emoji">🚗</span>
+              <div class="desen-item__info">
+                <div class="desen-item__name">Car rides</div>
+                <div class="desen-item__tip">Start with sitting in parked car → treat. Then short drives. Don't make every car ride end at the vet.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">✈️</div>
+          <h3>Flying with your puppy</h3>
+          <p class="text-muted text-sm">Without losing your mind or getting kicked off the plane.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <div class="callout callout--savage" style="margin-top: 0; margin-bottom: 1rem;">
+              <span class="callout__label">reality check</span>
+              Flying with a puppy is not chill, easy, or predictable. It IS logistics, management, and emotional regulation (yours and theirs). But it is doable.
+            </div>
+
+            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;"><strong>Your goal is NOT</strong> "perfect angel puppy." Your goal is <strong>"no chaos, no meltdown, we survived."</strong></p>
+
+            <h4 style="margin-top: 1.25rem;">Before the flight</h4>
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li><strong>Burn energy:</strong> Walk them, let them sniff (this matters more than distance), do 5-10 min of training. Tired brain = quieter dog</li>
+              <li><strong>Potty timing:</strong> Right before going in. If they don't go, wait longer. Do NOT gamble mid-flight</li>
+              <li><strong>Carrier prep:</strong> Your puppy should ALREADY be comfortable settling in the carrier. If not → practice at home first (feed meals in it, short chill sessions)</li>
+            </ul>
+
+            <h4 style="margin-top: 1.25rem;">During the flight</h4>
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Your job: <strong>keep things boring.</strong> Not: entertain them constantly</li>
+              <li>If they're calm → ignore them (this is success)</li>
+              <li>If they whine → wait a second. Don't immediately react. If you instantly soothe every noise, you're training "noise = attention"</li>
+              <li>If they escalate → quiet reassurance (not hype), small treat for calm, no big reactions</li>
+              <li><strong>Chews are your best friend.</strong> Bring something safe + something novel. Chewing regulates their nervous system</li>
+            </ul>
+
+            <div class="callout callout--key" style="margin-top: 1rem;">
+              <span class="callout__label">you set the tone</span>
+              If you're stressed, frantic, and apologizing to everyone — your puppy is like "oh we're panicking?? sick." Calm human = calmer dog.
+            </div>
+
+            <h4 style="margin-top: 1.25rem;">Common mistakes</h4>
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem; color: var(--rust-dark);">
+              <li>Taking them out of the carrier constantly</li>
+              <li>Over-soothing every noise</li>
+              <li>Zero prep with the carrier</li>
+              <li>Expecting them to sleep the whole time</li>
+            </ul>
+
+            <div class="callout callout--tip" style="margin-top: 1rem;">
+              <span class="callout__label">it's reps</span>
+              First flight: chaotic. Second: better. By the third: they're like "oh yeah we sit in a box and vibe."
+            </div>
+          </div>
+        </div>
+
+        <div class="card" onclick="toggleModule(this)">
+          <div class="drill__emoji">🐕‍🦺</div>
+          <h3>Introducing to older dogs</h3>
+          <p class="text-muted text-sm">How to not create beef where there doesn't need to be beef.</p>
+          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
+            <div class="callout callout--savage" style="margin-top: 0; margin-bottom: 1rem;">
+              <span class="callout__label">reality check</span>
+              Your puppy has no manners, no boundaries, no self-awareness. Your older dog does not find this charming. Your puppy is the annoying younger sibling right now.
+            </div>
+
+            <h4 style="margin-top: 1.25rem;">Step 1: Stop forcing friendships</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Do NOT shove them together, hold them face-to-face, or say "be nice!!!" That's how fights start.</p>
+
+            <h4 style="margin-top: 1.25rem;">Step 2: Parallel existence first</h4>
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Same space, distance, no pressure</li>
+              <li>Walk together (not interacting)</li>
+              <li>Hang out in same room but separated</li>
+              <li>Goal: <strong>neutral, not excited</strong></li>
+            </ul>
+
+            <h4 style="margin-top: 1.25rem;">Step 3: Let the older dog correct (within reason)</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">This is where people panic. A growl, air snap, or walking away is NORMAL. They're saying "back up, you're annoying."</p>
+            <div class="versus" style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
+              <div class="versus__do">
+                <div class="versus__label">What's okay</div>
+                <ul style="list-style: none; font-size: 0.9rem;">
+                  <li>Quick correction</li>
+                  <li>No/light contact</li>
+                  <li>Puppy backs off</li>
+                </ul>
+              </div>
+              <div class="versus__dont">
+                <div class="versus__label">NOT okay — intervene</div>
+                <ul style="list-style: none; font-size: 0.9rem;">
+                  <li>Prolonged aggression</li>
+                  <li>Pinning + not releasing</li>
+                  <li>Escalating intensity</li>
+                </ul>
+              </div>
+            </div>
+
+            <h4 style="margin-top: 1.25rem;">Step 4: Advocate for the older dog</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Your job is NOT to protect the puppy from everything. Your job is to <strong>protect the older dog from the puppy's chaos.</strong> If puppy is being annoying: interrupt, redirect, give them something else to do. Your older dog is not a babysitter.</p>
+
+            <h4 style="margin-top: 1.25rem;">Step 5: Manage energy + keep it short</h4>
+            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
+              <li>Walk/play with puppy BEFORE introductions. Take the edge off</li>
+              <li>Keep sessions short and controlled</li>
+              <li>End on neutral or positive — not "we let it go until something bad happened"</li>
+            </ul>
+
+            <h4 style="margin-top: 1.25rem;">Step 6: Teach the puppy to disengage</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">This is huge. Reward: puppy choosing to walk away, puppy ignoring the older dog, calm coexistence. Neutral is a win.</p>
+
+            <h4 style="margin-top: 1.25rem;">Step 7: Separate when needed</h4>
+            <p style="font-size: 0.9rem;">Crates, gates, rotation = normal, healthy, necessary. They don't need to be together 24/7. Don't create beef where there doesn't need to be beef.</p>
+
+            <div class="callout callout--tip" style="margin-top: 1rem;">
+              <span class="callout__label">final note</span>
+              You're not creating best friends immediately. You're creating <strong>respect</strong>. Friendship comes later.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
+</footer>
+
+<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
+  <span>🚨</span> my dog is being insane
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>By Age — Puppy Training for Puppies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html">Panic</a></li>
+      <li><a href="rules.html">The Rules</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="drills.html">Drills</a></li>
+      <li><a href="by-age.html" class="nav__link--active">By Age</a></li>
+      <li><a href="routine.html">Routine</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section--warm page-top" id="by-age">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2>What's normal by age</h2>
+      <p class="text-lg" style="margin-bottom: 2rem;">So you stop googling "is my puppy broken" at 2am.</p>
+
+      <div class="tabs" id="ageTabs">
+        <button class="tab active" data-tab="age-baby" onclick="switchTab('ageTabs', 'age-baby')">8-12 wks</button>
+        <button class="tab" data-tab="age-teething" onclick="switchTab('ageTabs', 'age-teething')">3-4 mo</button>
+        <button class="tab" data-tab="age-teen" onclick="switchTab('ageTabs', 'age-teen')">4-6 mo</button>
+        <button class="tab" data-tab="age-adolescent" onclick="switchTab('ageTabs', 'age-adolescent')">6-12 mo</button>
+        <button class="tab" data-tab="age-adult" onclick="switchTab('ageTabs', 'age-adult')">1-2 yr</button>
+      </div>
+
+      <div class="tab-content active" id="age-baby">
+        <div class="card">
+          <h3>🍼 Baby Baby (8-12 weeks)</h3>
+          <p style="margin-bottom: 1rem; font-style: italic; color: var(--rust);">AKA: the cute-but-clueless phase</p>
+          <p><strong>What's happening in their brain:</strong> EVERYTHING IS NEW. They're in peak socialization mode — their brain is a sponge soaking up every experience.</p>
+          <p style="margin-top: 0.75rem;"><strong>First fear period</strong> happens around 8-10 weeks. A single scary experience can have lasting effects. Be gentle. Don't force them into anything scary.</p>
+          <h4 style="margin-top: 1rem;">Focus on:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>Socialization (people, sounds, surfaces, environments)</li>
+            <li>Crate training + potty schedule</li>
+            <li>Name recognition</li>
+            <li>Hand feeding + recall game</li>
+            <li>Bite inhibition (soft mouth)</li>
+            <li>Handling (touch paws, ears, mouth — with treats)</li>
+          </ul>
+          <h4 style="margin-top: 1rem;">Don't freak out about:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>Potty accidents (they literally can't hold it long)</li>
+            <li>Biting everything (they explore with their mouth)</li>
+            <li>Short attention span (normal, keep sessions under 2 min)</li>
+          </ul>
+          <h4 style="margin-top: 1rem;">🚩 Most common mistakes at this age:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8; color: var(--rust-dark);">
+            <li>Skipping socialization because "they're not fully vaccinated"</li>
+            <li>Not enforcing nap times (overtired = demon mode)</li>
+            <li>Punishing potty accidents instead of supervising better</li>
+            <li>Letting everyone hold/pass around the puppy when puppy is stressed</li>
+          </ul>
+          <div class="callout callout--key" style="margin-top: 1rem;">
+            <span class="callout__label">exercise</span>
+            Very short walks only (5 min per month of age). Let them sniff. Let them explore at their own pace. No marathons.
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="age-teething">
+        <div class="card">
+          <h3>😈 Teething Gremlin (3-4 months)</h3>
+          <p style="margin-bottom: 1rem; font-style: italic; color: var(--rust);">AKA: why is everything in their mouth</p>
+          <p><strong>What's happening:</strong> Baby teeth are falling out, adult teeth are coming in. Their mouth hurts. Everything must be chewed.</p>
+          <h4 style="margin-top: 1rem;">Focus on:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>LOTS of appropriate chew options (frozen Kongs, wet washcloths frozen, bully sticks)</li>
+            <li>Continue socialization before the window closes (~14-16 weeks)</li>
+            <li>Basic obedience: sit, down, stay (very short sessions)</li>
+            <li>Start leave it + drop it (you'll need these)</li>
+            <li>Begin loose leash walking practice (short, low-distraction)</li>
+          </ul>
+          <h4 style="margin-top: 1rem;">Don't freak out about:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>Biting getting worse (teething pain = more mouthing)</li>
+            <li>Finding tiny teeth on the floor (normal)</li>
+            <li>Chewing intensity peaking at 4-5 months</li>
+          </ul>
+          <h4 style="margin-top: 1rem;">🚩 Most common mistakes at this age:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8; color: var(--rust-dark);">
+            <li>Thinking socialization window is "later" (it's closing NOW)</li>
+            <li>Not providing enough chew options and then punishing chewing</li>
+            <li>Starting too many commands at once instead of nailing one at a time</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-content" id="age-teen">
+        <div class="card">
+          <h3>🤘 Teenage Dirtbag (4-6 months)</h3>
+          <p style="margin-bottom: 1rem; font-style: italic; color: var(--rust);">AKA: they know what you want and are choosing not to do it</p>
+          <p><strong>What's happening:</strong> Independence is increasing. They're testing boundaries. They're like a tween who just discovered they have free will.</p>
+          <h4 style="margin-top: 1rem;">Focus on:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>Consistency. This is when they test if the rules are real</li>
+            <li>Recall on a long line (15-30 ft, clipped to harness)</li>
+            <li>Impulse control drills (doorways, leave it, wait)</li>
+            <li>On/off switch practice</li>
+            <li>Place/mat training</li>
+          </ul>
+          <h4 style="margin-top: 1rem;">Don't freak out about:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>Selective hearing (they haven't actually forgotten, they're just... choosing)</li>
+            <li>Increased energy (this is peak puppy energy)</li>
+            <li>Regression on previously learned behaviors (stay consistent)</li>
+          </ul>
+          <h4 style="margin-top: 1rem;">🚩 Most common mistakes at this age:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8; color: var(--rust-dark);">
+            <li>Giving up on recall because "they used to come and now they don't"</li>
+            <li>Letting them off-leash before recall is solid (long line first!)</li>
+            <li>Not increasing mental stimulation as physical exercise increases</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-content" id="age-adolescent">
+        <div class="card">
+          <h3>🔥 Full Adolescent Chaos (6-12 months)</h3>
+          <p style="margin-bottom: 1rem; font-style: italic; color: var(--rust);">AKA: the phase where most dogs get surrendered. don't give up.</p>
+          <p><strong>What's happening:</strong> Their brain is literally rewiring. Sexual maturity. A possible second fear period (6-14 months). Everything feels inconsistent.</p>
+          <h4 style="margin-top: 1rem;">Focus on:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>PATIENCE. This is the hardest part. Keep going.</li>
+            <li>Continue all training — don't assume they "know it"</li>
+            <li>Increase mental stimulation (puzzle toys, scent work, training games)</li>
+            <li>Practice in new environments (generalize all skills)</li>
+            <li>Stay calm during the second fear period — don't punish fear</li>
+          </ul>
+          <div class="callout callout--savage" style="margin-top: 1rem;">
+            <span class="callout__label">real talk</span>
+            They haven't "forgotten" everything you taught them. Their brain is reorganizing. Like a teenager who suddenly can't remember how to do dishes even though they've done them 100 times. Keep showing up. It clicks eventually.
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="age-adult">
+        <div class="card">
+          <h3>🎓 Finally a Dog (1-2 years)</h3>
+          <p style="margin-bottom: 1rem; font-style: italic; color: var(--rust);">AKA: you survived. they survived. everyone survived.</p>
+          <p><strong>What's happening:</strong> Behavioral stabilization. Full emotional maturity (can take up to 2-3 years for large breeds). The foundation you built is paying off.</p>
+          <h4 style="margin-top: 1rem;">Keep doing:</h4>
+          <ul style="padding-left: 1.25rem; font-size: 0.95rem; line-height: 1.8;">
+            <li>Training is ongoing. Not a phase. A lifestyle.</li>
+            <li>Mental enrichment daily (puzzle toys, scent work, learning new things)</li>
+            <li>Recall practice (always worth reinforcing)</li>
+            <li>New experiences and socialization don't stop</li>
+          </ul>
+          <div class="callout callout--tip" style="margin-top: 1rem;">
+            <span class="callout__label">you did it</span>
+            If you've been consistent through the puppy chaos, you now have a dog who understands how the world works. They know what gets them what they want. And hopefully... it's calm.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
+</footer>
+
+<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
+  <span>🚨</span> my dog is being insane
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>

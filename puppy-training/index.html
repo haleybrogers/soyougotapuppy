@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puppy Training for Puppies</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="index.html" class="nav__link--active">Panic</a></li>
+      <li><a href="rules.html">The Rules</a></li>
+      <li><a href="learn.html">Learn</a></li>
+      <li><a href="drills.html">Drills</a></li>
+      <li><a href="by-age.html">By Age</a></li>
+      <li><a href="routine.html">Routine</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ TRIAGE / HOME ============ -->
+<section class="hero section--cream" id="home">
+  <div class="hero__minimal">
+    <h1 class="hero__headline">
+      my puppy is<br>
+      <span class="hero__oscillate" id="oscillatingText">barking at nothing</span>
+    </h1>
+
+    <div class="hero__buttons" id="triage">
+      <button class="hero__pill" onclick="startTriage('barking')">🗣️ barking</button>
+      <button class="hero__pill" onclick="startTriage('biting')">🦷 biting</button>
+      <button class="hero__pill" onclick="startTriage('zooming')">💨 zooming</button>
+      <button class="hero__pill" onclick="startTriage('crying')">😭 crying</button>
+      <button class="hero__pill" onclick="startTriage('jumping')">🦘 jumping</button>
+      <button class="hero__pill" onclick="startTriage('pulling')">🏋️ pulling</button>
+      <button class="hero__pill" onclick="startTriage('ignoring')">🙄 ignoring me</button>
+      <button class="hero__pill" onclick="startTriage('chewing')">👟 destroying stuff</button>
+    </div>
+
+    <div class="illustration illustration--small" style="margin-top: 1rem; opacity: 0; animation: fadeUp 0.8s ease 1s forwards;">
+      [ puppy illustration ]
+    </div>
+    <p class="hero__footnote">tap what's happening. we'll fix it. ↑</p>
+  </div>
+
+  <p class="hero__scroll">
+    <span class="text-muted text-sm">or scroll down for the decision tree</span>
+    <span class="hero__scroll-arrow">↓</span>
+  </p>
+</section>
+
+<!-- ============ TRIAGE CHAT (hidden until triggered) ============ -->
+<div id="triageOverlay" class="triage-overlay" style="display:none;">
+  <div class="triage-modal">
+    <button class="triage-close" onclick="closeTriage()">&times;</button>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-area" id="chatInputArea" style="display:none;">
+      <input type="text" class="chat-input" id="chatInput" placeholder="describe what's happening..." />
+      <button class="chat-send" onclick="sendChat()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DECISION TREE ============ -->
+<section class="section--sage" id="decision-tree">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2>Is your puppy losing it?</h2>
+      <p class="text-lg" style="margin-bottom: 2rem;">Let's figure out what's actually going on.</p>
+
+      <div class="decision-tree" id="decisionTree">
+        <!-- JS renders the tree here -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUICK LINKS ============ -->
+<section class="section--cream">
+  <div class="container container--narrow" style="text-align: center;">
+    <div class="fade-in">
+      <h2>Ready to actually learn stuff?</h2>
+      <p class="text-lg" style="margin-bottom: 2rem; margin-left: auto; margin-right: auto;">Pick where you want to start.</p>
+      <div class="grid grid--2" style="max-width: 500px; margin: 0 auto;">
+        <a href="rules.html" class="btn btn--primary">The Rules</a>
+        <a href="learn.html" class="btn btn--secondary">Learn</a>
+        <a href="drills.html" class="btn btn--secondary">Drills</a>
+        <a href="tracker.html" class="btn btn--primary">Tracker</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
+</footer>
+
+<!-- ============ ACCOUNTABILITY POP-UP ============ -->
+<div class="accountability" id="accountability" style="display:none;">
+  <div class="accountability__text" id="accountabilityText"></div>
+  <div class="accountability__options" id="accountabilityOptions"></div>
+</div>
+
+<script src="script.js"></script>
+<script src="chatbot.js"></script>
+</body>
+</html>
