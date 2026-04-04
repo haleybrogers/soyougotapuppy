@@ -39,7 +39,7 @@ function isLoggedIn() {
 function updateNavProfile() {
   var links = document.querySelectorAll('a[href="profile.html"]');
   links.forEach(function(a) {
-    a.style.display = isLoggedIn() ? '' : 'none';
+    a.style.display = isLoggedIn() ? 'inline' : 'none';
   });
 }
 
