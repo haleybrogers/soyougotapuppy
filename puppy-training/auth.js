@@ -142,7 +142,7 @@ function showLoginModal() {
       <p style="color: var(--soft-gray); margin-bottom: 1.5rem;">sign in to track your progress, log behaviors, and get a grade on your puppy parenting (no pressure)</p>
 
       <div id="loginStep1">
-        <button class="btn btn--primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onclick="signInWithGoogle()">
+        <button style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.7rem 1rem; background: #fff; color: #3c4043; border: 1px solid #dadce0; border-radius: 9999px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 150ms ease, box-shadow 150ms ease;" onmouseover="this.style.background='#f7f8f8';this.style.boxShadow='0 1px 3px rgba(0,0,0,0.08)'" onmouseout="this.style.background='#fff';this.style.boxShadow='none'" onclick="signInWithGoogle()">
           <svg width="18" height="18" viewBox="0 0 18 18" style="flex-shrink:0;"><path fill="#4285F4" d="M17.64 9.2a10 10 0 0 0-.164-1.8H9v3.4h4.844a4.14 4.14 0 0 1-1.796 2.716v2.264h2.908c1.702-1.567 2.684-3.874 2.684-6.58z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.264c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.338A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.956H.957A8.997 8.997 0 0 0 0 9a9 9 0 0 0 .957 4.044l3.007-2.338z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.956L3.964 7.294C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
           sign in with Google
         </button>
