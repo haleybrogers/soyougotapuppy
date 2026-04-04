@@ -157,11 +157,11 @@
 </head>
 <body>
   <a href="index.html" class="back">&larr; Back</a>
-  <h1>Sally AI vs Haley</h1>
+  <h1>Sally AI vs You</h1>
   <p class="play-to">First to 7 &middot; Win by 2</p>
   <div class="score">
     <div>Sally AI<span id="score1">0</span></div>
-    <div>Haley<span id="score2">0</span></div>
+    <div>You<span id="score2">0</span></div>
   </div>
   <canvas id="pong"></canvas>
   <p class="instructions" id="instructions"></p>
@@ -498,12 +498,12 @@
         // Sally (top)
         const p1x = state.p1.pos - PADDLE_LEN / 2;
         ctx.beginPath();
-        ctx.roundRect(p1x, MARGIN, PADDLE_LEN, PADDLE_THICK, 4);
+        ctx.rect(p1x, MARGIN, PADDLE_LEN, PADDLE_THICK);
         ctx.fill();
-        // Haley (bottom)
+        // Player (bottom)
         const p2x = state.p2.pos - PADDLE_LEN / 2;
         ctx.beginPath();
-        ctx.roundRect(p2x, H - MARGIN - PADDLE_THICK, PADDLE_LEN, PADDLE_THICK, 4);
+        ctx.rect(p2x, H - MARGIN - PADDLE_THICK, PADDLE_LEN, PADDLE_THICK);
         ctx.fill();
       } else {
         // --- DESKTOP: vertical paddles with images ---
