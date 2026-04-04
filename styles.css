@@ -3370,17 +3370,17 @@ section {
   font-size: 0.8rem;
   text-decoration: none;
   letter-spacing: 0.03em;
-  transition: background var(--transition-fast), transform var(--transition-fast);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glossary-link:hover {
   background: var(--bark);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(27, 27, 27, 0.15);
 }
 
-.glossary-link__icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
+.glossary-link:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .glossary-link__label {
@@ -3401,12 +3401,12 @@ section {
   margin-left: auto;
   font-size: 1.1rem;
   opacity: 0.5;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glossary-link:hover .glossary-link__arrow {
   opacity: 1;
-  transform: translateX(3px);
+  transform: translateX(5px);
 }
 
 /* Day timeline */
