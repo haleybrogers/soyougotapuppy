@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>By Age — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="learn.html" class="nav__link--active">Train</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+    </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ HORIZONTAL SCROLL TIMELINE ============ -->
+<div class="htl" id="htlWrap">
+  <div class="htl__sticky">
+    <!-- Header -->
+    <div class="htl__header">
+      <h2 class="htl__title">What's normal by age</h2>
+      <p class="htl__sub">so you stop googling "is my puppy broken" at 2am</p>
+    </div>
+
+    <!-- Timeline bar -->
+    <div class="htl__bar">
+      <div class="htl__bar-track">
+        <div class="htl__bar-fill" id="htlBarFill"></div>
+      </div>
+      <div class="htl__markers" id="htlMarkers">
+        <button class="htl__marker htl__marker--active" data-index="0"><span class="htl__marker-dot"></span><span class="htl__marker-label">8-12 wks</span></button>
+        <button class="htl__marker" data-index="1"><span class="htl__marker-dot"></span><span class="htl__marker-label">3-4 mo</span></button>
+        <button class="htl__marker" data-index="2"><span class="htl__marker-dot"></span><span class="htl__marker-label">4-6 mo</span></button>
+        <button class="htl__marker" data-index="3"><span class="htl__marker-dot"></span><span class="htl__marker-label">6-12 mo</span></button>
+        <button class="htl__marker" data-index="4"><span class="htl__marker-dot"></span><span class="htl__marker-label">1-2 yr</span></button>
+      </div>
+    </div>
+
+    <!-- Horizontal sliding panels -->
+    <div class="htl__viewport">
+      <div class="htl__track" id="htlTrack">
+
+        <!-- STAGE 1 -->
+        <div class="htl__panel">
+          <div class="htl__panel-inner">
+            <div class="htl__panel-head">
+              <span class="htl__emoji">🍼</span>
+              <div>
+                <h3 class="htl__panel-title">Baby Baby</h3>
+                <p class="htl__panel-age">8–12 weeks</p>
+              </div>
+            </div>
+            <p class="htl__panel-vibe">the cute-but-clueless phase</p>
+            <p class="htl__panel-brain"><strong>What's happening:</strong> EVERYTHING IS NEW. Peak socialization mode — their brain is a sponge. First fear period around 8-10 weeks. A single scary experience can have lasting effects.</p>
+            <div class="htl__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>Socialization (people, sounds, surfaces)</li>
+                  <li>Crate training + potty schedule</li>
+                  <li>Name recognition</li>
+                  <li>Hand feeding + recall game</li>
+                  <li>Bite inhibition (soft mouth)</li>
+                  <li>Handling (paws, ears, mouth + treats)</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Don't freak out about</h4>
+                <ul>
+                  <li>Potty accidents (they can't hold it)</li>
+                  <li>Biting everything (mouth = hands)</li>
+                  <li>2-minute attention span</li>
+                </ul>
+                <h4 style="margin-top: 1rem;">Common mistakes</h4>
+                <ul class="htl__mistakes">
+                  <li>Skipping socialization</li>
+                  <li>Not enforcing naps</li>
+                  <li>Punishing potty accidents</li>
+                </ul>
+              </div>
+            </div>
+            <div class="htl__panel-tip">5 min walks per month of age. Let them sniff. No marathons.</div>
+          </div>
+        </div>
+
+        <!-- STAGE 2 -->
+        <div class="htl__panel">
+          <div class="htl__panel-inner">
+            <div class="htl__panel-head">
+              <span class="htl__emoji">😈</span>
+              <div>
+                <h3 class="htl__panel-title">Teething Gremlin</h3>
+                <p class="htl__panel-age">3–4 months</p>
+              </div>
+            </div>
+            <p class="htl__panel-vibe">why is everything in their mouth</p>
+            <p class="htl__panel-brain"><strong>What's happening:</strong> Baby teeth falling out, adult teeth coming in. Their mouth hurts. Everything must be chewed.</p>
+            <div class="htl__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>LOTS of chew options (frozen Kongs, bully sticks)</li>
+                  <li>Continue socialization (window closing at ~16 wks)</li>
+                  <li>Basic obedience: sit, down, stay</li>
+                  <li>Start leave it + drop it</li>
+                  <li>Loose leash walking practice</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Don't freak out about</h4>
+                <ul>
+                  <li>Biting getting worse (teething pain)</li>
+                  <li>Finding tiny teeth on the floor</li>
+                  <li>Chewing intensity peaking</li>
+                </ul>
+                <h4 style="margin-top: 1rem;">Common mistakes</h4>
+                <ul class="htl__mistakes">
+                  <li>Thinking socialization window is "later"</li>
+                  <li>Not enough chew options</li>
+                  <li>Too many commands at once</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div class="htl__panel">
+          <div class="htl__panel-inner">
+            <div class="htl__panel-head">
+              <span class="htl__emoji">🤘</span>
+              <div>
+                <h3 class="htl__panel-title">Teenage Dirtbag</h3>
+                <p class="htl__panel-age">4–6 months</p>
+              </div>
+            </div>
+            <p class="htl__panel-vibe">they know what you want and are choosing not to do it</p>
+            <p class="htl__panel-brain"><strong>What's happening:</strong> Independence increasing. They're testing boundaries. Like a tween who just discovered free will.</p>
+            <div class="htl__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>Consistency — they're testing if rules are real</li>
+                  <li>Recall on a long line (15-30 ft)</li>
+                  <li>Impulse control drills</li>
+                  <li>On/off switch practice</li>
+                  <li>Place/mat training</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Don't freak out about</h4>
+                <ul>
+                  <li>Selective hearing (choosing, not forgetting)</li>
+                  <li>Peak puppy energy</li>
+                  <li>Regression on learned behaviors</li>
+                </ul>
+                <h4 style="margin-top: 1rem;">Common mistakes</h4>
+                <ul class="htl__mistakes">
+                  <li>Giving up on recall</li>
+                  <li>Off-leash before recall is solid</li>
+                  <li>Not enough mental stimulation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 4 -->
+        <div class="htl__panel">
+          <div class="htl__panel-inner">
+            <div class="htl__panel-head">
+              <span class="htl__emoji">🔥</span>
+              <div>
+                <h3 class="htl__panel-title">Full Adolescent Chaos</h3>
+                <p class="htl__panel-age">6–12 months</p>
+              </div>
+            </div>
+            <p class="htl__panel-vibe">the phase where most dogs get surrendered. don't give up.</p>
+            <p class="htl__panel-brain"><strong>What's happening:</strong> Brain is literally rewiring. Sexual maturity. Possible second fear period (6-14 months). Everything feels inconsistent.</p>
+            <div class="htl__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>PATIENCE. This is the hardest part.</li>
+                  <li>Continue all training — don't assume they "know it"</li>
+                  <li>Increase mental stimulation</li>
+                  <li>Practice in new environments</li>
+                  <li>Stay calm during second fear period</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Real talk</h4>
+                <p style="font-size: 0.9rem; line-height: 1.6;">They haven't "forgotten" everything. Their brain is reorganizing. Like a teenager who suddenly can't do dishes even though they've done them 100 times. Keep showing up. It clicks eventually.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 5 -->
+        <div class="htl__panel">
+          <div class="htl__panel-inner">
+            <div class="htl__panel-head">
+              <span class="htl__emoji">🎓</span>
+              <div>
+                <h3 class="htl__panel-title">Finally a Dog</h3>
+                <p class="htl__panel-age">1–2 years</p>
+              </div>
+            </div>
+            <p class="htl__panel-vibe">you survived. they survived. everyone survived.</p>
+            <p class="htl__panel-brain"><strong>What's happening:</strong> Behavioral stabilization. Full emotional maturity (up to 2-3 years for large breeds). The foundation you built is paying off.</p>
+            <div class="htl__cols">
+              <div>
+                <h4>Keep doing</h4>
+                <ul>
+                  <li>Training is ongoing. Not a phase. A lifestyle.</li>
+                  <li>Mental enrichment daily</li>
+                  <li>Recall practice (always worth it)</li>
+                  <li>New experiences + socialization</li>
+                </ul>
+              </div>
+              <div>
+                <h4>You did it</h4>
+                <p style="font-size: 0.9rem; line-height: 1.6;">If you've been consistent through the chaos, you now have a dog who understands how the world works. They know what gets them what they want. And hopefully... it's calm.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+</footer>
+
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
+
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+<script src="chatbot.js?v=14"></script>
+
+<script>
+(function() {
+  const wrap = document.getElementById('htlWrap');
+  const track = document.getElementById('htlTrack');
+  const barFill = document.getElementById('htlBarFill');
+  const markers = document.querySelectorAll('.htl__marker');
+  const panels = document.querySelectorAll('.htl__panel');
+  const numPanels = panels.length;
+
+  function update() {
+    const rect = wrap.getBoundingClientRect();
+    const scrollableHeight = wrap.offsetHeight - window.innerHeight;
+    const scrolled = -rect.top;
+    const progress = Math.max(0, Math.min(1, scrolled / scrollableHeight));
+
+    // Move track horizontally
+    const maxShift = track.scrollWidth - track.parentElement.offsetWidth;
+    track.style.transform = `translateX(${-progress * maxShift}px)`;
+
+    // Update progress bar
+    barFill.style.width = `${progress * 100}%`;
+
+    // Update active marker
+    const activeIndex = Math.min(numPanels - 1, Math.floor(progress * numPanels));
+    markers.forEach((m, i) => {
+      m.classList.toggle('htl__marker--active', i <= activeIndex);
+    });
+  }
+
+  // Click markers to jump
+  markers.forEach(m => {
+    m.addEventListener('click', () => {
+      const idx = parseInt(m.dataset.index);
+      const scrollableHeight = wrap.offsetHeight - window.innerHeight;
+      const targetProgress = idx / (numPanels - 1);
+      const targetScroll = wrap.offsetTop + targetProgress * scrollableHeight;
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    });
+  });
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+</body>
+</html>

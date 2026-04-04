@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
+</head>
+<body class="page-home">
+
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="learn.html">Train</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+    </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============ SCROLL HERO ============ -->
+<div class="scroll-hero" id="scrollHero">
+  <div class="scroll-hero__sticky">
+    <div class="scroll-hero__text">
+      <h1 class="scroll-hero__line1">So, you got a puppy...</h1>
+      <p class="scroll-hero__line2">and they are <span class="scroll-hero__ticker" id="heroTicker"><span class="scroll-hero__ticker-word" id="heroPhrase">jumping on everyone</span></span></p>
+      <p class="scroll-hero__normal">It's normal.</p>
+      <a href="learn.html" class="scroll-hero__cta">let's train →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ BOTTOM PANIC BUTTON ============ -->
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
+
+<div class="accountability" id="accountability" style="display:none;">
+  <div class="accountability__text" id="accountabilityText"></div>
+  <div class="accountability__options" id="accountabilityOptions"></div>
+</div>
+
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+<script src="chatbot.js?v=14"></script>
+
+<script>
+(function() {
+  const hero = document.getElementById('scrollHero');
+  const ticker = document.getElementById('heroTicker');
+  const phrase = document.getElementById('heroPhrase');
+  const normal = hero.querySelector('.scroll-hero__normal');
+  const cta = hero.querySelector('.scroll-hero__cta');
+
+  const phrases = [
+    'jumping on everyone',
+    'biting everything',
+    'ignoring you',
+    'barking at nothing',
+    'destroying your stuff',
+    'pulling on the leash',
+    'crying in the crate',
+    'losing their mind at 2am'
+  ];
+
+  let idx = 0;
+
+  // Cycle every 2 seconds — vertical slide up (Gretel-style ticker)
+  setInterval(() => {
+    // Slide current word UP and out
+    phrase.style.transform = 'translateY(-110%)';
+    phrase.style.opacity = '0';
+
+    setTimeout(() => {
+      idx = (idx + 1) % phrases.length;
+      phrase.textContent = phrases[idx];
+      // Reset to below
+      phrase.style.transition = 'none';
+      phrase.style.transform = 'translateY(110%)';
+      phrase.style.opacity = '0';
+
+      // Force reflow
+      phrase.offsetHeight;
+
+      // Slide UP into place
+      phrase.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease';
+      phrase.style.transform = 'translateY(0)';
+      phrase.style.opacity = '1';
+    }, 250);
+  }, 2000);
+
+  // Time-based: show "It's normal" after 0.8s, CTA after 1.2s
+  setTimeout(() => {
+    normal.style.opacity = '1';
+    normal.style.transform = 'translateY(0)';
+  }, 800);
+
+  setTimeout(() => {
+    cta.style.opacity = '1';
+    cta.style.transform = 'translateY(0)';
+  }, 1200);
+})();
+</script>
+</body>
+</html>

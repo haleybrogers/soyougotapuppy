@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracker — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=14">
+
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="learn.html">Train</a></li>
+      <li><a href="tracker.html" class="nav__link--active">Tracker</a></li>
+    </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="section--cream page-top" id="tracker">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2 id="trackerHeading">Daily check-in</h2>
+      <p class="tracker-sub" id="trackerSubheading">Your dog is learning from everything you do. Let's talk about today.</p>
+
+      <!-- ============ PUPPY AGE + PHASE ============ -->
+      <div class="puppy-age-card" id="puppyAgeCard" style="display:none;">
+        <div class="puppy-age-card__top">
+          <div class="puppy-age-card__age" id="puppyAgeText"></div>
+          <div class="puppy-age-card__countdown" id="puppyCountdown"></div>
+        </div>
+        <div class="puppy-age-card__bar">
+          <div class="puppy-age-card__fill" id="puppyAgeFill" style="width:0%;"></div>
+        </div>
+        <div class="puppy-age-card__bottom">
+          <div class="puppy-age-card__phase" id="puppyPhaseText"></div>
+          <div class="puppy-age-card__live" id="puppyLiveTimer"></div>
+        </div>
+      </div>
+
+      <!-- ============ SETTINGS ============ -->
+      <details class="profile-settings" id="profileSettings">
+        <summary class="profile-settings__toggle">edit profile ✎</summary>
+        <div class="profile-settings__body">
+          <div class="profile-settings__row">
+            <label class="profile-settings__label">your name</label>
+            <input type="text" class="profile-settings__input" id="settingsOwnerName">
+          </div>
+          <div class="profile-settings__row">
+            <label class="profile-settings__label">puppy's name</label>
+            <input type="text" class="profile-settings__input" id="settingsDogName">
+          </div>
+          <div class="profile-settings__row">
+            <label class="profile-settings__label">breed</label>
+            <input type="text" class="profile-settings__input" id="settingsBreed">
+          </div>
+          <div class="profile-settings__row">
+            <label class="profile-settings__label">birthday</label>
+            <input type="date" class="profile-settings__input" id="settingsBirthday">
+          </div>
+          <div class="profile-settings__row">
+            <label class="profile-settings__label">gender</label>
+            <div style="display: flex; gap: 0.5rem;">
+              <label class="gender-btn"><input type="radio" name="settingsGender" value="girl"><span>girl</span></label>
+              <label class="gender-btn"><input type="radio" name="settingsGender" value="boy"><span>boy</span></label>
+            </div>
+          </div>
+          <div class="profile-settings__actions">
+            <button class="btn btn--small btn--primary" onclick="saveSettingsProfile()">save</button>
+            <span class="profile-settings__saved" id="settingsSaved" style="display:none;">saved ✓</span>
+          </div>
+        </div>
+      </details>
+
+      <!-- ============ BREED FACT ============ -->
+      <div class="ai-card ai-card--fact" id="breedFactCard">
+        <div class="ai-card__label">breed fact of the day</div>
+        <div class="ai-card__content" id="breedFactContent">
+          loading...
+        </div>
+      </div>
+
+      <!-- ============ WEEKLY PLAN ============ -->
+      <div class="ai-card ai-card--plan" id="weeklyPlanCard">
+        <div class="ai-card__content" id="weeklyPlanContent">
+          loading...
+        </div>
+      </div>
+
+      <!-- ============ DASHBOARD ============ -->
+      <div class="dashboard" id="trackerDashboard">
+        <!-- Grade -->
+        <div class="dashboard__card">
+          <div class="dashboard__card-label">weekly grade</div>
+          <div class="dashboard__grade" id="dashGrade">C</div>
+          <div class="dashboard__grade-desc" id="dashGradeDesc">do some drills to bump this up</div>
+        </div>
+
+        <!-- Training stats -->
+        <div class="dashboard__card">
+          <div class="dashboard__card-label">today's sessions</div>
+          <div class="dashboard__big-number" id="dashSessionsCount">0</div>
+        </div>
+        <div class="dashboard__card">
+          <div class="dashboard__card-label">streak</div>
+          <div class="dashboard__big-number" id="dashStreak">0</div>
+          <div style="font-size: 0.7rem; color: var(--soft-gray); font-family: var(--font-mono);">days</div>
+        </div>
+        <div class="dashboard__card">
+          <div class="dashboard__card-label">all-time sessions</div>
+          <div class="dashboard__big-number" id="dashTotalSessions">0</div>
+        </div>
+
+        <!-- Module progress -->
+        <details class="dashboard__card dashboard__card--full module-tracker__wrap">
+          <summary class="module-tracker__header">
+            <div class="dashboard__card-label">learning modules <span id="moduleProgressCount" style="font-weight: 700; color: var(--bark);">0</span> / 11</div>
+            <div class="module-tracker__bar">
+              <div class="module-tracker__fill" id="moduleTrackerFill" style="width: 0%;"></div>
+            </div>
+          </summary>
+          <div class="module-tracker" id="moduleTracker">
+            <!-- Rendered by JS from puppy_modules localStorage -->
+          </div>
+        </details>
+      </div>
+
+      <!-- ============ TRAINING LOG ============ -->
+      <div class="training-log" id="trainingLog" style="margin-top: 2rem;">
+        <h3>Training log</h3>
+
+        <!-- Today -->
+        <div class="training-log__today" id="logToday" style="margin-top: 0.75rem;"></div>
+        <div class="training-log__notes" style="margin-top: 0.75rem;">
+          <textarea class="training-log__input" id="logNoteInput" rows="2" placeholder="add a note about today's training..."></textarea>
+          <button class="btn btn--small btn--primary" onclick="saveLogNote()" style="margin-top: 0.5rem;">save note</button>
+        </div>
+
+        <!-- Week view -->
+        <div class="log-week" style="margin-top: 1.5rem;">
+          <div class="log-week__header">
+            <button class="log-week__nav" onclick="shiftWeek(-1)">←</button>
+            <div class="log-week__label" id="weekLabel"></div>
+            <button class="log-week__nav" id="weekNavRight" onclick="shiftWeek(1)">→</button>
+          </div>
+          <div class="log-week__days" id="weekDays"></div>
+        </div>
+
+        <!-- AI Summary -->
+        <div class="log-summary" style="margin-top: 1.5rem;">
+          <button class="btn btn--small btn--secondary" onclick="generateLogSummary()" id="summaryBtn">✨ how am I doing?</button>
+          <div class="log-summary__content" id="logSummaryContent" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+</footer>
+
+<!-- ============ ACCOUNTABILITY POP-UP ============ -->
+<div class="accountability" id="accountability" style="display:none;">
+  <div class="accountability__text" id="accountabilityText"></div>
+  <div class="accountability__options" id="accountabilityOptions"></div>
+</div>
+
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
+
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="script.js?v=14"></script>
+<script src="auth.js?v=14"></script>
+<script src="ai-features.js?v=14"></script>
+<script src="chatbot.js?v=14"></script>
+</body>
+</html>

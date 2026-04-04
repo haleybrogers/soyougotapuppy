@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="learn.html">Train</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+    </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="section--warm page-top" id="glossary">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2>Glossary</h2>
+      <p class="text-lg" style="margin-bottom: 1.5rem;">dog training jargon → translated into human. tap for the real definition.</p>
+
+      <input type="text" class="glossary__search" placeholder="Search terms..." id="glossarySearch" oninput="filterGlossary()">
+
+      <div id="glossaryList" class="glossary-compact">
+        <details class="glossary-item" data-term="capturing">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Capturing</span><span class="glossary-item__quick">rewarding your puppy for accidentally being good</span></summary>
+          <div class="glossary-item__body">Rewarding behaviors the dog offers naturally, without prompting. One of the most powerful training methods.</div>
+        </details>
+        <details class="glossary-item" data-term="marker">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Marker word</span><span class="glossary-item__quick">the "yes!" that tells them THAT was right</span></summary>
+          <div class="glossary-item__body">A sound (clicker or verbal "yes") that precisely marks the correct moment, followed by a reward.</div>
+        </details>
+        <details class="glossary-item" data-term="positive reinforcement">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Positive reinforcement</span><span class="glossary-item__quick">add something good → behavior increases</span></summary>
+          <div class="glossary-item__body">Adding a desirable stimulus (food, play, attention) to increase behavior frequency. AKA: bribery that works.</div>
+        </details>
+        <details class="glossary-item" data-term="threshold">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Threshold</span><span class="glossary-item__quick">the line between "I'm cool" and "I AM NOT COOL"</span></summary>
+          <div class="glossary-item__body">The point at which a stimulus becomes too intense for the dog to focus or learn. Work below it.</div>
+        </details>
+        <details class="glossary-item" data-term="shaping">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Shaping</span><span class="glossary-item__quick">rewarding baby steps toward a goal</span></summary>
+          <div class="glossary-item__body">Reinforcing successive approximations toward a target behavior. Like hot/cold but with kibble.</div>
+        </details>
+        <details class="glossary-item" data-term="luring">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Luring</span><span class="glossary-item__quick">guiding them with a treat like a puppet</span></summary>
+          <div class="glossary-item__body">Using a treat to physically guide the dog into position. Fade the lure within 3-5 reps.</div>
+        </details>
+        <details class="glossary-item" data-term="impulse control">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Impulse control</span><span class="glossary-item__quick">teaching them to think before they act</span></summary>
+          <div class="glossary-item__body">The ability to resist an immediate desire for a better outcome. Basically: adulting.</div>
+        </details>
+        <details class="glossary-item" data-term="desensitization">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Desensitization</span><span class="glossary-item__quick">making scary stuff boring with food</span></summary>
+          <div class="glossary-item__body">Gradual, controlled exposure to a scary thing at low intensity, paired with treats.</div>
+        </details>
+        <details class="glossary-item" data-term="counter-conditioning">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Counter-conditioning</span><span class="glossary-item__quick">"that scary thing means cheese now"</span></summary>
+          <div class="glossary-item__body">Pairing a trigger with something the dog loves to change the emotional response.</div>
+        </details>
+        <details class="glossary-item" data-term="extinction burst">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Extinction burst</span><span class="glossary-item__quick">it gets worse before it gets better</span></summary>
+          <div class="glossary-item__body">When you stop rewarding a behavior and they go HARDER before giving up. Like pressing an elevator button 47 times.</div>
+        </details>
+        <details class="glossary-item" data-term="place training">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Place / mat training</span><span class="glossary-item__quick">portable calm — take it anywhere</span></summary>
+          <div class="glossary-item__body">Teaching them a specific mat = chill zone. Builds duration and distraction tolerance.</div>
+        </details>
+        <details class="glossary-item" data-term="generalization">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Generalization</span><span class="glossary-item__quick">knowing "sit" in the kitchen but not the park</span></summary>
+          <div class="glossary-item__body">A skill learned in one context needs practice in new ones to transfer. That's normal.</div>
+        </details>
+        <details class="glossary-item" data-term="enrichment">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Enrichment</span><span class="glossary-item__quick">brain work so they don't eat your couch</span></summary>
+          <div class="glossary-item__body">Puzzle toys, sniff walks, frozen Kongs — anything that makes them think instead of destroy.</div>
+        </details>
+        <details class="glossary-item" data-term="management">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Management</span><span class="glossary-item__quick">prevention > correction</span></summary>
+          <div class="glossary-item__body">Setting up the environment so they can't practice the wrong thing. Baby gates, crates, shoes in closets.</div>
+        </details>
+        <details class="glossary-item" data-term="fear period">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Fear period</span><span class="glossary-item__quick">when the trash can becomes a serial killer</span></summary>
+          <div class="glossary-item__body">Developmental windows (~8-10 weeks and ~6-14 months) where they're extra sensitive. Don't force them through it.</div>
+        </details>
+        <details class="glossary-item" data-term="dominance theory">
+          <summary class="glossary-item__head"><span class="glossary-item__term">Dominance theory</span><span class="glossary-item__quick">debunked. let it go.</span></summary>
+          <div class="glossary-item__body">That thing your uncle brings up at Thanksgiving. Based on flawed 1930s wolf studies. Even the original researcher said he was wrong.</div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+</footer>
+
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
+
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+<script src="chatbot.js?v=14"></script>
+</body>
+</html>

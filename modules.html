@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Modules — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="learn.html" class="nav__link--active">Train</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+    </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="section--warm page-top">
+  <div class="container container--narrow">
+    <div class="fade-in">
+      <h2>Training modules</h2>
+      <p class="text-lg" style="margin-bottom: 0.5rem;">one topic at a time — check them off as you go</p>
+      <p class="mod-progress-total" id="totalProgress"></p>
+
+      <h3 class="mod-phase__label">Home life</h3>
+      <div class="mod-phase" data-phase="1">
+        <div class="mod-phase__header">
+          <div class="mod-phase__progress">
+            <span class="mod-phase__count" id="phase1Count">0/4</span>
+            <div class="mod-phase__bar"><div class="mod-phase__fill" id="phase1Fill"></div></div>
+          </div>
+        </div>
+
+        <!-- CRATE -->
+        <div class="mod-card" id="mod-crate" data-module="crate">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="crate">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Crate</div>
+                <div class="mod-card__tag">make the crate a calm, automatic place</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy goes into the crate without hesitation, settles within a few minutes, and can stay calm with the door closed — even when you leave.</p>
+                <h4>How to think about it</h4>
+                <p>The crate isn't something your puppy should "deal with." It's where they learn to relax. Most crate problems come from moving too fast or only using it when the puppy is already overwhelmed. You're building trust first, then duration.</p>
+                <h4>What to do</h4>
+                <p>Start by removing pressure entirely. Let your puppy discover the crate on their own by tossing treats inside and allowing them to go in and out freely. You're building a pattern: crate = good things happen here.</p>
+                <p>Once they're entering easily, begin using the crate during meals. This makes it part of their routine instead of a separate event. At this stage, you can start lightly introducing the door — closing it briefly while they eat, then opening it before they react.</p>
+                <p>From there, build short repetitions. Puppy goes in, door closes for a few seconds, then opens. Gradually increase the time, but always stay ahead of their stress. You're teaching calm, not testing endurance.</p>
+                <p>The biggest unlock is timing. Use the crate when your puppy is naturally ready to rest — after play or stimulation. If they're already overtired or overstimulated, the crate will feel like a fight. If you catch the right moment, it becomes a place to land.</p>
+                <p><strong>Your puppy should be sleeping in the crate from day one.</strong> This is huge for separation anxiety. If your puppy learns to sleep next to you in bed from the start, you're building a dependency that gets harder and harder to undo. The crate teaches them that being alone is safe and normal — not something scary that only happens when you leave. Yes, the first few nights are rough. But you're setting them up for a lifetime of being ok on their own.</p>
+                <p>As they improve, begin stepping away for short periods. Come back calmly. No excitement, no buildup. The goal is for your absence to feel normal, not like an event.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-crate-reset" class="mod-card__drill-pill">Crate reset</a>
+                  <a href="drills.html#drill-build-duration" class="mod-card__drill-pill">Build duration</a>
+                  <a href="drills.html#drill-calm-entry-reps" class="mod-card__drill-pill">Calm entry reps</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- POTTY -->
+        <div class="mod-card" id="mod-potty" data-module="potty">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="potty">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Potty</div>
+                <div class="mod-card__tag">remove the guesswork</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy consistently goes outside, has minimal accidents, and begins to follow a predictable rhythm.</p>
+                <h4>How to think about it</h4>
+                <p>Potty training isn't about teaching — it's about control. When accidents happen, it's almost always a breakdown in timing or supervision. When the system is tight, progress is fast.</p>
+                <h4>What to do</h4>
+                <p>Start by locking in a schedule. Take your puppy out after waking, after eating, after play, and every 1–2 hours in between. Don't wait for signals — assume they need to go and stay ahead of it.</p>
+                <p>Always use the same potty spot and keep it boring. Stand still and give them time to focus. Wandering delays the behavior you're trying to reinforce.</p>
+                <p>The moment they go, reward immediately. Timing matters more than anything — you're marking the exact behavior, not celebrating afterward.</p>
+                <p>Inside, your puppy is either supervised or in the crate. There's no in-between yet. Most accidents happen in that gray area where you think you're watching, but you're not. Don't give your puppy free rein of the house and then get frustrated when they have accidents. That's not a puppy problem — you gave them more freedom than they were ready for. Set them up by keeping the world small at first, and earn bigger spaces as they prove they can handle it.</p>
+                <p>If you catch an accident happening, interrupt and move outside. If you miss it, ignore it and clean it. The solution is always better management, not correction.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-schedule-reset" class="mod-card__drill-pill">Schedule reset</a>
+                  <a href="drills.html#drill-potty-spot-focus" class="mod-card__drill-pill">Potty spot focus</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- CALM -->
+        <div class="mod-card" id="mod-calm" data-module="calm">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="calm">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Calm</div>
+                <div class="mod-card__tag">teach your puppy how to turn off</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can settle in the home, relax without constant input, and doesn't spiral into chaos.</p>
+                <h4>How to think about it</h4>
+                <p>Puppies don't naturally know how to settle. If they seem "crazy," it's usually because they're overtired or overstimulated — not because they need more activity. Calm is a skill you teach, not something they grow into automatically.</p>
+                <h4>What to do</h4>
+                <p>Start by controlling the environment. Reduce noise, movement, and stimulation when you want your puppy to relax. You're setting the stage for calm, not expecting them to figure it out on their own.</p>
+                <p>Begin rewarding calm moments as they happen. If your puppy lies down, softens, or pauses — mark it and reward it. This teaches them that calm behavior is valuable.</p>
+                <p>Introduce a consistent "place" or settle area. Guide them there, reward them for staying, and gradually build duration. Keep expectations low at first — short, successful reps matter more than long ones. If you ask for a 10-minute down-stay and they can barely do 30 seconds, you didn't teach them anything except that your expectations don't match reality. Start where they can win.</p>
+                <p>Pay attention to timing. Most chaos happens when a puppy is overtired. Instead of adding more stimulation, guide them toward rest — often through the crate or a low-stimulation environment. Don't ask an overtired puppy for obedience — they physically can't give it to you. Manage the situation instead.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-place-reps" class="mod-card__drill-pill">Place reps</a>
+                  <a href="drills.html#drill-capturing-calm" class="mod-card__drill-pill">Capturing calm</a>
+                  <a href="drills.html#drill-duration-building" class="mod-card__drill-pill">Duration building</a>
+                  <a href="drills.html#drill-on-off-switch" class="mod-card__drill-pill">On/off switch</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- BITING -->
+        <div class="mod-card" id="mod-biting" data-module="biting">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="biting">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Biting</div>
+                <div class="mod-card__tag">replace chaos with control</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy stops biting people and redirects appropriately without escalation.</p>
+                <h4>How to think about it</h4>
+                <p>Biting isn't aggression — it's communication, play, or overwhelm. The goal isn't to "stop" biting instantly, but to redirect it and teach better options.</p>
+                <h4>What to do</h4>
+                <p>Interrupt biting early and redirect immediately to an appropriate object like a toy. Timing matters — the faster the redirect, the clearer the lesson.</p>
+                <p>If your puppy continues biting, disengage. Remove your attention, step away, and create a pause. This teaches them that biting ends interaction.</p>
+                <p>Watch for patterns. Most biting spikes happen when puppies are tired or overstimulated. Instead of pushing through, shift the state — either toward calm or rest. And don't try to ask for a sit or a down when your puppy is in full alligator mode — they can't hear you right now. Manage first (redirect or remove), train later when they're in a state where they can actually learn.</p>
+                <p>Stay consistent. Mixed signals slow progress. Every interaction should reinforce the same pattern: biting people doesn't work, but appropriate behavior does.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-redirect-reps" class="mod-card__drill-pill">Redirect reps</a>
+                  <a href="drills.html#drill-reverse-timeout" class="mod-card__drill-pill">Reverse timeout</a>
+                  <a href="drills.html#drill-engagement-reset" class="mod-card__drill-pill">Engagement reset</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="mod-phase__label">Skills</h3>
+      <div class="mod-phase" data-phase="2">
+        <div class="mod-phase__header">
+          <div class="mod-phase__progress">
+            <span class="mod-phase__count" id="phase2Count">0/3</span>
+            <div class="mod-phase__bar"><div class="mod-phase__fill" id="phase2Fill"></div></div>
+          </div>
+        </div>
+
+        <!-- COME -->
+        <div class="mod-card" id="mod-come" data-module="come">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="come">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Come</div>
+                <div class="mod-card__tag">be more interesting than everything else</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy responds to their name, comes when called, and begins choosing you over distractions.</p>
+                <h4>How to think about it</h4>
+                <p>Recall isn't obedience — it's preference. Your puppy comes because it's worth it, not because they "have to." If coming to you ever leads to something negative, the behavior weakens quickly.</p>
+                <p>But here's what most people get wrong: <strong>every time you call your puppy and they ignore you, you're teaching them that "come" is optional.</strong> That's not a recall problem — that's a setup problem. You asked for something they weren't ready to give, and now the word means nothing.</p>
+                <h4>What to do</h4>
+                <p><strong>Set your puppy up to succeed.</strong> Only call them when you are reasonably confident they're going to respond. In the beginning, that means calling them in a quiet room when they're already looking at you. That's it. That's the starting line.</p>
+                <p>Build the name game first. Say their name once — if they look at you, reward. If they don't, you're not ready to use it as a recall cue yet. Don't repeat it. Don't say it louder. Go closer, make it easier, and try again.</p>
+                <p>Once that's consistent, begin short recall reps in low-distraction environments. Stay close, call them in, and reward heavily when they come. Keep it fast and positive. If they're not coming, you moved up too fast — go back to where they were winning.</p>
+                <p>Don't call your puppy away from something amazing and expect them to listen. If they're nose-deep in a scent, chasing a leaf, or locked onto another dog — that recall is going to fail, and now you've just shown them that your cue is background noise. Use a long line to gently guide them instead, or just go get them. Protect the word.</p>
+                <p>Never call your puppy for something negative. Don't use recall to end fun, enforce crate time, or start something they don't like. You want "come" to feel like the best decision they can make.</p>
+                <p>Gradually increase difficulty — but only when they're crushing the current level. Add distance, then mild distractions, then new environments. One thing at a time. If you're outside and they can't respond, you went too far too fast. Use a long line so you're never in a position where the only option is a command they're going to blow off.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-name-game" class="mod-card__drill-pill">Name game</a>
+                  <a href="drills.html#drill-short-recall-reps" class="mod-card__drill-pill">Short recall reps</a>
+                  <a href="drills.html#drill-distraction-ladder" class="mod-card__drill-pill">Distraction ladder</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- MANNERS -->
+        <div class="mod-card" id="mod-manners" data-module="manners">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="manners">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Manners</div>
+                <div class="mod-card__tag">teach your puppy how to exist in your space</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can handle doors, movement, and basic boundaries without chaos.</p>
+                <h4>How to think about it</h4>
+                <p>Manners aren't separate skills — they're applied calm and control. You're teaching your puppy how to pause, wait, and move with intention instead of reacting to everything.</p>
+                <h4>What to do</h4>
+                <p>Start with thresholds like doors — but only when your puppy is in a calm-enough state to actually learn. If they're already over threshold (spinning, barking, totally wired), asking for a polite door wait is setting them up to fail. Manage first, train second. Use a leash, use a gate, slow things down before you ask for the behavior.</p>
+                <p>Practice controlled movement inside the home. Slow things down. Reward moments where your puppy chooses to pause instead of rushing.</p>
+                <p>Introduce light leash pressure as guidance, not force. Help your puppy understand how to follow instead of resist. Start inside where there's nothing competing for their attention. Don't take it outside until it's solid at home.</p>
+                <p>Keep reps small and consistent. Manners aren't built in one session — they're reinforced in everyday moments. And if a moment is too chaotic for training, just manage it and move on. Not every situation is a training opportunity — sometimes you just get through it.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-door-wait-reps" class="mod-card__drill-pill">Door wait reps</a>
+                  <a href="drills.html#drill-threshold-training" class="mod-card__drill-pill">Threshold training</a>
+                  <a href="drills.html#drill-leash-pressure-intro" class="mod-card__drill-pill">Leash pressure intro</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- HANDLING + DESENSITIZATION -->
+        <div class="mod-card" id="mod-handling" data-module="handling">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="handling">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Handling + desensitization</div>
+                <div class="mod-card__tag">teach your puppy to be touched, groomed, and handled — before they hate it</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can be brushed, have their paws handled, nails trimmed, ears checked, and go to the groomer or vet without shutting down or fighting you.</p>
+                <h4>How to think about it</h4>
+                <p>Think of your relationship with your puppy as a piggy bank. Every time you advocate for them — remove them from a scary situation, give them a break, respect their boundaries — you're making a deposit. Every time you ask them to do something uncomfortable — hold still for nail trimming, sit through a bath, tolerate a stranger touching them — you're making a withdrawal.</p>
+                <p>If the bank is full, they can handle withdrawals. They trust you. They know that when things get hard, you'll take care of them. But if the bank is empty — if you've been forcing things, skipping the trust-building, pushing past their limits — even a small ask will feel like too much and they'll start fighting you on everything.</p>
+                <p><strong>Your job is to keep the bank full.</strong> Way more deposits than withdrawals. Especially early on.</p>
+                <h4>Cooperative care</h4>
+                <p>This is the big one. Cooperative care means your puppy is a willing participant in being handled — not a hostage you're pinning down. The idea is simple: they can opt out. If they pull their paw away, you stop. If they lean away from the brush, you pause. Then you try again at a lower intensity, and reward them for tolerating it.</p>
+                <p>This sounds slow. It is. But it builds a dog who walks into the vet's office and lies down for an exam instead of one who needs to be muzzled and held by three people. The investment pays off for their entire life.</p>
+                <p>Start by just touching them in neutral ways. Touch their paws while they're relaxed — don't grab, just rest your hand. If they're fine, treat. Touch their ears gently. Treat. Lift a lip to look at their teeth. Treat. You're pairing every touch with something good and keeping the intensity so low that they barely notice.</p>
+                <h4>What to desensitize</h4>
+                <p>Your puppy will eventually need all of this, so start now while everything is new and they haven't learned to hate it yet:</p>
+                <ul>
+                  <li><strong>Paws</strong> — touching, holding, spreading toes, nail clippers near (then touching, then clipping one nail)</li>
+                  <li><strong>Ears</strong> — touching, lifting the flap, looking inside, wiping gently</li>
+                  <li><strong>Mouth</strong> — lifting lips, touching teeth, eventually a toothbrush</li>
+                  <li><strong>Brushing</strong> — the brush near them, brush touching their body, short gentle strokes</li>
+                  <li><strong>Restraint</strong> — light holding, being on a table, being still for a few seconds</li>
+                  <li><strong>Tools and sounds</strong> — clippers, dryers (from a distance!), electric toothbrush, spray bottles</li>
+                </ul>
+                <p>For every one of these: start with just the presence of the thing, then brief contact, then longer contact — only advancing when they're relaxed at the current step. If they stiffen, pull away, or start panting, you went too fast. Back up. Make a deposit. Try again later.</p>
+                <h4>The groomer and the vet</h4>
+                <p>Don't wait until the first real appointment to introduce these places. Take your puppy to the vet just to get treats from the receptionist and leave. Drive to the groomer's parking lot, sit there for five minutes, and go home. You're building the association before there's any pressure.</p>
+                <p>When the real appointment comes, advocate for your puppy. If the vet is moving too fast, say so. If the groomer is pushing past their limit, speak up. You are your puppy's only voice in those situations. Every time you let someone push them past their comfort zone without intervening, that's a big withdrawal from the bank.</p>
+                <p>Set them up to succeed: tire them out a little before the appointment, bring high-value treats, and keep your own energy calm. If you're anxious, they'll be anxious.</p>
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="handling--paws">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Paw and nail work</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>This is where most people hit a wall — because they wait until nails are too long and then try to wrestle the clippers. By then the puppy already hates it. Start way earlier than you think you need to.</p>
+                    <p>Step one is just touching paws. While your puppy is relaxed (after play, during a chew), rest your hand on their paw. Don't squeeze, don't hold. Just touch. Treat. Repeat across multiple days until they genuinely don't care.</p>
+                    <p>Then hold the paw gently for one second. Treat. Two seconds. Treat. Spread the toes. Treat. Touch a nail with your finger. Treat. You're building such a long history of "paw stuff = treats" that by the time the clipper shows up, they're not worried.</p>
+                    <p>Introduce the clipper by just letting them see it. Treat. Touch it to their paw without clipping. Treat. Clip one nail. Party. Done for the day. One nail. That's a win. Tomorrow you do two.</p>
+                    <p>If at any point they pull away hard, you went too fast. Go back to the step where they were relaxed. Forcing it empties the piggy bank and makes every future session harder.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-paw-touch-reps" class="mod-card__drill-pill">Paw touch reps</a>
+                      <a href="drills.html#drill-clipper-intro" class="mod-card__drill-pill">Clipper intro</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="handling--grooming">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Brushing and grooming</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>If your breed needs regular grooming — and many do — this is non-negotiable. A dog that fights the brush or panics at the groomer is a dog whose quality of life suffers, because things that need to happen can't happen without stress.</p>
+                    <p>Start with the brush just existing near them. Set it on the ground, let them sniff it. Treat. Then pick it up and hold it near their body. Treat. One gentle stroke. Treat. Two strokes. You get the pattern.</p>
+                    <p>Practice on the easy spots first — shoulders, back, sides. Avoid legs, belly, and face until they're totally comfortable with the low-pressure zones. Gradually work toward sensitive areas over days and weeks, not minutes.</p>
+                    <p>Pair grooming with something they love. A lick mat with peanut butter while you brush is a great way to make the whole experience feel like a spa day instead of a hostage situation.</p>
+                    <p>For dryer desensitization (huge for grooming breeds): start with the sound from another room. Then the same room but far away. Then closer. Then on the lowest setting near (not on) them. This can take weeks. That's fine. A dog who doesn't panic at a dryer is worth every minute of setup.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-brush-intro" class="mod-card__drill-pill">Brush intro</a>
+                      <a href="drills.html#drill-sound-desensitization" class="mod-card__drill-pill">Sound desensitization</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="handling--vet">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Vet and restraint prep</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>Vet visits involve a lot of things dogs naturally dislike: being on a table, being held still, having strangers poke at them, weird smells, other stressed animals in the room. You can't control all of that, but you can build tolerance for the parts that are predictable.</p>
+                    <p>Practice light restraint at home. Gently hold your puppy still for two seconds while treating them. Build to five seconds, ten seconds. Practice on a raised surface (a sturdy table with a non-slip mat) so the experience of being "up" isn't brand new at the vet.</p>
+                    <p>Play vet at home. Look in their ears. Lift their lips. Touch their belly like you're examining them. Move their legs gently. All of this with treats flowing. You're rehearsing so the real thing isn't a shock.</p>
+                    <p>Do happy visits to the vet. Walk in, get treats from the staff, sit in the lobby for five minutes, and leave. No shots, no exam. Just positive association. Most vets are happy to help with this if you ask.</p>
+                    <p>When the real appointment comes: bring their favorite treats, keep your energy flat and boring, and don't be afraid to ask the vet to slow down. "Can we give him a second?" is always ok to say. You're the one making deposits in that piggy bank, and you're the one who decides the pace.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-mock-exam" class="mod-card__drill-pill">Mock exam</a>
+                      <a href="drills.html#drill-restraint-reps" class="mod-card__drill-pill">Restraint reps</a>
+                      <a href="drills.html#drill-happy-visit" class="mod-card__drill-pill">Happy visit</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="mod-phase__label">Out in the world</h3>
+      <div class="mod-phase" data-phase="3">
+        <div class="mod-phase__header">
+          <div class="mod-phase__progress">
+            <span class="mod-phase__count" id="phase3Count">0/4</span>
+            <div class="mod-phase__bar"><div class="mod-phase__fill" id="phase3Fill"></div></div>
+          </div>
+        </div>
+
+        <!-- SOCIALIZING -->
+        <div class="mod-card" id="mod-socializing" data-module="socializing">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="socializing">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Socializing</div>
+                <div class="mod-card__tag">build a confident, neutral dog</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can experience new people, places, sounds, and environments without fear, overreaction, or chaos.</p>
+                <h4>How to think about it</h4>
+                <p>Socializing isn't about exposure — it's about controlled exposure. The goal isn't for your puppy to love everything. It's for them to stay neutral and calm in new situations.</p>
+                <p>Most people do too much, too fast. Overwhelming your puppy creates the exact problems you're trying to avoid.</p>
+                <h4>What to do</h4>
+                <p>Start small. Introduce one new thing at a time — a person, a sound, a place — and keep the intensity low. Distance is your best tool. Far away = safe. Close up = harder. Don't take your puppy to a crowded farmers market on week two and expect them to handle it. That's not socialization — that's flooding.</p>
+                <p>Let your puppy observe without pressure. They don't need to interact. Watching calmly is already a win. Don't ask them for a sit-stay in a new environment they've never been in — they're already working hard just by being there. Set them up to succeed by keeping your expectations matched to where they actually are, not where you wish they were.</p>
+                <p>Reward calm behavior in new environments. Not excitement — calm. You're teaching them that staying relaxed is the correct response.</p>
+                <p>If your puppy gets overwhelmed, create space immediately. Don't push through it. Backing off is part of the process, not failure.</p>
+                <p>Build variety slowly. Different surfaces, sounds, people, and environments — but always under control.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-distance-exposure" class="mod-card__drill-pill">Distance exposure</a>
+                  <a href="drills.html#drill-neutral-observation" class="mod-card__drill-pill">Neutral observation</a>
+                  <a href="drills.html#drill-recovery-reps" class="mod-card__drill-pill">Recovery reps</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- TRAVEL -->
+        <div class="mod-card" id="mod-travel" data-module="travel">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="travel">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Travel</div>
+                <div class="mod-card__tag">make movement and new environments feel normal</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can handle new environments, carriers, and travel (including flights) without stress or panic.</p>
+                <h4>How to think about it</h4>
+                <p>Travel isn't one event — it's a series of unfamiliar experiences stacked together. The goal is to make each piece feel normal before you combine them.</p>
+                <h4>What to do</h4>
+                <p>Start with the carrier. Treat it like a crate — your puppy should willingly enter, settle, and relax inside it before you ever leave the house.</p>
+                <p>Introduce movement gradually. Carry them around in the carrier, sit in new places, simulate waiting. You're teaching them that movement doesn't mean stress.</p>
+                <p>Expose them to new environments in short, controlled bursts. Lobbies, sidewalks, car rides — build familiarity before adding complexity.</p>
+                <p>For flying specifically, recreate parts of the experience. Time in the carrier, background noise, longer durations of confinement. Build tolerance slowly.</p>
+                <p>Keep your energy calm and predictable. Your puppy will mirror how you handle new situations.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-carrier-comfort" class="mod-card__drill-pill">Carrier comfort</a>
+                  <a href="drills.html#drill-movement-simulation" class="mod-card__drill-pill">Movement simulation</a>
+                  <a href="drills.html#drill-duration-build" class="mod-card__drill-pill">Duration build</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- MEETING PEOPLE -->
+        <div class="mod-card" id="mod-meeting-people" data-module="meeting-people">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="meeting-people">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Meeting people</div>
+                <div class="mod-card__tag">stop letting strangers undo your training</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can greet new people without jumping, lunging, or losing their mind — and the humans in the situation know the rules too.</p>
+                <h4>How to think about it</h4>
+                <p>Most greeting problems aren't your puppy's fault — they're a people problem. Everyone wants to pet the puppy. Everyone uses the baby voice. Everyone hypes them up. And then you're left with a dog that thinks meeting someone new means full chaos mode.</p>
+                <p>You have to control the environment before you can teach the behavior. That means coaching the humans, not just the dog.</p>
+                <h4>What to do</h4>
+                <p>Start by setting the rule: no one interacts with your puppy until they're calm. Not sitting — calm. If your puppy is jumping, spinning, or whining, the person waits. The moment your puppy settles, even for a second, that's when the greeting happens.</p>
+                <p>Ask friends and visitors to ignore your puppy when they arrive. No eye contact, no talking to the dog, no bending down. This feels rude to most people, but it's the fastest way to teach your puppy that new arrivals aren't a party.</p>
+                <p>Practice this with every single person who comes to your home. Consistency is what builds the pattern. If one person follows the rules and the next hypes your puppy up, you're starting over every time.</p>
+                <p>Outside the home, it's the same idea. If someone approaches and your puppy loses it, create distance. You don't owe strangers access to your dog. A simple "we're training" is enough.</p>
+                <div class="mod-card__drills">
+                  <span class="mod-card__drills-label">drills to practice</span>
+                  <a href="drills.html#drill-calm-greeting-setup" class="mod-card__drill-pill">Calm greeting setup</a>
+                  <a href="drills.html#drill-door-knock-protocol" class="mod-card__drill-pill">Door knock protocol</a>
+                  <a href="drills.html#drill-stranger-approach" class="mod-card__drill-pill">Stranger approach</a>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- MEETING DOGS -->
+        <div class="mod-card" id="mod-meeting-dogs" data-module="meeting-dogs">
+          <label class="mod-card__check-label">
+            <input type="checkbox" class="mod-card__check" data-module="meeting-dogs">
+            <span class="mod-card__tick"></span>
+          </label>
+          <div class="mod-card__content">
+            <details class="mod-card__details">
+              <summary class="mod-card__expand">
+                <div class="mod-card__name">Meeting dogs</div>
+                <div class="mod-card__tag">teach neutral, not excitement</div>
+              </summary>
+              <div class="mod-card__body">
+                <p class="mod-card__outcome">Your puppy can be near other dogs without lunging, fixating, or losing control — and looks to you instead of reacting on impulse.</p>
+                <h4>How to think about it</h4>
+                <p>The goal isn't a puppy who plays with every dog they see. It's a puppy who can exist near other dogs calmly. Most dog reactivity starts because puppies learn that seeing another dog means it's go-time. You're teaching the opposite: other dogs are boring.</p>
+                <p>Don't force face-to-face meetings. Most puppy-to-puppy greetings are too intense and build the exact habits you don't want. Controlled, neutral exposure is what works. And don't ask your puppy to hold a sit while another dog is three feet away — they're not ready for that yet. You'll just blow out the cue and teach them that "sit" is optional when it matters most.</p>
+                <p>Not every dog is going to be great with your puppy — and that's fine. Some older dogs are patient and naturally good teachers. Others are intense, reactive, or just not interested. Your job is to read the room before your puppy gets thrown into it. Set them up by choosing the right dogs, the right distance, and the right moment — not by hoping it works out.</p>
+
+                <!-- SUB-SECTION: Dogs in your home -->
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="meeting-dogs--home">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Dogs in your home</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>If you're bringing a puppy into a home with an existing dog, this is the most important relationship to get right — and the one most people rush. Your older dog didn't ask for this. They need space, boundaries, and the ability to opt out.</p>
+                    <p>Start by keeping them separated. Use gates, crates, and different rooms so they can smell and hear each other without being forced together. Let the older dog investigate the puppy's scent on a blanket before they ever meet face to face.</p>
+                    <p>First introductions should happen in a neutral space — not the older dog's favorite spot. Keep it short. A few seconds of sniffing, then separate. You're looking for loose bodies and soft signals. If either dog stiffens, stares, or freezes — that's your cue to create distance.</p>
+                    <p>Don't let the puppy harass the older dog. Puppies are relentless — they bite ears, jump on faces, and don't know when to stop. It's your job to intervene before the older dog has to. If the older dog growls, that's them saying "enough." Respect it. Remove the puppy, not the older dog.</p>
+                    <p>Give your older dog a puppy-free zone they can always retreat to. Somewhere the puppy physically cannot access. This prevents resentment and gives them control over when they engage.</p>
+                    <p>If you have multiple dogs, introduce them one at a time. Start with the calmest, most tolerant dog first — the one with the steadiest energy. Let your puppy build confidence with that dog before meeting the more intense ones. If you throw your puppy into the deep end with the rowdiest dog first, you're setting everyone up for failure.</p>
+                    <p>Make sure your puppy can be neutral and relaxed around each dog individually before you put them all together. Group dynamics change everything — dogs feed off each other's energy. If one dog gets excited, it cascades. So build each relationship separately first, then slowly combine.</p>
+                    <p>Over time, you can increase their time together — but always supervised at first. The goal is coexistence, not forced friendship. Some dogs become best friends. Some tolerate each other. Both are fine.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-scent-swap" class="mod-card__drill-pill">Scent swap</a>
+                      <a href="drills.html#drill-gate-intro" class="mod-card__drill-pill">Gate intro</a>
+                      <a href="drills.html#drill-supervised-coexist" class="mod-card__drill-pill">Supervised coexist</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SUB-SECTION: Dogs on the street -->
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="meeting-dogs--street">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Dogs on the street</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>This is where most people mess up. A stranger's dog approaches, the owner says "don't worry, he's friendly!" and suddenly your puppy is in a face-to-face greeting they weren't ready for. You have to be your puppy's advocate here.</p>
+                    <p>The default answer to "can my dog say hi?" is no. Not because your puppy is bad — because you're training. Uncontrolled greetings on leash are one of the fastest ways to build reactivity. The leash creates tension, the dogs can't move naturally, and things escalate quickly.</p>
+                    <p>If you see a dog approaching, create space early. Cross the street, change direction, or step off the path. Reward your puppy for noticing the dog and staying with you. That's the behavior you want — awareness without reaction.</p>
+                    <p>If a dog approaches without warning, step between your puppy and the other dog. Body block if you need to. It's not rude — it's responsible. You can say "we're training" or "give us space" and keep moving.</p>
+                    <p>Before any interaction, read the other dog. A relaxed body, loose tail, and soft face are green lights. A stiff posture, hard stare, tense mouth, or raised hackles mean back off — that dog is not in a state to meet your puppy safely. Trust what you see, not what the owner tells you.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-watch-and-dismiss" class="mod-card__drill-pill">Watch and dismiss</a>
+                      <a href="drills.html#drill-street-pass" class="mod-card__drill-pill">Street pass</a>
+                      <a href="drills.html#drill-body-block" class="mod-card__drill-pill">Body block</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SUB-SECTION: Off-leash / trail greetings -->
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="meeting-dogs--offleash">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Off-leash and trail greetings</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>Sometimes a greeting is going to happen whether you planned it or not. An off-leash dog on a trail comes bounding over, or you round a corner and suddenly two dogs are face to face. This is reality. You can't control every situation — but you can control how you handle it.</p>
+                    <p>The most important thing: stay calm. Don't tense up, don't yank the leash, don't start shouting commands your puppy is absolutely going to ignore. If you panic, your puppy reads that energy instantly and now they're panicking too. Be boring. Be chill. Let the moment happen.</p>
+                    <p>Don't ask for a sit or a recall mid-greeting — they're not going to listen, and now you've just weakened those cues by using them in a moment where failure is guaranteed. Instead, keep the leash loose, stay relaxed, and just be present. Let the sniff happen if it's safe.</p>
+                    <p>Watch both dogs. A quick butt-sniff and moving on is fine. If either dog stiffens, mounts, pins, or escalates — calmly walk your puppy away. No drama. Just move.</p>
+                    <p>Know that not all dogs like puppies. Some adult dogs have zero patience for puppy energy — and that's fair. If the other dog gives a hard correction (snap, growl, lunge), don't freak out. Separate calmly, give your puppy a second, and keep walking. One bad moment doesn't ruin your puppy if you handle it without drama.</p>
+                    <p>After an unexpected greeting, don't immediately start drilling commands or trying to "fix" what just happened. Just walk. Let your puppy process. Check their body language a few minutes later. If they're loose and happy, they're fine. If they're tucked and tense, give them more decompression time before any more dog encounters.</p>
+                    <p>The trail is not a training facility. Sometimes you just survive the moment and move on. That's ok.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-loose-leash-greeting" class="mod-card__drill-pill">Loose leash greeting</a>
+                      <a href="drills.html#drill-walk-away-reset" class="mod-card__drill-pill">Walk away reset</a>
+                      <a href="drills.html#drill-decompression-check" class="mod-card__drill-pill">Decompression check</a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- SUB-SECTION: Controlled introductions -->
+                <div class="mod-sub">
+                  <label class="mod-sub__header">
+                    <input type="checkbox" class="mod-sub__check" data-sub="meeting-dogs--intros">
+                    <span class="mod-sub__tick"></span>
+                    <span class="mod-sub__title">Controlled introductions</span>
+                  </label>
+                  <div class="mod-sub__body">
+                    <p>When you do want your puppy to meet another dog — a friend's dog, a family member's dog — set it up for success. Start with parallel walks. Same direction, comfortable distance. Reward your puppy for walking calmly without fixating.</p>
+                    <p>With older dogs specifically, advocate for the older dog. They're not a babysitter. If they growl, that's communication — don't punish it. A growl is the older dog setting a boundary, and that's healthy. What's not healthy is forcing your puppy to stay in an interaction where the other dog is clearly done.</p>
+                    <p>If an interaction goes bad — the older dog snaps, your puppy yelps, or things escalate fast — separate immediately and calmly. Don't panic, don't yell. Just create distance. Then give your puppy a few minutes to decompress. Watch their body language afterward. If they're shaking, tucking their tail, or hiding behind you, that was too much. Go back to distance work and don't rush the next interaction.</p>
+                    <p>Be careful about what your puppy learns from other dogs. If they spend time around dogs that bark, lunge, or play too rough, they'll mirror that energy. Choose their playmates carefully — calm, well-adjusted dogs teach calm behavior. Chaotic dogs teach chaos.</p>
+                    <p>Build up slowly. Shorter distances, different dogs, different environments — but always under control. The goal is a puppy who sees another dog and thinks "so what" instead of losing their mind.</p>
+                    <div class="mod-card__drills">
+                      <span class="mod-card__drills-label">drills to practice</span>
+                      <a href="drills.html#drill-parallel-walk" class="mod-card__drill-pill">Parallel walk</a>
+                      <a href="drills.html#drill-controlled-intro" class="mod-card__drill-pill">Controlled intro</a>
+                      <a href="drills.html#drill-decompression-check" class="mod-card__drill-pill">Decompression check</a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </details>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+</footer>
+
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
+
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'puppy_modules';
+  const checks = document.querySelectorAll('.mod-card__check');
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+  // Restore state
+  checks.forEach(cb => {
+    const mod = cb.dataset.module;
+    if (saved[mod]) {
+      cb.checked = true;
+      cb.closest('.mod-card').classList.add('mod-card--done');
+    }
+  });
+
+  // Handle changes
+  checks.forEach(cb => {
+    cb.addEventListener('change', () => {
+      const mod = cb.dataset.module;
+      saved[mod] = cb.checked;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      cb.closest('.mod-card').classList.toggle('mod-card--done', cb.checked);
+      updateProgress();
+    });
+  });
+
+  function updateProgress() {
+    document.querySelectorAll('.mod-phase').forEach(phase => {
+      const phaseNum = phase.dataset.phase;
+      const total = phase.querySelectorAll('.mod-card__check').length;
+      const done = phase.querySelectorAll('.mod-card__check:checked').length;
+      const pct = total ? (done / total) * 100 : 0;
+      document.getElementById('phase' + phaseNum + 'Count').textContent = done + '/' + total;
+      document.getElementById('phase' + phaseNum + 'Fill').style.width = pct + '%';
+    });
+    const allTotal = checks.length;
+    const allDone = document.querySelectorAll('.mod-card__check:checked').length;
+    document.getElementById('totalProgress').textContent = allDone + ' of ' + allTotal + ' modules complete';
+  }
+
+  updateProgress();
+
+  // Sub-section checkboxes
+  const SUB_KEY = 'puppy_module_subs';
+  const subChecks = document.querySelectorAll('.mod-sub__check');
+  const subSaved = JSON.parse(localStorage.getItem(SUB_KEY) || '{}');
+
+  subChecks.forEach(cb => {
+    const key = cb.dataset.sub;
+    if (subSaved[key]) cb.checked = true;
+    cb.addEventListener('change', () => {
+      subSaved[key] = cb.checked;
+      localStorage.setItem(SUB_KEY, JSON.stringify(subSaved));
+    });
+  });
+
+  // Deep-link: auto-open module from hash
+  if (window.location.hash) {
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+      const details = target.querySelector('.mod-card__details');
+      if (details) details.open = true;
+      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    }
+  }
+})();
+</script>
+<script src="chatbot.js?v=14"></script>
+</body>
+</html>
