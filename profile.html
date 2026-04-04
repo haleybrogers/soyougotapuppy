@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=15">
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="learn.html">Train</a></li>
+      <li><a href="tracker.html">Tracker</a></li>
+      <li><a href="profile.html" class="nav__link--active">Profile</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="section--cream page-top">
+  <div class="container container--narrow">
+    <div class="fade-in">
+
+      <!-- Not logged in state -->
+      <div id="profileLoggedOut" style="text-align: center; padding: 3rem 0;">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.5rem;">your profile</h2>
+        <p style="color: var(--soft-gray); margin-bottom: 2rem;">sign in to save your progress across devices and get a personalized training plan</p>
+        <button style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.7rem 1.5rem; background: #fff; color: #3c4043; border: 1px solid #dadce0; border-radius: 9999px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 150ms ease, box-shadow 150ms ease;" onmouseover="this.style.background='#f7f8f8';this.style.boxShadow='0 1px 3px rgba(0,0,0,0.08)'" onmouseout="this.style.background='#fff';this.style.boxShadow='none'" onclick="signInWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 18 18" style="flex-shrink:0;"><path fill="#4285F4" d="M17.64 9.2a10 10 0 0 0-.164-1.8H9v3.4h4.844a4.14 4.14 0 0 1-1.796 2.716v2.264h2.908c1.702-1.567 2.684-3.874 2.684-6.58z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.264c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.338A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.956H.957A8.997 8.997 0 0 0 0 9a9 9 0 0 0 .957 4.044l3.007-2.338z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.956L3.964 7.294C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+          sign in with Google
+        </button>
+      </div>
+
+      <!-- Logged in state -->
+      <div id="profileLoggedIn" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+          <div id="profileAvatar" style="width: 56px; height: 56px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.5rem; color: var(--bark); overflow: hidden; flex-shrink: 0;"></div>
+          <div>
+            <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 0.1rem;" id="profileGreeting"></h2>
+            <p style="color: var(--soft-gray); font-size: 0.85rem;" id="profileEmail"></p>
+          </div>
+        </div>
+
+        <!-- Dog info card -->
+        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">your puppy</h3>
+
+          <div style="display: grid; gap: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">name</label>
+              <input type="text" class="login-input" id="profileDogName" placeholder="puppy's name">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">breed</label>
+              <input type="text" class="login-input" id="profileBreed" placeholder="breed (or best guess)">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">birthday</label>
+              <input type="date" class="login-input" id="profileBirthday">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">gender</label>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                <label class="gender-btn"><input type="radio" name="profileGender" value="girl"><span>girl</span></label>
+                <label class="gender-btn"><input type="radio" name="profileGender" value="boy"><span>boy</span></label>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn--primary" style="width: 100%; margin-top: 1.25rem;" onclick="saveProfilePage()">save changes</button>
+          <p id="profileSaved" style="display: none; text-align: center; color: var(--green-soft); font-size: 0.85rem; margin-top: 0.5rem;">saved!</p>
+        </div>
+
+        <!-- Your name card -->
+        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">your info</h3>
+          <div>
+            <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">your name</label>
+            <input type="text" class="login-input" id="profileOwnerName" placeholder="your name">
+          </div>
+        </div>
+
+        <!-- Stats card -->
+        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">stats</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileGrade">-</div>
+              <div style="font-size: 0.75rem; color: var(--soft-gray);">weekly grade</div>
+            </div>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileStreak">0</div>
+              <div style="font-size: 0.75rem; color: var(--soft-gray);">day streak</div>
+            </div>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileTotalSessions">0</div>
+              <div style="font-size: 0.75rem; color: var(--soft-gray);">total sessions</div>
+            </div>
+            <div>
+              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileJoined">-</div>
+              <div style="font-size: 0.75rem; color: var(--soft-gray);">member since</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(27,27,27,0.08);">
+          <button style="width: 100%; padding: 0.75rem; background: none; border: 1px solid rgba(211,47,47,0.3); border-radius: var(--radius-full); color: #D32F2F; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; transition: all 150ms ease;" onmouseover="this.style.background='#FFEBEE'" onmouseout="this.style.background='none'" onclick="handleLogout()">log out</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
+  <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
+</footer>
+
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="script.js?v=15"></script>
+<script src="auth.js?v=15"></script>
+<script src="chatbot.js?v=15"></script>
+
+<script>
+// ---- PROFILE PAGE LOGIC ----
+function initProfilePage() {
+  const profile = getProfile();
+  const loggedOut = document.getElementById('profileLoggedOut');
+  const loggedIn = document.getElementById('profileLoggedIn');
+
+  if (profile && profile.setupComplete) {
+    loggedOut.style.display = 'none';
+    loggedIn.style.display = 'block';
+
+    // Avatar
+    const avatarEl = document.getElementById('profileAvatar');
+    if (profile.picture) {
+      avatarEl.innerHTML = '<img src="' + profile.picture + '" style="width:100%;height:100%;object-fit:cover;" referrerpolicy="no-referrer">';
+    } else {
+      avatarEl.textContent = (profile.ownerName || '?')[0].toUpperCase();
+    }
+
+    // Greeting
+    const greetEl = document.getElementById('profileGreeting');
+    if (greetEl) greetEl.textContent = 'hey ' + (profile.ownerName || 'friend').split(' ')[0].toLowerCase();
+
+    // Email
+    const emailEl = document.getElementById('profileEmail');
+    if (emailEl) emailEl.textContent = profile.email || 'guest account';
+
+    // Fill form
+    const dogNameEl = document.getElementById('profileDogName');
+    const breedEl = document.getElementById('profileBreed');
+    const bdayEl = document.getElementById('profileBirthday');
+    const ownerEl = document.getElementById('profileOwnerName');
+
+    if (dogNameEl) dogNameEl.value = profile.dogName || '';
+    if (breedEl) breedEl.value = profile.dogBreed || '';
+    if (bdayEl) bdayEl.value = profile.dogBirthday || '';
+    if (ownerEl) ownerEl.value = profile.ownerName || '';
+
+    const genderRadio = document.querySelector('input[name="profileGender"][value="' + (profile.dogGender || 'girl') + '"]');
+    if (genderRadio) genderRadio.checked = true;
+
+    // Stats
+    const grade = getWeeklyGrade();
+    const gradeEl = document.getElementById('profileGrade');
+    if (gradeEl) gradeEl.textContent = grade.letter;
+
+    // Streak + total sessions
+    const log = JSON.parse(localStorage.getItem('puppy_training_log') || '{}');
+    let streak = 0;
+    let totalSessions = 0;
+    const d = new Date();
+    for (let i = 0; i < 365; i++) {
+      const key = d.toISOString().split('T')[0];
+      const daySessions = (log[key] && log[key].sessions) || 0;
+      totalSessions += daySessions;
+      if (i < 30 && daySessions > 0 && streak === i) streak++;
+      d.setDate(d.getDate() - 1);
+    }
+
+    const streakEl = document.getElementById('profileStreak');
+    if (streakEl) streakEl.textContent = streak;
+
+    const totalEl = document.getElementById('profileTotalSessions');
+    if (totalEl) totalEl.textContent = totalSessions;
+
+    const joinedEl = document.getElementById('profileJoined');
+    if (joinedEl && profile.joinedDate) {
+      const jd = new Date(profile.joinedDate);
+      joinedEl.textContent = jd.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    }
+  } else {
+    loggedOut.style.display = 'block';
+    loggedIn.style.display = 'none';
+  }
+}
+
+function saveProfilePage() {
+  const profile = getProfile() || {};
+
+  const dogNameEl = document.getElementById('profileDogName');
+  const breedEl = document.getElementById('profileBreed');
+  const bdayEl = document.getElementById('profileBirthday');
+  const ownerEl = document.getElementById('profileOwnerName');
+  const genderEl = document.querySelector('input[name="profileGender"]:checked');
+
+  if (dogNameEl && dogNameEl.value.trim()) profile.dogName = dogNameEl.value.trim();
+  if (breedEl && breedEl.value.trim()) profile.dogBreed = breedEl.value.trim();
+  if (bdayEl && bdayEl.value) profile.dogBirthday = bdayEl.value;
+  if (ownerEl && ownerEl.value.trim()) profile.ownerName = ownerEl.value.trim();
+  if (genderEl) profile.dogGender = genderEl.value;
+
+  saveProfile(profile);
+
+  const savedEl = document.getElementById('profileSaved');
+  if (savedEl) {
+    savedEl.style.display = 'block';
+    setTimeout(() => { savedEl.style.display = 'none'; }, 2000);
+  }
+}
+
+async function handleLogout() {
+  const client = getSupaClient();
+  if (client) {
+    await client.auth.signOut();
+  }
+  localStorage.removeItem('sygap_profile');
+  localStorage.removeItem('puppy_training_log');
+  localStorage.removeItem('puppy_modules');
+  localStorage.removeItem('sygap_drills_today');
+  window.location.href = 'index.html';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait a beat for auth init to finish
+  setTimeout(initProfilePage, 500);
+});
+</script>
+</body>
+</html>
