@@ -44,7 +44,7 @@
     </button>
     <ul class="nav__links" id="navLinks">
       <li><a href="learn.html">Train</a></li>
-      <li><a href="tracker.html" class="nav__link--active">Tracker</a></li>
+      <li><a href="tracker.html" class="nav__link--active">Track</a></li>
       <li><a href="profile.html">Profile</a></li>
     </ul>
     <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
@@ -74,39 +74,7 @@
         </div>
       </div>
 
-      <!-- ============ SETTINGS ============ -->
-      <details class="profile-settings" id="profileSettings">
-        <summary class="profile-settings__toggle">edit profile ✎</summary>
-        <div class="profile-settings__body">
-          <div class="profile-settings__row">
-            <label class="profile-settings__label">your name</label>
-            <input type="text" class="profile-settings__input" id="settingsOwnerName">
-          </div>
-          <div class="profile-settings__row">
-            <label class="profile-settings__label">puppy's name</label>
-            <input type="text" class="profile-settings__input" id="settingsDogName">
-          </div>
-          <div class="profile-settings__row">
-            <label class="profile-settings__label">breed</label>
-            <input type="text" class="profile-settings__input" id="settingsBreed">
-          </div>
-          <div class="profile-settings__row">
-            <label class="profile-settings__label">birthday</label>
-            <input type="date" class="profile-settings__input" id="settingsBirthday">
-          </div>
-          <div class="profile-settings__row">
-            <label class="profile-settings__label">gender</label>
-            <div style="display: flex; gap: 0.5rem;">
-              <label class="gender-btn"><input type="radio" name="settingsGender" value="girl"><span>girl</span></label>
-              <label class="gender-btn"><input type="radio" name="settingsGender" value="boy"><span>boy</span></label>
-            </div>
-          </div>
-          <div class="profile-settings__actions">
-            <button class="btn btn--small btn--primary" onclick="saveSettingsProfile()">save</button>
-            <span class="profile-settings__saved" id="settingsSaved" style="display:none;">saved ✓</span>
-          </div>
-        </div>
-      </details>
+      <!-- Settings moved to profile.html -->
 
       <!-- ============ BREED FACT ============ -->
       <div class="ai-card ai-card--fact" id="breedFactCard">
