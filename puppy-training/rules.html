@@ -3,28 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Rules — Puppy Training for Puppies</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+  <title>The Rules — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
 </head>
 <body>
 
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
 <nav class="nav" id="nav">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
     <button class="nav__hamburger" id="hamburger" aria-label="Menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <ul class="nav__links" id="navLinks">
-      <li><a href="index.html">Panic</a></li>
-      <li><a href="rules.html" class="nav__link--active">The Rules</a></li>
-      <li><a href="learn.html">Learn</a></li>
-      <li><a href="drills.html">Drills</a></li>
-      <li><a href="by-age.html">By Age</a></li>
-      <li><a href="routine.html">Routine</a></li>
+      <li><a href="learn.html" class="nav__link--active">Train</a></li>
       <li><a href="tracker.html">Tracker</a></li>
-      <li><a href="glossary.html">Glossary</a></li>
     </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -271,14 +293,26 @@
 <footer class="footer">
   <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
   <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
-  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
 </footer>
 
-<!-- ============ FLOATING PANIC BUTTON ============ -->
-<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
-  <span>🚨</span> my dog is being insane
-</button>
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
 
-<script src="script.js"></script>
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+<script src="chatbot.js?v=14"></script>
 </body>
 </html>

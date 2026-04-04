@@ -3,297 +3,573 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Learn — Puppy Training for Puppies</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+  <title>Train — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
 </head>
 <body>
 
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
 <nav class="nav" id="nav">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
     <button class="nav__hamburger" id="hamburger" aria-label="Menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <ul class="nav__links" id="navLinks">
-      <li><a href="index.html">Panic</a></li>
-      <li><a href="rules.html">The Rules</a></li>
-      <li><a href="learn.html" class="nav__link--active">Learn</a></li>
-      <li><a href="drills.html">Drills</a></li>
-      <li><a href="by-age.html">By Age</a></li>
-      <li><a href="routine.html">Routine</a></li>
+      <li><a href="learn.html" class="nav__link--active">Train</a></li>
       <li><a href="tracker.html">Tracker</a></li>
-      <li><a href="glossary.html">Glossary</a></li>
     </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
   </div>
 </nav>
 
-<section class="section--sage page-top" id="modules">
-  <div class="container">
+<!-- ============ TRIAGE OVERLAY ============ -->
+<div class="triage-overlay" id="triageOverlay">
+  <div class="triage-modal">
+    <button class="triage-modal__close" onclick="closeTriage()">&times;</button>
+    <div class="triage-modal__progress" id="triageProgress"></div>
+    <div class="triage-modal__body" id="triageBody"></div>
+  </div>
+</div>
+
+<!-- ============ HERO + TRIAGE BUTTON ============ -->
+<section class="section--cream page-top">
+  <div class="container container--narrow">
+    <div class="fade-in" style="text-align: center;">
+      <h2 class="learn-hero__headline">training is just teaching your puppy how to exist in your world</h2>
+      <p class="learn-hero__sub">what works repeats — so choose carefully</p>
+      <button class="triage-entry__btn" onclick="openTriage()">struggling right now? →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BEFORE THEY COME HOME ============ -->
+<section class="section--warm">
+  <div class="container container--narrow">
     <div class="fade-in">
-      <h2>Learning modules</h2>
-      <p class="text-lg" style="margin-bottom: 2rem;">The full curriculum. Pick what you need right now.</p>
+      <details class="before-home" id="beforeHome">
+        <summary class="before-home__trigger">
+          <div class="before-home__trigger-text">
+            <h2 class="before-home__title">Before your puppy comes home</h2>
+            <p class="before-home__sub">set this up now or fix it later</p>
+          </div>
+          <span class="before-home__arrow">&#8595;</span>
+        </summary>
+        <div class="before-home__body">
+          <p class="before-home__intro-line">don't wing this — a little setup now saves you a lot of chaos later</p>
 
-      <div class="grid grid--3">
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">🏠</div>
-          <h3>Crate training</h3>
-          <p class="text-muted text-sm">Making the crate a happy place, not a prison.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Crate = den, not punishment. Ever.</li>
-              <li>Size: big enough to stand + turn around, not so big they potty in one end</li>
-              <li>Start with door open, treats inside. Let THEM choose to go in</li>
-              <li>Pair crate time with high-value chews (stuffed Kongs, bully sticks)</li>
-              <li>Release when CALM. Never when fussing.</li>
-              <li>Max 3-4 hours during the day for puppies</li>
-              <li>Night time: crate near your bed so they can smell/hear you</li>
-            </ul>
-            <div class="callout callout--savage" style="margin-top: 1rem;">
-              <span class="callout__label">girl...</span>
-              If you only put them in the crate when you leave, they'll associate it with abandonment. Use it randomly throughout the day so it's just... a normal place.
-            </div>
+          <div class="prep-toggles">
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">1</span>
+                <span class="prep-toggle__label">Set your rules now</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>Decide before they're cute and getting away with everything:</p>
+                <ul>
+                  <li>couch or no couch</li>
+                  <li>jumping allowed or no</li>
+                  <li>sleeping in bed or no</li>
+                </ul>
+                <p class="prep-toggle__punch">if it's "fine for now" — it won't be fine later</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">2</span>
+                <span class="prep-toggle__label">Make their world small</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>You don't need freedom. You need control.</p>
+                <ul>
+                  <li>crate</li>
+                  <li>small area (pen or gated space)</li>
+                  <li>supervised or contained at all times</li>
+                </ul>
+                <p class="prep-toggle__punch">if you're not watching them → they're contained</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">3</span>
+                <span class="prep-toggle__label">Pick your potty plan</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>Don't improvise this.</p>
+                <ul>
+                  <li>same spot</li>
+                  <li>same phrase</li>
+                  <li>reward immediately</li>
+                </ul>
+                <p class="prep-toggle__punch">inconsistent here = confusing later</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">4</span>
+                <span class="prep-toggle__label">Get the right stuff (not more stuff)</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>You don't need everything. Just:</p>
+                <ul>
+                  <li>crate</li>
+                  <li>leash + harness</li>
+                  <li>a few good chew toys</li>
+                  <li>treats / kibble</li>
+                  <li>baby gate or pen</li>
+                </ul>
+                <p class="prep-toggle__punch">that's enough</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">5</span>
+                <span class="prep-toggle__label">Get everyone on the same page</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>One person breaking the rules = chaos still works.</p>
+                <p class="prep-toggle__punch">everyone does the same thing — or nothing sticks</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="before-home__final">
+            <p>your puppy is about to start learning how the world works</p>
+            <p><strong>make sure you like the version they learn</strong></p>
           </div>
         </div>
+      </details>
 
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">🦷</div>
-          <h3>Bite inhibition</h3>
-          <p class="text-muted text-sm">Teaching a land shark to have a soft mouth.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Puppy mouthing is NORMAL. Don't try to suppress it all immediately</li>
-              <li>Step 1: teach them not to bite HARD (say "ouch" calmly, remove attention 30 sec)</li>
-              <li>Step 2: gradually reduce any pressure to near-zero</li>
-              <li>Redirect to appropriate chew toys when they mouth on you</li>
-              <li>Best learning window: 3-5 months old</li>
-              <li>Hard bites = fun ENDS. That's the lesson.</li>
-            </ul>
-            <div class="callout callout--warning" style="margin-top: 1rem;">
-              <span class="callout__label">don't</span>
-              Hold their mouth shut, squeeze paws, or tap their nose. This creates fear and hand-shyness. And they might bite harder out of defense.
-            </div>
+      <details class="before-home" id="puppyIsHome" style="margin-top: 0.75rem;">
+        <summary class="before-home__trigger">
+          <div class="before-home__trigger-text">
+            <h2 class="before-home__title">Your puppy is home</h2>
+            <p class="before-home__sub">the first week — what to actually do</p>
+          </div>
+          <span class="before-home__arrow">&#8595;</span>
+        </summary>
+        <div class="before-home__body">
+          <p class="before-home__intro-line">take a breath — you don't need to train everything right now</p>
+
+          <div class="prep-toggles">
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">1</span>
+                <span class="prep-toggle__label">Chill. Seriously.</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>Your puppy just left their litter, their mom, and everything they've ever known. They are overwhelmed. You are overwhelmed. That's normal.</p>
+                <p>The first few days are not about training. They're about letting your puppy decompress and start feeling safe. Don't invite everyone over to meet the puppy. Don't take them to the pet store. Don't start drilling commands. Just exist together.</p>
+                <p>Let them sniff their space. Let them figure out where the water is. Let them sleep — a lot. Puppies need 18-20 hours of sleep a day. If yours seems wired and chaotic, they're probably overtired, not under-exercised.</p>
+                <p class="prep-toggle__punch">the best thing you can do on day one is be boring</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">2</span>
+                <span class="prep-toggle__label">Introduce the house slowly</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>Don't give your puppy the full house. That's way too much space and way too many places to have accidents, chew things, and get overwhelmed.</p>
+                <p>Start with one room. Their crate, their water, their potty access — that's their world for now. Once they're solid in that space (going potty outside, settling in the crate, not destroying everything), you can expand. One room at a time. Earn the space.</p>
+                <p>Block off stairs, close doors, use baby gates. Every room they can access unsupervised is a room where something will go wrong.</p>
+                <p class="prep-toggle__punch">small world = fewer mistakes = faster learning</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">3</span>
+                <span class="prep-toggle__label">Start the crate immediately</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>Night one. Yes, really. Your puppy sleeps in the crate from the very first night.</p>
+                <p>Will they cry? Probably. That's ok. Put the crate near your bed so they can hear and smell you. Toss a treat in, let them settle. If they whine, wait for a pause — even a two-second pause — then calmly reassure. Don't take them out when they're fussing or you'll teach them that fussing opens the door.</p>
+                <p>This is one of the most important things you'll do. A puppy who learns to sleep alone from the start is a puppy who doesn't develop separation anxiety. If you let them sleep in your bed "just for the first week," you're building a habit that gets exponentially harder to undo.</p>
+                <p>During the day, toss treats in the crate randomly. Feed meals in there. Make it the place where good things happen with zero pressure.</p>
+                <p class="prep-toggle__punch">the crate isn't mean — it's the foundation of everything</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">4</span>
+                <span class="prep-toggle__label">What to actually train first</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>Week one is not about sit, down, shake, or any tricks. It's about three things:</p>
+                <ul>
+                  <li><strong>Name recognition</strong> — say their name, reward when they look. That's it. Do this 20 times a day.</li>
+                  <li><strong>Potty rhythm</strong> — out after sleeping, eating, playing. Same spot. Reward immediately when they go outside.</li>
+                  <li><strong>Crate comfort</strong> — in and out freely, treats inside, meals inside, door closed for short periods.</li>
+                </ul>
+                <p>That's your entire week one curriculum. If you try to do more, you'll overwhelm both of you. These three things set the foundation for literally everything else.</p>
+                <p class="prep-toggle__punch">don't teach commands they aren't ready for — you're just teaching them to ignore you</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">5</span>
+                <span class="prep-toggle__label">How much is too much</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>People overthink this part. Here's the line:</p>
+                <p>If your puppy is checking out, yawning, getting nippy, or can't focus — you're doing too much. Stop. Let them sleep. Try again later when they're fresh.</p>
+                <p>Training sessions for a young puppy should be 2-3 minutes. Seriously. Maybe 5 if they're really engaged. Multiple short sessions throughout the day beats one long one every time.</p>
+                <p>And don't stack new experiences. One new thing per day is plenty in week one. New house is already a huge experience. You don't also need to add new people, new dogs, new places, and new commands on top of that.</p>
+                <p class="prep-toggle__punch">if you're exhausted, they're exhausted — everyone go take a nap</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">6</span>
+                <span class="prep-toggle__label">The first night survival guide</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>This is the part no one warns you about. The first night can be rough. Here's what to expect and what to do:</p>
+                <ul>
+                  <li><strong>They will probably cry.</strong> This is normal. They just lost their entire family. Put the crate next to your bed, drop your hand near the crate door so they can smell you. Don't take them out when they're crying — wait for quiet.</li>
+                  <li><strong>They will need to go potty in the middle of the night.</strong> Young puppies can't hold it all night. Set an alarm for halfway through. Take them out, keep it boring (no play, no talking, just potty), then right back in the crate.</li>
+                  <li><strong>You will feel guilty.</strong> You're not hurting them. You're teaching them that nighttime is for sleeping and that being alone is safe. This is a gift you're giving them.</li>
+                  <li><strong>It gets better fast.</strong> Most puppies settle into the crate within 3-5 nights if you're consistent. If you cave and bring them to bed on night two, you reset the clock.</li>
+                </ul>
+                <p class="prep-toggle__punch">survive the first three nights and the rest gets dramatically easier</p>
+              </div>
+            </details>
+
+            <details class="prep-toggle">
+              <summary class="prep-toggle__head">
+                <span class="prep-toggle__num">7</span>
+                <span class="prep-toggle__label">When to start "real" training</span>
+                <span class="prep-toggle__icon">+</span>
+              </summary>
+              <div class="prep-toggle__body">
+                <p>You're already training. From the moment they walk in the door, your puppy is learning what works and what doesn't. Every interaction is data.</p>
+                <p>But structured drills and commands? Give it a few days. Once your puppy is eating normally, sleeping in the crate, and starting to figure out the potty rhythm — usually by the end of week one — you can start layering in short training sessions.</p>
+                <p>Start with the name game and capturing calm. Those don't require anything from your puppy except existing. Then add recall games inside the house. Then leash work. Build it up piece by piece.</p>
+                <p>The number one mistake people make is trying to do too much too soon. Your puppy just got here. Let them land. Then start teaching — slowly, in environments where they can succeed.</p>
+                <p class="prep-toggle__punch">set them up to win from day one — even if "winning" is just sleeping in the crate</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="before-home__final">
+            <p>the first week feels like chaos — that's normal</p>
+            <p><strong>your only job is structure, sleep, and not teaching bad habits</strong></p>
           </div>
         </div>
+      </details>
 
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">🏡</div>
-          <h3>Potty training</h3>
-          <p class="text-muted text-sm">Schedule + supervision + patience = success.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Take them out: after waking, after eating, after playing, every 1-2 hours</li>
-              <li>Rule of thumb: age in months + 1 = hours they can hold it (daytime)</li>
-              <li>Reward IMMEDIATELY after they go outside (not after coming back in)</li>
-              <li>If you can't watch them: crate, pen, or leash tether to you</li>
-              <li>Accidents? Clean with enzymatic cleaner. Regular cleaners leave a "go here again" scent</li>
-              <li>Consistency > intensity. Stick to the schedule.</li>
-            </ul>
-            <div class="callout callout--warning" style="margin-top: 1rem;">
-              <span class="callout__label">outdated advice alert</span>
-              Rubbing their nose in it does NOTHING except make them scared of you. They can't connect punishment to something that happened minutes ago. Just clean it up and take them out more.
-            </div>
+      <details class="before-home" id="howLearns" style="margin-top: 0.75rem;">
+        <summary class="before-home__trigger">
+          <div class="before-home__trigger-text">
+            <h2 class="before-home__title">How your puppy learns</h2>
+            <p class="before-home__sub">you are training your puppy 24/7 — whether you mean to or not</p>
           </div>
-        </div>
-
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">👋</div>
-          <h3>Socialization</h3>
-          <p class="text-muted text-sm">The most important window you'll ever miss if you're not careful.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Critical window: 3-14 weeks. Their brain is primed to absorb new stuff with curiosity</li>
-              <li>After 14-16 weeks, they get cautious. Still possible, just harder</li>
-              <li>Socialization ≠ just meeting other dogs</li>
-              <li>Expose to: different people, surfaces, sounds, environments, car rides, vet clinics</li>
-              <li>Quality over quantity. Brief, positive experiences > overwhelming ones</li>
-              <li>Read their body: loose = good. Tucked tail/lip licking = stressed. Back off</li>
-            </ul>
-            <div class="callout callout--key" style="margin-top: 1rem;">
-              <span class="callout__label">important</span>
-              Don't wait until they're fully vaccinated to socialize. Controlled environments with healthy dogs are fine. The behavioral risk of NOT socializing is bigger than the disease risk.
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">😰</div>
-          <h3>Separation anxiety</h3>
-          <p class="text-muted text-sm">Teaching them the world doesn't end when you leave.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Practice VERY short absences first (30 seconds). Build up slowly</li>
-              <li>Keep arrivals and departures LOW KEY. No big productions</li>
-              <li>Leave enrichment during alone time (puzzle toys, chews)</li>
-              <li>Don't make "leaving" a thing. Just... leave. And come back. Boring</li>
-              <li>Different from crate crying — true separation anxiety needs gradual work</li>
-            </ul>
-            <div class="callout callout--savage" style="margin-top: 1rem;">
-              <span class="callout__label">real talk</span>
-              If you make a huge fuss every time you leave AND every time you come back, you're basically telling them that you leaving is a BIG DEAL. Make it boring. You leave. You come back. Nothing happened.
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">🛁</div>
-          <h3>Desensitization</h3>
-          <p class="text-muted text-sm">Baths, nails, sounds, vet visits — make it all boring.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <p style="font-size: 0.9rem; margin-bottom: 1rem;">The formula is always the same: <strong>go slow + pair with food + never force it.</strong></p>
-            <div class="desen-item">
-              <span class="desen-item__emoji">🐾</span>
-              <div class="desen-item__info">
-                <div class="desen-item__name">Handling paws/ears/mouth</div>
-                <div class="desen-item__tip">Touch briefly → treat. Touch longer → treat. Build duration over days, not hours.</div>
+          <span class="before-home__arrow">&#8595;</span>
+        </summary>
+        <div class="before-home__body">
+          <div class="hpl">
+            <!-- THE RULE -->
+            <div class="hpl__block">
+              <h3 class="hpl__heading">the rule</h3>
+              <div class="hpl__flow">
+                <span>behavior</span> <span class="hpl__arrow">→</span> <span>outcome</span> <span class="hpl__arrow">→</span> <span>repeat (or don't)</span>
+              </div>
+              <div class="hpl__examples">
+                <div class="hpl__example"><span>jumping gets attention</span> <span class="hpl__arrow">→</span> <span class="hpl__result">jumping increases</span></div>
+                <div class="hpl__example"><span>sitting gets a treat</span> <span class="hpl__arrow">→</span> <span class="hpl__result">sitting increases</span></div>
+                <div class="hpl__example"><span>barking opens the crate</span> <span class="hpl__arrow">→</span> <span class="hpl__result">barking increases</span></div>
               </div>
             </div>
-            <div class="desen-item">
-              <span class="desen-item__emoji">💅</span>
-              <div class="desen-item__info">
-                <div class="desen-item__name">Nail trims</div>
-                <div class="desen-item__tip">Day 1: show clippers → treat. Day 3: touch paw with clippers → treat. Day 5: clip ONE nail → party. Don't rush.</div>
-              </div>
+
+            <!-- THE CATCH -->
+            <div class="hpl__block hpl__block--dark">
+              <h3 class="hpl__heading">the catch</h3>
+              <p>your puppy decides what's rewarding — not you. eye contact, touch, freedom, even yelling "no" can be a reward if it got them engagement.</p>
+              <p class="hpl__point">if it worked for them, it'll happen again</p>
             </div>
-            <div class="desen-item">
-              <span class="desen-item__emoji">🚿</span>
-              <div class="desen-item__info">
-                <div class="desen-item__name">Baths</div>
-                <div class="desen-item__tip">Let them explore the tub empty first. Lick mat with peanut butter on the wall. Warm water, gentle, lots of treats.</div>
+
+            <!-- THE SHIFT -->
+            <div class="hpl__block">
+              <h3 class="hpl__heading">the shift</h3>
+              <div class="hpl__shift">
+                <div class="hpl__shift-from">
+                  <p class="hpl__small">instead of:</p>
+                  <p class="hpl__quote">"how do I stop this?"</p>
+                </div>
+                <span class="hpl__shift-arrow">→</span>
+                <div class="hpl__shift-to">
+                  <p class="hpl__small">ask:</p>
+                  <p class="hpl__quote">"what is this getting them?"</p>
+                </div>
               </div>
+              <p style="margin-top: 0.75rem;" class="hpl__muted">remove the reward from what you don't want. add reward to what you do.</p>
             </div>
-            <div class="desen-item">
-              <span class="desen-item__emoji">🔊</span>
-              <div class="desen-item__info">
-                <div class="desen-item__name">Loud sounds</div>
-                <div class="desen-item__tip">Play recordings at LOW volume during meals. Gradually increase over weeks. Vacuum, thunder, fireworks, construction.</div>
+
+            <!-- FINAL -->
+            <div class="hpl__final">
+              <p>what works repeats — <strong>so choose carefully</strong></p>
+            </div>
+
+            <!-- OPTIONAL SCIENCE -->
+            <details class="hpl__science">
+              <summary class="hpl__science-trigger">the science behind this</summary>
+              <div class="hpl__science-body">
+                <div class="hpl__quad">
+                  <div class="hpl__quad-item hpl__quad-item--use">
+                    <h4>add something good → behavior increases</h4>
+                    <p class="hpl__point">this is what you'll use most</p>
+                  </div>
+                  <div class="hpl__quad-item hpl__quad-item--use">
+                    <h4>remove something good → behavior decreases</h4>
+                    <p class="hpl__point">"bite = fun ends"</p>
+                  </div>
+                  <div class="hpl__quad-item hpl__quad-item--skip">
+                    <h4>add something unpleasant → behavior decreases</h4>
+                    <p class="hpl__muted">we're not doing this here</p>
+                  </div>
+                  <div class="hpl__quad-item hpl__quad-item--skip">
+                    <h4>remove something unpleasant → behavior increases</h4>
+                    <p class="hpl__muted">not relevant for you right now</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="desen-item">
-              <span class="desen-item__emoji">🏥</span>
-              <div class="desen-item__info">
-                <div class="desen-item__name">Vet visits</div>
-                <div class="desen-item__tip">Do "happy visits" — go to the vet just for treats and pets. No needles. Just vibes. Build a positive association.</div>
-              </div>
-            </div>
-            <div class="desen-item">
-              <span class="desen-item__emoji">🚗</span>
-              <div class="desen-item__info">
-                <div class="desen-item__name">Car rides</div>
-                <div class="desen-item__tip">Start with sitting in parked car → treat. Then short drives. Don't make every car ride end at the vet.</div>
-              </div>
-            </div>
+            </details>
           </div>
         </div>
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">✈️</div>
-          <h3>Flying with your puppy</h3>
-          <p class="text-muted text-sm">Without losing your mind or getting kicked off the plane.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <div class="callout callout--savage" style="margin-top: 0; margin-bottom: 1rem;">
-              <span class="callout__label">reality check</span>
-              Flying with a puppy is not chill, easy, or predictable. It IS logistics, management, and emotional regulation (yours and theirs). But it is doable.
-            </div>
+      </details>
+    </div>
+  </div>
+</section>
 
-            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;"><strong>Your goal is NOT</strong> "perfect angel puppy." Your goal is <strong>"no chaos, no meltdown, we survived."</strong></p>
+<!-- ============ DAILY CYCLE ============ -->
+<section class="section--cream">
+  <div class="container container--narrow">
+    <div class="fade-in" style="text-align: center;">
+      <h2>A day with your puppy</h2>
+      <p class="text-muted" style="margin-bottom: 1.5rem;"><em style="color: var(--rust); font-family: var(--font-display); font-style: italic;">rinse and repeat</em></p>
+      <a href="routine.html" class="day-cycle-wrap" id="dayCycleWrap">
+        <div class="day-cycle day-cycle--build">
+          <span class="day-cycle__item" data-step="0">crate</span>
+          <span class="day-cycle__arrow">→</span>
+          <span class="day-cycle__item" data-step="1">potty</span>
+          <span class="day-cycle__arrow">→</span>
+          <span class="day-cycle__item" data-step="2">play</span>
+          <span class="day-cycle__arrow">→</span>
+          <span class="day-cycle__item" data-step="3">food</span>
+          <span class="day-cycle__arrow">→</span>
+          <span class="day-cycle__item" data-step="4">potty</span>
+          <span class="day-cycle__arrow">→</span>
+          <span class="day-cycle__item" data-step="5">crate</span>
+          <span class="day-cycle__arrow">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
 
-            <h4 style="margin-top: 1.25rem;">Before the flight</h4>
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li><strong>Burn energy:</strong> Walk them, let them sniff (this matters more than distance), do 5-10 min of training. Tired brain = quieter dog</li>
-              <li><strong>Potty timing:</strong> Right before going in. If they don't go, wait longer. Do NOT gamble mid-flight</li>
-              <li><strong>Carrier prep:</strong> Your puppy should ALREADY be comfortable settling in the carrier. If not → practice at home first (feed meals in it, short chill sessions)</li>
-            </ul>
+<!-- ============ PUPPY TIMELINE (horizontal pills) ============ -->
+<section class="section--warm" id="puppyTimeline">
+  <div class="container container--narrow">
+    <div class="fade-in" style="text-align: center;">
+      <h2>The puppy developmental timeline</h2>
+      <p class="text-muted" style="margin-bottom: 1.5rem;">what's normal at every age — your dog is taking notes, even if you're not</p>
 
-            <h4 style="margin-top: 1.25rem;">During the flight</h4>
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Your job: <strong>keep things boring.</strong> Not: entertain them constantly</li>
-              <li>If they're calm → ignore them (this is success)</li>
-              <li>If they whine → wait a second. Don't immediately react. If you instantly soothe every noise, you're training "noise = attention"</li>
-              <li>If they escalate → quiet reassurance (not hype), small treat for calm, no big reactions</li>
-              <li><strong>Chews are your best friend.</strong> Bring something safe + something novel. Chewing regulates their nervous system</li>
-            </ul>
-
-            <div class="callout callout--key" style="margin-top: 1rem;">
-              <span class="callout__label">you set the tone</span>
-              If you're stressed, frantic, and apologizing to everyone — your puppy is like "oh we're panicking?? sick." Calm human = calmer dog.
-            </div>
-
-            <h4 style="margin-top: 1.25rem;">Common mistakes</h4>
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem; color: var(--rust-dark);">
-              <li>Taking them out of the carrier constantly</li>
-              <li>Over-soothing every noise</li>
-              <li>Zero prep with the carrier</li>
-              <li>Expecting them to sleep the whole time</li>
-            </ul>
-
-            <div class="callout callout--tip" style="margin-top: 1rem;">
-              <span class="callout__label">it's reps</span>
-              First flight: chaotic. Second: better. By the third: they're like "oh yeah we sit in a box and vibe."
-            </div>
-          </div>
+      <div class="tl-wrap">
+        <div class="tl-bar">
+          <button class="tl-bar__item" data-stage="0">🍼 8-12 wks</button>
+          <span class="tl-bar__arrow">→</span>
+          <button class="tl-bar__item" data-stage="1">😈 3-4 mo</button>
+          <span class="tl-bar__arrow">→</span>
+          <button class="tl-bar__item" data-stage="2">🤘 4-6 mo</button>
+          <span class="tl-bar__arrow">→</span>
+          <button class="tl-bar__item" data-stage="3">🔥 6-12 mo</button>
+          <span class="tl-bar__arrow">→</span>
+          <button class="tl-bar__item" data-stage="4">🎓 1-2 yr</button>
         </div>
 
-        <div class="card" onclick="toggleModule(this)">
-          <div class="drill__emoji">🐕‍🦺</div>
-          <h3>Introducing to older dogs</h3>
-          <p class="text-muted text-sm">How to not create beef where there doesn't need to be beef.</p>
-          <div class="module-content" style="display:none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(61,43,31,0.06);">
-            <div class="callout callout--savage" style="margin-top: 0; margin-bottom: 1rem;">
-              <span class="callout__label">reality check</span>
-              Your puppy has no manners, no boundaries, no self-awareness. Your older dog does not find this charming. Your puppy is the annoying younger sibling right now.
-            </div>
-
-            <h4 style="margin-top: 1.25rem;">Step 1: Stop forcing friendships</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Do NOT shove them together, hold them face-to-face, or say "be nice!!!" That's how fights start.</p>
-
-            <h4 style="margin-top: 1.25rem;">Step 2: Parallel existence first</h4>
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Same space, distance, no pressure</li>
-              <li>Walk together (not interacting)</li>
-              <li>Hang out in same room but separated</li>
-              <li>Goal: <strong>neutral, not excited</strong></li>
-            </ul>
-
-            <h4 style="margin-top: 1.25rem;">Step 3: Let the older dog correct (within reason)</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">This is where people panic. A growl, air snap, or walking away is NORMAL. They're saying "back up, you're annoying."</p>
-            <div class="versus" style="margin-top: 0.75rem; margin-bottom: 0.75rem;">
-              <div class="versus__do">
-                <div class="versus__label">What's okay</div>
-                <ul style="list-style: none; font-size: 0.9rem;">
-                  <li>Quick correction</li>
-                  <li>No/light contact</li>
-                  <li>Puppy backs off</li>
+        <div class="tl-panels">
+          <div class="tl-panel" data-stage="0">
+            <div class="tl-panel__head"><h3>Baby Baby</h3><span class="tl-panel__vibe">the cute-but-clueless phase</span></div>
+            <p class="tl-panel__brain">EVERYTHING IS NEW. Peak socialization mode — their brain is a sponge. First fear period around 8-10 weeks. A single scary experience can have lasting effects.</p>
+            <div class="tl-panel__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>Socialization (people, sounds, surfaces)</li>
+                  <li>Crate training + potty schedule</li>
+                  <li>Name recognition</li>
+                  <li>Hand feeding + recall game</li>
+                  <li>Bite inhibition (soft mouth)</li>
+                  <li>Handling (paws, ears, mouth + treats)</li>
                 </ul>
               </div>
-              <div class="versus__dont">
-                <div class="versus__label">NOT okay — intervene</div>
-                <ul style="list-style: none; font-size: 0.9rem;">
-                  <li>Prolonged aggression</li>
-                  <li>Pinning + not releasing</li>
-                  <li>Escalating intensity</li>
+              <div>
+                <h4>Don't freak out about</h4>
+                <ul>
+                  <li>Potty accidents (they can't hold it)</li>
+                  <li>Biting everything (mouth = hands)</li>
+                  <li>2-minute attention span</li>
+                </ul>
+                <h4 style="margin-top: 0.75rem;">Common mistakes</h4>
+                <ul class="tl-panel__mistakes">
+                  <li>Skipping socialization</li>
+                  <li>Not enforcing naps</li>
+                  <li>Punishing potty accidents</li>
                 </ul>
               </div>
             </div>
+            <p class="tl-panel__tip">5 min walks per month of age. Let them sniff. No marathons.</p>
+          </div>
 
-            <h4 style="margin-top: 1.25rem;">Step 4: Advocate for the older dog</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">Your job is NOT to protect the puppy from everything. Your job is to <strong>protect the older dog from the puppy's chaos.</strong> If puppy is being annoying: interrupt, redirect, give them something else to do. Your older dog is not a babysitter.</p>
+          <div class="tl-panel" data-stage="1">
+            <div class="tl-panel__head"><h3>Teething Gremlin</h3><span class="tl-panel__vibe">why is everything in their mouth</span></div>
+            <p class="tl-panel__brain">Baby teeth falling out, adult teeth coming in. Their mouth hurts. Everything must be chewed.</p>
+            <div class="tl-panel__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>LOTS of chew options (frozen Kongs, bully sticks)</li>
+                  <li>Continue socialization (window closing at ~16 wks)</li>
+                  <li>Basic obedience: sit, down, stay</li>
+                  <li>Start leave it + drop it</li>
+                  <li>Loose leash walking practice</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Don't freak out about</h4>
+                <ul>
+                  <li>Biting getting worse (teething pain)</li>
+                  <li>Finding tiny teeth on the floor</li>
+                  <li>Chewing intensity peaking</li>
+                </ul>
+                <h4 style="margin-top: 0.75rem;">Common mistakes</h4>
+                <ul class="tl-panel__mistakes">
+                  <li>Thinking socialization window is "later"</li>
+                  <li>Not enough chew options</li>
+                  <li>Too many commands at once</li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
-            <h4 style="margin-top: 1.25rem;">Step 5: Manage energy + keep it short</h4>
-            <ul style="font-size: 0.9rem; line-height: 1.8; padding-left: 1rem;">
-              <li>Walk/play with puppy BEFORE introductions. Take the edge off</li>
-              <li>Keep sessions short and controlled</li>
-              <li>End on neutral or positive — not "we let it go until something bad happened"</li>
-            </ul>
+          <div class="tl-panel" data-stage="2">
+            <div class="tl-panel__head"><h3>Teenage Dirtbag</h3><span class="tl-panel__vibe">they know what you want and are choosing not to do it</span></div>
+            <p class="tl-panel__brain">Independence increasing. They're testing boundaries. Like a tween who just discovered free will.</p>
+            <div class="tl-panel__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>Consistency — they're testing if rules are real</li>
+                  <li>Recall on a long line (15-30 ft)</li>
+                  <li>Impulse control drills</li>
+                  <li>On/off switch practice</li>
+                  <li>Place/mat training</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Don't freak out about</h4>
+                <ul>
+                  <li>Selective hearing (choosing, not forgetting)</li>
+                  <li>Peak puppy energy</li>
+                  <li>Regression on learned behaviors</li>
+                </ul>
+                <h4 style="margin-top: 0.75rem;">Common mistakes</h4>
+                <ul class="tl-panel__mistakes">
+                  <li>Giving up on recall</li>
+                  <li>Off-leash before recall is solid</li>
+                  <li>Not enough mental stimulation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
-            <h4 style="margin-top: 1.25rem;">Step 6: Teach the puppy to disengage</h4>
-            <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">This is huge. Reward: puppy choosing to walk away, puppy ignoring the older dog, calm coexistence. Neutral is a win.</p>
+          <div class="tl-panel" data-stage="3">
+            <div class="tl-panel__head"><h3>Full Adolescent Chaos</h3><span class="tl-panel__vibe">most dogs get surrendered here. don't give up.</span></div>
+            <p class="tl-panel__brain">Brain is literally rewiring. Sexual maturity. Possible second fear period (6-14 months). Everything feels inconsistent.</p>
+            <div class="tl-panel__cols">
+              <div>
+                <h4>Focus on</h4>
+                <ul>
+                  <li>PATIENCE. This is the hardest part.</li>
+                  <li>Continue all training — don't assume they "know it"</li>
+                  <li>Increase mental stimulation</li>
+                  <li>Practice in new environments</li>
+                  <li>Stay calm during second fear period</li>
+                </ul>
+              </div>
+              <div>
+                <h4>Real talk</h4>
+                <p>They haven't "forgotten" everything. Their brain is reorganizing. Like a teenager who suddenly can't do dishes even though they've done them 100 times. Keep showing up. It clicks eventually.</p>
+              </div>
+            </div>
+          </div>
 
-            <h4 style="margin-top: 1.25rem;">Step 7: Separate when needed</h4>
-            <p style="font-size: 0.9rem;">Crates, gates, rotation = normal, healthy, necessary. They don't need to be together 24/7. Don't create beef where there doesn't need to be beef.</p>
-
-            <div class="callout callout--tip" style="margin-top: 1rem;">
-              <span class="callout__label">final note</span>
-              You're not creating best friends immediately. You're creating <strong>respect</strong>. Friendship comes later.
+          <div class="tl-panel" data-stage="4">
+            <div class="tl-panel__head"><h3>Finally a Dog</h3><span class="tl-panel__vibe">you survived. they survived. everyone survived.</span></div>
+            <p class="tl-panel__brain">Behavioral stabilization. Full emotional maturity (up to 2-3 years for large breeds). The foundation you built is paying off.</p>
+            <div class="tl-panel__cols">
+              <div>
+                <h4>Keep doing</h4>
+                <ul>
+                  <li>Training is ongoing. Not a phase. A lifestyle.</li>
+                  <li>Mental enrichment daily</li>
+                  <li>Recall practice (always worth it)</li>
+                  <li>New experiences + socialization</li>
+                </ul>
+              </div>
+              <div>
+                <h4>You did it</h4>
+                <p>If you've been consistent through the chaos, you now have a dog who understands how the world works. They know what gets them what they want. And hopefully... it's calm.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -302,16 +578,475 @@
   </div>
 </section>
 
+<!-- ============ LET'S GET INTO IT ============ -->
+<section class="section--cream">
+  <div class="container container--narrow">
+    <div class="fade-in" style="text-align: center;">
+      <h2>Let's get into it</h2>
+      <div class="hero-cards" style="margin-top: 1.5rem;">
+        <a href="drills.html" class="learn-card learn-card--hero">
+          <div class="learn-card__title">Training drills</div>
+          <div class="learn-card__desc">Quick, repeatable exercises you can do right now. 2-5 minutes each. Recall, impulse control, on/off switch, door manners — the stuff that actually changes behavior.</div>
+          <span class="learn-card__go">start drilling →</span>
+        </a>
+        <a href="modules.html" class="learn-card learn-card--hero">
+          <div class="learn-card__title">Training modules</div>
+          <div class="learn-card__desc">Deep dives into the big topics — crate training, potty, socialization, leash walking, separation anxiety, and more. Everything you need, explained like a friend would.</div>
+          <span class="learn-card__go">go deeper →</span>
+        </a>
+      </div>
+      <a href="glossary.html" class="glossary-link">glossary — dog training terms translated into human →</a>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
   <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
   <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
-  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
 </footer>
 
-<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
-  <span>🚨</span> my dog is being insane
-</button>
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
 
-<script src="script.js"></script>
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+
+<script>
+// Day cycle build-on-scroll
+(function() {
+  const wrap = document.getElementById('dayCycleWrap');
+  if (!wrap) return;
+  const items = wrap.querySelectorAll('.day-cycle__item');
+  const arrows = wrap.querySelectorAll('.day-cycle__arrow');
+  const repeat = wrap.querySelector('.day-cycle__repeat');
+
+  function update() {
+    const rect = wrap.getBoundingClientRect();
+    const trigger = window.innerHeight * 0.75;
+    if (rect.top < trigger) {
+      const progress = Math.min(1, (trigger - rect.top) / (window.innerHeight * 0.4));
+      const total = items.length;
+      const lit = Math.ceil(progress * total);
+      items.forEach((item, i) => {
+        if (i < lit) {
+          item.classList.add('day-cycle__item--active');
+        } else {
+          item.classList.remove('day-cycle__item--active');
+        }
+      });
+      arrows.forEach((a, i) => {
+        a.style.opacity = i < lit - 1 ? '1' : '0.3';
+      });
+      if (repeat) repeat.style.opacity = progress >= 1 ? '1' : '0.3';
+    }
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// Timeline pill bar click → toggle dropdown
+(function() {
+  const pills = document.querySelectorAll('.tl-bar__item');
+  const panels = document.querySelectorAll('.tl-panel');
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const stage = pill.dataset.stage;
+      const wasActive = pill.classList.contains('tl-bar__item--active');
+      pills.forEach(p => p.classList.remove('tl-bar__item--active'));
+      panels.forEach(p => p.classList.remove('tl-panel--active'));
+      if (!wasActive) {
+        pill.classList.add('tl-bar__item--active');
+        document.querySelector('.tl-panel[data-stage="' + stage + '"]').classList.add('tl-panel--active');
+      }
+    });
+  });
+})();
+
+// ============ TRIAGE DECISION TREE ============
+(function() {
+  const tree = {
+    start: {
+      question: "What's going on right now?",
+      options: [
+        { label: "Barking / whining", next: "bark1" },
+        { label: "Biting / nipping", next: "bite1" },
+        { label: "Won't settle", next: "settle1" },
+        { label: "Zoomies / chaos", next: "zoom1" },
+        { label: "Potty accident", next: "potty1" },
+        { label: "Not sure", next: "unsure1" }
+      ]
+    },
+
+    // === WON'T SETTLE ===
+    settle1: {
+      question: "Has your puppy slept in the last 1–2 hours?",
+      options: [
+        { label: "Yes", next: "settle2" },
+        { label: "No", next: "settle_tired" },
+        { label: "I don't know", next: "settle_tired" }
+      ]
+    },
+    settle2: {
+      question: "Have they had any play or training recently?",
+      options: [
+        { label: "Yes", next: "settle_skill" },
+        { label: "No", next: "settle_bored" }
+      ]
+    },
+    settle_tired: {
+      result: true,
+      title: "This is a sleep problem.",
+      subtitle: "Your puppy is overtired.",
+      explain: "Puppies don't wind down when they're tired — they spiral.",
+      steps: [
+        "Put them in the crate",
+        "Make the space dark + quiet",
+        "No interaction",
+        "Let them fall asleep"
+      ],
+      link: { label: "Learn about crate training", href: "modules.html#mod-crate" }
+    },
+    settle_bored: {
+      result: true,
+      title: "They need stimulation.",
+      subtitle: "They're not tired — they're bored.",
+      explain: "A bored puppy invents their own fun. You won't like it.",
+      steps: [
+        "10–15 minutes of structured play or training",
+        "Try a puzzle feeder or frozen Kong",
+        "Then try settling again"
+      ],
+      link: { label: "See calm drills", href: "drills.html" }
+    },
+    settle_skill: {
+      result: true,
+      title: "They don't know how to settle yet.",
+      subtitle: "This is a skill, not a personality trait.",
+      explain: "You didn't break anything. They just haven't learned this yet.",
+      steps: [
+        "Practice place / settle training",
+        "Reward any calm behavior you see",
+        "Lower the environment stimulation"
+      ],
+      link: { label: "Learn about calm", href: "modules.html#mod-calm" }
+    },
+
+    // === BARKING / WHINING ===
+    bark1: {
+      question: "Where are they right now?",
+      options: [
+        { label: "In the crate", next: "bark_crate" },
+        { label: "At a window / door", next: "bark_window" },
+        { label: "Following me around", next: "bark_follow" }
+      ]
+    },
+    bark_crate: {
+      question: "How long have they been in there?",
+      options: [
+        { label: "Less than 10 minutes", next: "bark_crate_short" },
+        { label: "More than 30 minutes", next: "bark_crate_long" }
+      ]
+    },
+    bark_crate_short: {
+      result: true,
+      title: "They're testing it.",
+      subtitle: "This is normal crate adjustment.",
+      explain: "If you let them out now, you just taught them that noise = freedom.",
+      steps: [
+        "Wait it out — don't make eye contact",
+        "The SECOND they're quiet, calmly reward",
+        "Build duration slowly over days"
+      ],
+      link: { label: "Learn about crate training", href: "modules.html#mod-crate" }
+    },
+    bark_crate_long: {
+      result: true,
+      title: "Check their needs first.",
+      subtitle: "They might actually need something.",
+      explain: "After 30+ minutes, it's fair to check: potty, water, been too long for their age.",
+      steps: [
+        "Take them out for a calm potty break",
+        "No play, no excitement — just business",
+        "Put them back in with a chew or Kong"
+      ],
+      link: { label: "Learn about potty", href: "modules.html#mod-potty" }
+    },
+    bark_window: {
+      result: true,
+      title: "They want something out there.",
+      subtitle: "Barking at the window is self-rewarding.",
+      explain: "Every bark feels productive to them. You need to break the pattern.",
+      steps: [
+        "Block visual access (close blinds, move them away)",
+        "Redirect to a chew or training game",
+        "Reward quiet moments near the window later"
+      ],
+      link: { label: "Learn about manners", href: "modules.html#mod-manners" }
+    },
+    bark_follow: {
+      result: true,
+      title: "They need something from you.",
+      subtitle: "Run through the checklist.",
+      explain: "They're communicating. Figure out what they want, then decide if they get it.",
+      steps: [
+        "Potty? Take them out",
+        "Hungry? Check the schedule",
+        "Bored? Quick training session",
+        "Tired? Crate nap time"
+      ],
+      link: { label: "Learn about calm", href: "modules.html#mod-calm" }
+    },
+
+    // === BITING / NIPPING ===
+    bite1: {
+      question: "How hard are they biting?",
+      options: [
+        { label: "Hard — it hurts", next: "bite_hard" },
+        { label: "Soft mouthing", next: "bite_soft" },
+        { label: "Can't tell", next: "bite_hard" }
+      ]
+    },
+    bite_hard: {
+      result: true,
+      title: "Fun ends. Immediately.",
+      subtitle: "Hard bite = everything stops.",
+      explain: "Don't yell. Don't push them away. That's still engagement. Just disappear.",
+      steps: [
+        "Say nothing — stand up, turn away",
+        "Leave the room for 30 seconds",
+        "Come back and try again",
+        "If it happens again, crate break with a chew"
+      ],
+      link: { label: "Learn about biting", href: "modules.html#mod-biting" }
+    },
+    bite_soft: {
+      result: true,
+      title: "This is actually normal.",
+      subtitle: "Soft mouthing is how they explore.",
+      explain: "You don't need to stop ALL mouthing right away. You need to stop the hard stuff first.",
+      steps: [
+        "Redirect to a toy or chew",
+        "If they keep going back to your hand, give a brief timeout",
+        "Praise gentle mouth contact for now"
+      ],
+      link: { label: "Learn about biting", href: "modules.html#mod-biting" }
+    },
+
+    // === ZOOMIES / CHAOS ===
+    zoom1: {
+      question: "When did they last sleep?",
+      options: [
+        { label: "Less than an hour ago", next: "zoom_energy" },
+        { label: "A while ago", next: "zoom_tired" },
+        { label: "Not sure", next: "zoom_tired" }
+      ]
+    },
+    zoom_energy: {
+      result: true,
+      title: "They have energy to burn.",
+      subtitle: "This is normal post-nap chaos.",
+      explain: "They're not broken. They're charged up. Use it.",
+      steps: [
+        "Quick play session or training drill (5 min)",
+        "Recall game, tug, or fetch",
+        "Then settle with a chew"
+      ],
+      link: { label: "See calm drills", href: "drills.html" }
+    },
+    zoom_tired: {
+      result: true,
+      title: "These are overtired zoomies.",
+      subtitle: "They're not hyper — they're exhausted.",
+      explain: "Puppies don't wind down. They wind UP. Then crash. Help them skip to the crash.",
+      steps: [
+        "Crate or pen with something to chew",
+        "Dark, quiet space",
+        "They'll probably pass out in 10 minutes"
+      ],
+      link: { label: "Learn about crate training", href: "modules.html#mod-crate" }
+    },
+
+    // === POTTY ACCIDENT ===
+    potty1: {
+      question: "Did you see it happen?",
+      options: [
+        { label: "Yes, just now", next: "potty_caught" },
+        { label: "No, found it after", next: "potty_after" },
+        { label: "This keeps happening", next: "potty_repeat" }
+      ]
+    },
+    potty_caught: {
+      result: true,
+      title: "Interrupt and redirect.",
+      subtitle: "You caught it — that's actually good.",
+      explain: "Don't punish. Don't yell. Just get them outside.",
+      steps: [
+        "Calmly pick them up or lead them out",
+        "Wait until they finish outside",
+        "Reward IMMEDIATELY when they go outside",
+        "Clean inside with enzymatic cleaner"
+      ],
+      link: { label: "Learn about potty", href: "modules.html#mod-potty" }
+    },
+    potty_after: {
+      result: true,
+      title: "Too late to correct.",
+      subtitle: "They have no idea what you're upset about.",
+      explain: "If you didn't catch it in the act, the learning window is closed. Just clean it up.",
+      steps: [
+        "Clean with enzymatic cleaner (not regular soap)",
+        "Take them outside more frequently",
+        "Supervise more closely or contain when you can't watch"
+      ],
+      link: { label: "Learn about potty", href: "modules.html#mod-potty" }
+    },
+    potty_repeat: {
+      result: true,
+      title: "Your schedule needs work.",
+      subtitle: "Repeated accidents = a management problem, not a dog problem.",
+      explain: "They're not doing it on purpose. They literally can't hold it or don't know where to go yet.",
+      steps: [
+        "Take them out every 1–2 hours + after eating, sleeping, playing",
+        "Keep them in sight or contained at all times",
+        "Reward EVERY outdoor success — like they just won a Nobel Prize"
+      ],
+      link: { label: "Learn about potty", href: "modules.html#mod-potty" }
+    },
+
+    // === NOT SURE ===
+    unsure1: {
+      question: "Quick needs check — have they done all of these recently?",
+      options: [
+        { label: "They haven't eaten", next: "unsure_food" },
+        { label: "They haven't been outside", next: "unsure_potty" },
+        { label: "They haven't slept", next: "unsure_sleep" },
+        { label: "All needs are met", next: "unsure_met" }
+      ]
+    },
+    unsure_food: {
+      result: true,
+      title: "Feed them first.",
+      subtitle: "Hungry puppies can't focus.",
+      explain: "Check the schedule. A lot of behavior issues are just... hunger.",
+      steps: [
+        "Feed their next meal (or a portion of it)",
+        "Use it for a quick training session if possible",
+        "Reassess behavior after eating"
+      ],
+      link: { label: "Learn about calm", href: "modules.html#mod-calm" }
+    },
+    unsure_potty: {
+      result: true,
+      title: "Take them outside.",
+      subtitle: "A full bladder makes everything worse.",
+      explain: "If they're restless and it's been a while, start here.",
+      steps: [
+        "Calm trip outside — same spot, same cue",
+        "Wait 3–5 minutes",
+        "Reward if they go, no big deal if they don't"
+      ],
+      link: { label: "Learn about potty", href: "modules.html#mod-potty" }
+    },
+    unsure_sleep: {
+      result: true,
+      title: "They need a nap.",
+      subtitle: "Puppies need 18–20 hours of sleep per day.",
+      explain: "If it's been more than 1–2 hours awake, they're probably overtired.",
+      steps: [
+        "Crate with a chew or Kong",
+        "Dark, quiet environment",
+        "They'll probably fight it for 5 min then crash"
+      ],
+      link: { label: "Learn about crate training", href: "modules.html#mod-crate" }
+    },
+    unsure_met: {
+      result: true,
+      title: "They might need enrichment.",
+      subtitle: "Needs met + still restless = bored brain.",
+      explain: "Physical needs are handled. Now give them something to think about.",
+      steps: [
+        "Puzzle feeder or snuffle mat",
+        "Short training drill (2–5 min)",
+        "Scatter feeding in the yard"
+      ],
+      link: { label: "See calm drills", href: "drills.html" }
+    }
+  };
+
+  let history = [];
+
+  window.openTriage = function() {
+    history = [];
+    document.getElementById('triageOverlay').classList.add('triage-overlay--open');
+    document.body.style.overflow = 'hidden';
+    renderStep('start');
+  };
+
+  window.closeTriage = function() {
+    document.getElementById('triageOverlay').classList.remove('triage-overlay--open');
+    document.body.style.overflow = '';
+  };
+
+  function renderStep(nodeId) {
+    const node = tree[nodeId];
+    const body = document.getElementById('triageBody');
+    const progress = document.getElementById('triageProgress');
+
+    history.push(nodeId);
+    const step = history.length - 1;
+    const dots = Math.min(step, 3);
+    progress.innerHTML = Array.from({length: 3}, (_, i) =>
+      '<span class="triage-dot' + (i < dots ? ' triage-dot--filled' : '') + '"></span>'
+    ).join('');
+
+    if (node.result) {
+      body.innerHTML =
+        '<div class="triage-result">' +
+          '<h3 class="triage-result__title">' + node.title + '</h3>' +
+          '<p class="triage-result__subtitle">' + node.subtitle + '</p>' +
+          '<p class="triage-result__explain">' + node.explain + '</p>' +
+          '<div class="triage-result__steps">' +
+            '<p class="triage-result__do">Do this right now:</p>' +
+            '<ul>' + node.steps.map(s => '<li>' + s + '</li>').join('') + '</ul>' +
+          '</div>' +
+          '<div class="triage-result__ctas">' +
+            '<a href="' + node.link.href + '" class="triage-result__btn">' + node.link.label + '</a>' +
+            '<button class="triage-result__restart" onclick="openTriage()">Start over</button>' +
+          '</div>' +
+        '</div>';
+      localStorage.setItem('puppy_triage_last', nodeId);
+    } else {
+      body.innerHTML =
+        '<div class="triage-step">' +
+          '<h3 class="triage-step__question">' + node.question + '</h3>' +
+          '<div class="triage-step__options">' +
+            node.options.map(opt =>
+              '<button class="triage-step__opt" data-next="' + opt.next + '">' + opt.label + '</button>'
+            ).join('') +
+          '</div>' +
+        '</div>';
+
+      body.querySelectorAll('.triage-step__opt').forEach(btn => {
+        btn.addEventListener('click', () => renderStep(btn.dataset.next));
+      });
+    }
+  }
+})();
+</script>
+<script src="chatbot.js?v=14"></script>
 </body>
 </html>

@@ -24,29 +24,20 @@ document.querySelectorAll('.nav__links a').forEach(link => {
 // Nav scroll shadow + floating panic visibility
 window.addEventListener('scroll', () => {
   if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
-  // On index.html, hide panic button at top. On other pages, always show it.
-  const panic = document.getElementById('floatingPanic');
-  if (panic) {
-    const isHome = document.querySelector('.hero');
-    if (isHome) {
-      panic.classList.toggle('hidden', window.scrollY < 400);
-    }
-    // On other pages, always visible (no .hidden class)
-  }
 });
 
 // ---- OSCILLATING HERO TEXT ----
 const scenarios = [
-  'barking at nothing',
-  'biting your hands',
-  'crying in the crate',
-  'zooming around the house',
-  'pulling on the leash',
-  'jumping on everyone',
-  'ignoring you completely',
-  'destroying your shoes',
+  'biting my hands',
+  'barking at absolutely nothing',
+  'crying in the crate again',
+  'running around like a psycho',
+  'pulling me down the street',
+  'jumping on everyone I know',
+  'completely ignoring me',
+  'eating my favorite shoes',
   'having a full meltdown',
-  'being a tiny terrorist'
+  'being a tiny adorable terrorist'
 ];
 
 let currentScenario = 0;
@@ -65,6 +56,59 @@ function cycleScenario() {
 if (oscillatingEl) {
   setInterval(cycleScenario, 2500);
 }
+
+// ---- HERO SEARCH + SUGGESTIONS ----
+function showSuggestions() {
+  const box = document.getElementById('heroSuggestions');
+  if (box) box.style.display = 'flex';
+}
+
+function hideSuggestions() {
+  setTimeout(() => {
+    const box = document.getElementById('heroSuggestions');
+    if (box) box.style.display = 'none';
+  }, 200);
+}
+
+function filterSuggestions(query) {
+  const box = document.getElementById('heroSuggestions');
+  if (!box) return;
+  const q = query.toLowerCase().trim();
+  const btns = box.querySelectorAll('.hero__suggestion');
+  btns.forEach(btn => {
+    btn.style.display = btn.textContent.toLowerCase().includes(q) || !q ? '' : 'none';
+  });
+  // If they typed something custom and hit enter
+  if (q) box.style.display = 'flex';
+}
+
+function pickSuggestion(scenario) {
+  const input = document.getElementById('heroSearch');
+  if (input) input.value = '';
+  const box = document.getElementById('heroSuggestions');
+  if (box) box.style.display = 'none';
+  startTriage(scenario);
+}
+
+// Submit hero search on Enter
+document.addEventListener('DOMContentLoaded', () => {
+  const heroSearch = document.getElementById('heroSearch');
+  if (heroSearch) {
+    heroSearch.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = heroSearch.value.trim();
+        if (val) {
+          const box = document.getElementById('heroSuggestions');
+          if (box) box.style.display = 'none';
+          startTriage('custom', val);
+          heroSearch.value = '';
+        }
+      }
+    });
+    heroSearch.addEventListener('blur', hideSuggestions);
+  }
+});
 
 // ---- TABS ----
 function switchTab(tabGroupId, tabId) {
@@ -307,6 +351,217 @@ function saveTrackerData(data) {
   localStorage.setItem(TRACKER_KEY, JSON.stringify(data));
 }
 
+// ---- JOURNAL CONVERSATION ENGINE ----
+let journalStep = 0;
+let journalEntries = [];
+
+const journalQuestions = [
+  {
+    bot: "hey! tell me the good and the bad of today. what went well with your pup?",
+    type: 'good',
+    placeholder: "the good stuff..."
+  },
+  {
+    bot: "love that. now the real talk — what went sideways? no judgment, just honesty.",
+    type: 'bad',
+    placeholder: "the not-so-great stuff..."
+  },
+  {
+    followUp: true // dynamic follow-up based on what they said
+  }
+];
+
+function initJournal() {
+  const messages = document.getElementById('journalMessages');
+  if (!messages) return;
+
+  messages.innerHTML = '';
+  journalStep = 0;
+  journalEntries = [];
+
+  addJournalBot(journalQuestions[0].bot);
+  updateJournalPlaceholder();
+}
+
+function addJournalBot(text, options) {
+  const messages = document.getElementById('journalMessages');
+  if (!messages) return;
+
+  const msg = document.createElement('div');
+  msg.className = 'journal__msg journal__msg--bot';
+  msg.innerHTML = text.replace(/\n/g, '<br>');
+
+  if (options) {
+    const optDiv = document.createElement('div');
+    optDiv.className = 'journal__msg--options';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'journal__opt';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => {
+        // Disable all options
+        optDiv.querySelectorAll('.journal__opt').forEach(b => { b.disabled = true; b.style.opacity = '0.5'; });
+        addJournalUser(opt.label);
+        if (opt.action) opt.action();
+      });
+      optDiv.appendChild(btn);
+    });
+    msg.appendChild(optDiv);
+  }
+
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addJournalUser(text) {
+  const messages = document.getElementById('journalMessages');
+  if (!messages) return;
+
+  const msg = document.createElement('div');
+  msg.className = 'journal__msg journal__msg--user';
+  msg.textContent = text;
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function updateJournalPlaceholder() {
+  const input = document.getElementById('journalInput');
+  if (!input) return;
+  const q = journalQuestions[journalStep];
+  if (q && q.placeholder) {
+    input.placeholder = q.placeholder;
+  } else {
+    input.placeholder = 'Type here...';
+  }
+}
+
+function submitJournalEntry() {
+  const input = document.getElementById('journalInput');
+  if (!input || !input.value.trim()) return;
+
+  const text = input.value.trim();
+  input.value = '';
+  addJournalUser(text);
+
+  const step = journalStep;
+  journalStep++;
+
+  if (step === 0) {
+    // They told us the good — log as calm
+    logBehavior('calm', text);
+    journalEntries.push({ type: 'good', text });
+
+    setTimeout(() => {
+      addJournalBot(journalQuestions[1].bot);
+      updateJournalPlaceholder();
+    }, 600);
+
+  } else if (step === 1) {
+    // They told us the bad — log as chaos
+    logBehavior('chaos', text);
+    journalEntries.push({ type: 'bad', text });
+
+    // Follow up with interview question
+    setTimeout(() => {
+      askFollowUp(text);
+    }, 600);
+
+  } else {
+    // Additional follow-ups
+    journalEntries.push({ type: 'followup', text });
+
+    setTimeout(() => {
+      wrapUpJournal();
+    }, 600);
+  }
+}
+
+function askFollowUp(badText) {
+  const lower = badText.toLowerCase();
+
+  let question = "ok real talk... when that happened, did you accidentally reinforce it? like, did they get what they wanted?";
+  let options = [
+    { label: "yeah... I gave in", action: () => handleFollowUp('gave_in') },
+    { label: "no, I held strong", action: () => handleFollowUp('held') },
+    { label: "honestly not sure", action: () => handleFollowUp('unsure') }
+  ];
+
+  if (lower.includes('bark') || lower.includes('whine') || lower.includes('cry')) {
+    question = "when they were doing that... did you give them attention? even saying \"shh\" or looking at them counts.";
+  } else if (lower.includes('bit') || lower.includes('mouth') || lower.includes('nip')) {
+    question = "when they bit you... did you pull away fast, push them, or keep playing? all of those reward biting btw.";
+  } else if (lower.includes('jump')) {
+    question = "when they jumped... did anyone pet them, talk to them, or push them down? all attention, even negative, reinforces it.";
+  } else if (lower.includes('pull') || lower.includes('leash')) {
+    question = "when they pulled... did you keep walking forward? because that's literally telling them pulling works.";
+  } else if (lower.includes('crate') || lower.includes('kennel')) {
+    question = "did you open the crate while they were fussing? even once? because that's all it takes.";
+  }
+
+  addJournalBot(question, options);
+  updateJournalPlaceholder();
+}
+
+function handleFollowUp(answer) {
+  journalEntries.push({ type: 'followup_answer', text: answer });
+
+  setTimeout(() => {
+    if (answer === 'gave_in') {
+      addJournalBot("hey, at least you're honest. that's more than most people. now you know what happened — and you can do it differently next time.\n\nthe fact that you're here tracking this means you care. that counts for a lot.");
+    } else if (answer === 'held') {
+      addJournalBot("that's huge. seriously. holding your ground when they're being chaotic is the hardest part and you did it. your dog learned something real today.");
+      // Log an extra calm point for holding strong
+      logBehavior('calm', 'Held strong during chaos');
+    } else {
+      addJournalBot("that's ok — start watching for it. the question is always: \"did my puppy get what they wanted from that behavior?\" if yes, you reinforced it. if no, you're on the right track.");
+    }
+
+    setTimeout(() => {
+      addJournalBot("anything else from today? or are we good?", [
+        { label: "I have more", action: () => { journalStep = 0; setTimeout(() => { addJournalBot("ok tell me more — what else happened?"); updateJournalPlaceholder(); }, 400); }},
+        { label: "that's it for today", action: () => wrapUpJournal() }
+      ]);
+    }, 800);
+  }, 500);
+}
+
+function wrapUpJournal() {
+  const { data, today } = getTrackerData();
+  const dayData = data[today];
+  const total = dayData.calm + dayData.chaos;
+
+  let summary = "nice work checking in today. ";
+  if (total === 0) {
+    summary += "even just thinking about this stuff puts you ahead of 90% of dog owners.";
+  } else if (dayData.calm > dayData.chaos) {
+    summary += `you're at ${Math.round((dayData.calm / total) * 100)}% calm today. your dog is learning that being chill gets them what they want. keep going.`;
+  } else if (dayData.calm === dayData.chaos) {
+    summary += "50/50 today. not bad, not great. the goal is just to tip the scale a little more toward calm each day.";
+  } else {
+    summary += `tough day — more chaos than calm. but here's the thing: you noticed. most people don't even get that far. tomorrow's a new day.`;
+  }
+
+  addJournalBot(summary);
+  updateTrackerUI();
+}
+
+function submitVoiceToJournal() {
+  const textEl = document.getElementById('voiceText');
+  const input = document.getElementById('journalInput');
+  if (textEl && input && textEl.value.trim()) {
+    input.value = textEl.value.trim();
+    cancelVoiceNote();
+    submitJournalEntry();
+  }
+}
+
+// Init journal on page load
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('journalMessages')) {
+    initJournal();
+  }
+});
+
 function logBehavior(type, description) {
   const { data, today } = getTrackerData();
   const now = new Date();
@@ -482,9 +737,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ---- TRIAGE OVERLAY ----
-function startTriage(scenario) {
+function startTriage(scenario, customText) {
   if (typeof openTriage === 'function') {
-    openTriage(scenario);
+    openTriage(scenario, customText);
   }
 }
 
@@ -494,7 +749,7 @@ function closeTriage() {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeTriage();
+  if (e.key === 'Escape') { closeTriage(); closeSiteSearch(); }
 });
 
 // ---- VOICE NOTE RECORDING ----
@@ -621,4 +876,113 @@ function cancelVoiceNote() {
   if (textEl) textEl.value = '';
   if (labelEl) labelEl.textContent = 'Record a note';
   if (iconEl) iconEl.textContent = '🎙️';
+}
+
+// ---- GENERIC CARD/DRILL FILTER ----
+function filterCards(selector, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll(selector).forEach(el => {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+  // Open/close drill groups based on whether they have visible drills
+  document.querySelectorAll('.drill-group').forEach(group => {
+    const hasVisible = Array.from(group.querySelectorAll('.drill-accordion')).some(d => d.style.display !== 'none');
+    if (q) {
+      group.open = hasVisible;
+      group.style.display = hasVisible ? '' : 'none';
+    } else {
+      group.open = false;
+      group.style.display = '';
+    }
+  });
+}
+
+// ---- SITE SEARCH OVERLAY ----
+const siteSearchIndex = [
+  // Glossary
+  { title: 'Capturing', desc: 'Rewarding behaviors the dog offers naturally', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Marker / marker word', desc: 'A sound that marks the moment the dog did the right thing', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Positive reinforcement', desc: 'Adding something good to make a behavior happen more', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Threshold', desc: 'The point where a stimulus becomes too intense to learn', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Shaping', desc: 'Reinforcing successive approximations toward a target behavior', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Luring', desc: 'Using a treat to physically guide the dog into position', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Impulse control', desc: 'Resisting an immediate desire for a better outcome', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Desensitization', desc: 'Gradual exposure to a stimulus at sub-threshold intensity', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Counter-conditioning', desc: 'Changing emotional response by pairing with something good', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Extinction burst', desc: 'Temporary increase in behavior when reinforcement is removed', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Place / mat training', desc: 'Teaching a dog to go to a spot and remain calmly', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Generalization', desc: 'A behavior learned in one context performed in new contexts', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Enrichment', desc: 'Activities that stimulate the mind and fulfill species-typical needs', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Management', desc: 'Environmental modification to prevent unwanted behaviors', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Fear period', desc: 'Developmental stages where puppies are hypersensitive', page: 'glossary.html', section: 'Glossary' },
+  { title: 'Dominance theory', desc: 'An outdated debunked framework from flawed wolf studies', page: 'glossary.html', section: 'Glossary' },
+  // Learn modules
+  { title: 'Crate training', desc: 'Making the crate a happy place, not a prison', page: 'learn.html', section: 'Learn' },
+  { title: 'Bite inhibition', desc: 'Teaching a land shark to have a soft mouth', page: 'learn.html', section: 'Learn' },
+  { title: 'Leash walking', desc: 'Getting them to stop pulling like a sled dog', page: 'learn.html', section: 'Learn' },
+  { title: 'Socialization', desc: 'Exposure to the world before the window closes', page: 'learn.html', section: 'Learn' },
+  { title: 'Potty training', desc: 'The schedule is everything', page: 'learn.html', section: 'Learn' },
+  { title: 'Desensitization & handling', desc: 'Baths, nails, vet visits — go slow, pair with food', page: 'learn.html', section: 'Learn' },
+  { title: 'Flying with your puppy', desc: 'Everything you need to know about air travel with a dog', page: 'learn.html', section: 'Learn' },
+  { title: 'Introducing to older dogs', desc: 'How to introduce your puppy to an existing dog', page: 'learn.html', section: 'Learn' },
+  // Drills
+  { title: 'The Recall Game', desc: 'GET IT / COME game with kibble', page: 'drills.html', section: 'Drills' },
+  { title: 'On/Off Switch', desc: 'READY to play, ENOUGH to settle', page: 'drills.html', section: 'Drills' },
+  { title: 'Leave It', desc: 'Impulse control with treats at levels', page: 'drills.html', section: 'Drills' },
+  { title: 'Place training', desc: 'Go to your mat and stay calm', page: 'drills.html', section: 'Drills' },
+  { title: 'Doorway manners', desc: 'Wait at the door, earn the walk', page: 'drills.html', section: 'Drills' },
+  { title: 'Settle', desc: 'Capturing calm with reward drops', page: 'drills.html', section: 'Drills' },
+  // Rules / philosophy
+  { title: 'The Only Rule', desc: 'Your puppy asks: did that work for me?', page: 'rules.html', section: 'The Rules' },
+  { title: 'Training 24/7', desc: 'Every reaction is a lesson, even when you don\'t mean it', page: 'rules.html', section: 'The Rules' },
+  { title: 'Meet needs first', desc: 'Food, potty, play, brain — then address behavior', page: 'rules.html', section: 'The Rules' },
+  { title: 'Emotional regulation', desc: 'Teaching your puppy to self-soothe and calm down', page: 'rules.html', section: 'The Rules' },
+  { title: 'Calm greetings', desc: 'Ignore chaos, reward calm when you come home', page: 'rules.html', section: 'The Rules' },
+  // Pages
+  { title: 'By Age guide', desc: 'What to focus on at each developmental stage', page: 'by-age.html', section: 'By Age' },
+  { title: 'Daily Routine', desc: 'Sample schedules by age from morning to night', page: 'routine.html', section: 'Routine' },
+  { title: 'Behavior Tracker', desc: 'Log calm vs chaos moments and track streaks', page: 'tracker.html', section: 'Tracker' },
+];
+
+function openSiteSearch() {
+  const overlay = document.getElementById('searchOverlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    const input = document.getElementById('siteSearchInput');
+    if (input) { input.value = ''; input.focus(); }
+    renderSearchResults('');
+  }
+}
+
+function closeSiteSearch() {
+  const overlay = document.getElementById('searchOverlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function renderSearchResults(query) {
+  const resultsEl = document.getElementById('searchResults');
+  if (!resultsEl) return;
+
+  const q = query.toLowerCase().trim();
+  if (!q) {
+    resultsEl.innerHTML = '<p style="color: var(--soft-gray); text-align: center; margin-top: 2rem;">Start typing to search across all pages</p>';
+    return;
+  }
+
+  const matches = siteSearchIndex.filter(item =>
+    item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q) || item.section.toLowerCase().includes(q)
+  );
+
+  if (matches.length === 0) {
+    resultsEl.innerHTML = `<p style="color: var(--soft-gray); text-align: center; margin-top: 2rem;">No results for "${q}"</p><p style="text-align: center; margin-top: 0.5rem;"><a href="index.html" style="color: var(--rust);">Try asking about it on the home page</a></p>`;
+    return;
+  }
+
+  resultsEl.innerHTML = matches.map(item =>
+    `<a href="${item.page}" class="search-result">
+      <span class="search-result__section">${item.section}</span>
+      <span class="search-result__title">${item.title}</span>
+      <span class="search-result__desc">${item.desc}</span>
+    </a>`
+  ).join('');
 }

@@ -3,28 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Drills — Puppy Training for Puppies</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐶</text></svg>">
+  <title>Training Drills — So you got a puppy</title>
+  <link rel="stylesheet" href="styles.css?v=13">
+
 </head>
 <body>
 
+<div class="marquee">
+  <div class="marquee__track">
+    <div class="marquee__content">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+    <div class="marquee__content" aria-hidden="true">
+      <span class="marquee__item">your puppy isn't broken</span><span class="marquee__dot"></span>
+      <span class="marquee__item">consistency is everything</span><span class="marquee__dot"></span>
+      <span class="marquee__item">reward what you like</span><span class="marquee__dot"></span>
+      <span class="marquee__item">calm = freedom</span><span class="marquee__dot"></span>
+      <span class="marquee__item">you're training 24/7</span><span class="marquee__dot"></span>
+      <span class="marquee__item">structure prevents chaos</span><span class="marquee__dot"></span>
+      <span class="marquee__item">tired brain > tired body</span><span class="marquee__dot"></span>
+      <span class="marquee__item">set them up to win</span><span class="marquee__dot"></span>
+      <span class="marquee__item">did that work for your puppy?</span><span class="marquee__dot"></span>
+    </div>
+  </div>
+</div>
+
 <nav class="nav" id="nav">
   <div class="nav__inner">
-    <a href="index.html" class="nav__logo"><span>🐶</span> Puppy Training for Puppies</a>
+    <a href="index.html" class="nav__logo">So you got a puppy</a>
     <button class="nav__hamburger" id="hamburger" aria-label="Menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <ul class="nav__links" id="navLinks">
-      <li><a href="index.html">Panic</a></li>
-      <li><a href="rules.html">The Rules</a></li>
-      <li><a href="learn.html">Learn</a></li>
-      <li><a href="drills.html" class="nav__link--active">Drills</a></li>
-      <li><a href="by-age.html">By Age</a></li>
-      <li><a href="routine.html">Routine</a></li>
+      <li><a href="learn.html" class="nav__link--active">Train</a></li>
       <li><a href="tracker.html">Tracker</a></li>
-      <li><a href="glossary.html">Glossary</a></li>
     </ul>
+    <button class="nav__search-btn" onclick="openSiteSearch()" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -32,92 +56,925 @@
   <div class="container">
     <div class="fade-in">
       <h2>Training drills</h2>
-      <p class="text-lg" style="margin-bottom: 2rem;">Quick exercises. 2-5 minutes each. Do them daily.</p>
+      <p class="text-lg" style="margin-bottom: 1.5rem;">Quick, repeatable exercises. Do them daily.</p>
 
-      <div class="grid grid--2">
-        <div class="drill">
-          <div class="drill__emoji">🎯</div>
-          <div class="drill__name">The Recall Game</div>
-          <div class="drill__age">All ages ✧ 3-5 min ✧ Meals</div>
-          <ol class="drill__steps">
-            <li>Grab a handful of kibble from their meal</li>
-            <li>Say <span class="cue-word cue-word--rust">"GET IT"</span> and throw a piece</li>
-            <li>When they look back, say <span class="cue-word cue-word--green">"COME"</span></li>
-            <li>When they come back, celebrate and throw another</li>
-            <li>Repeat until meal is done</li>
-          </ol>
-          <div class="drill__protip">Do this at every meal. By week 2, they'll come running before you even finish saying the word.</div>
-        </div>
+      <input type="text" class="glossary__search" placeholder="Search drills..." id="drillSearch" oninput="filterCards('#drills .drill-accordion', this.value)">
 
-        <div class="drill">
-          <div class="drill__emoji">🔄</div>
-          <div class="drill__name">On/Off Switch</div>
-          <div class="drill__age">8+ weeks ✧ 2-3 min ✧ Toy + treats</div>
-          <ol class="drill__steps">
-            <li>Say <span class="cue-word cue-word--rust">"READY??"</span> and play tug or fetch (30 sec)</li>
-            <li>Say <span class="cue-word cue-word--green">"ENOUGH"</span> and go completely still</li>
-            <li>Wait for them to settle (sit, lie down, or just stop being wild)</li>
-            <li>The SECOND they're calm → say "READY??" again</li>
-            <li>Repeat 3-4 cycles</li>
-          </ol>
-          <div class="drill__protip">You're teaching them that calm STARTS the fun again. The faster they settle, the faster they get to play.</div>
-        </div>
+      <div class="drill-list">
 
-        <div class="drill">
-          <div class="drill__emoji">✋</div>
-          <div class="drill__name">Leave It (Levels)</div>
-          <div class="drill__age">10+ weeks ✧ 2 min ✧ Treats</div>
-          <ol class="drill__steps">
-            <li><strong>Level 1:</strong> Treat in closed fist. Wait for them to back off. Mark + reward from OTHER hand</li>
-            <li><strong>Level 2:</strong> Treat on floor, cover with hand if they go for it</li>
-            <li><strong>Level 3:</strong> Treat on floor, uncovered. Reward from pocket</li>
-            <li><strong>Level 4:</strong> Drop treat while walking. Reward for ignoring</li>
-          </ol>
-          <div class="drill__protip">Only go to the next level when they nail the current one 8/10 times. Don't rush it.</div>
-        </div>
+        <details class="drill-group">
+          <summary class="drill-group__title">Crate<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-crate-reset">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Crate reset</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Toss a treat into the crate — let them go in and come right back out</li>
+              <li>Repeat 5–10 times with no door, no pressure</li>
+              <li>You're rebuilding the association: crate = good things, zero strings attached</li>
+            </ol>
+            <p class="drill-accordion__tip">Use this when your puppy hesitates at the crate or has had a bad experience recently.</p>
+          </div>
+        </details>
 
-        <div class="drill">
-          <div class="drill__emoji">🚪</div>
-          <div class="drill__name">Doorway Manners</div>
-          <div class="drill__age">10+ weeks ✧ 1-2 min ✧ Door + leash</div>
-          <ol class="drill__steps">
-            <li>Walk to the door with puppy on leash</li>
-            <li>Reach for the handle — if they get excited, remove hand and wait</li>
-            <li>Try again. Only open when they're calm(ish)</li>
-            <li>If they blast through, close door (gently) and reset</li>
-            <li>Calm puppy = door opens = jackpot treat outside</li>
-          </ol>
-          <div class="drill__protip">You're the passive aggressive teacher. Class doesn't start until everyone settles down.</div>
-        </div>
+        <details class="drill-accordion" id="drill-build-duration">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Build duration</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Puppy enters crate — close door for 5 seconds, then open</li>
+              <li>Repeat, adding 5–10 seconds each time</li>
+              <li>If they whine, wait for a pause in noise before opening</li>
+              <li>Always open the door when they're calm, never when fussing</li>
+            </ol>
+            <p class="drill-accordion__tip">Don't rush. 30 calm seconds is better than 5 anxious minutes.</p>
+          </div>
+        </details>
 
-        <div class="drill">
-          <div class="drill__emoji">🧘</div>
-          <div class="drill__name">Capturing Calm</div>
-          <div class="drill__age">All ages ✧ Ongoing ✧ Kibble in pocket</div>
-          <ol class="drill__steps">
-            <li>Carry kibble around the house (yes, like a crazy person)</li>
-            <li>When puppy lies down on their own → quietly toss them a treat</li>
-            <li>When puppy sits calmly → treat</li>
-            <li>When puppy makes eye contact → treat</li>
-            <li>Don't say anything. Just reward calm whenever you see it.</li>
-          </ol>
-          <div class="drill__protip">This is the most powerful drill that doesn't look like training. You're teaching them that chill = the best strategy in life.</div>
-        </div>
+        <details class="drill-accordion" id="drill-calm-entry-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Calm entry reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Stand near the crate with a treat — wait for your puppy to offer going in</li>
+              <li>Mark the moment they step inside — reward</li>
+              <li>Release them, then wait again</li>
+              <li>Repeat until they're choosing to go in without hesitation</li>
+            </ol>
+            <p class="drill-accordion__tip">You're teaching them the crate is their idea, not yours.</p>
+          </div>
+        </details>
+          </div>
+        </details>
 
-        <div class="drill">
-          <div class="drill__emoji">📛</div>
-          <div class="drill__name">Name Game</div>
-          <div class="drill__age">8+ weeks ✧ 1-2 min ✧ High value treats</div>
-          <ol class="drill__steps">
-            <li>Say their name ONE time (don't repeat it)</li>
-            <li>The instant they look at you → mark ("yes!") + treat</li>
-            <li>Wait a few seconds, then say their name again</li>
-            <li>Repeat 10 times</li>
-            <li>Practice in different rooms and with mild distractions</li>
-          </ol>
-          <div class="drill__protip">Their name should mean "look at me, something good is coming." Not "you're in trouble." Never use their name to scold them.</div>
-        </div>
-      </div>
+        <details class="drill-group">
+          <summary class="drill-group__title">Potty<span class="drill-group__count">2</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-schedule-reset">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Schedule reset</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Write down every time your puppy goes — for 3 full days</li>
+              <li>Mark whether it was inside or outside, and what happened right before</li>
+              <li>Use the pattern to build a schedule: out after waking, eating, play, every 1–2 hrs</li>
+            </ol>
+            <p class="drill-accordion__tip">If accidents are increasing, the schedule is the first thing to fix.</p>
+          </div>
+        </details>
+
+
+        <details class="drill-accordion" id="drill-potty-spot-focus">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Potty spot focus</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Take your puppy to the same spot every time</li>
+              <li>Stand still — no walking, no talking, no exploring</li>
+              <li>Give them 3–5 minutes to sniff and go</li>
+              <li>The moment they go → reward immediately at the spot</li>
+            </ol>
+            <p class="drill-accordion__tip">Wandering around the yard is the #1 reason potty trips take forever.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Calm<span class="drill-group__count">4</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-place-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Place reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Guide your puppy to their place (mat, bed, or towel)</li>
+              <li>Reward the moment they're on it — even if they're standing</li>
+              <li>Build toward lying down, then staying for 10, 20, 30 seconds</li>
+              <li>Release with a word like "free" — then repeat</li>
+            </ol>
+            <p class="drill-accordion__tip">Short successful reps > one long stressful one. Build slowly.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-capturing-calm">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Capturing calm</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Carry kibble around the house</li>
+              <li>When your puppy lies down on their own → quietly toss a treat</li>
+              <li>When they sit calmly or make soft eye contact → treat</li>
+              <li>Don't say anything. Just reward calm whenever you see it</li>
+            </ol>
+            <p class="drill-accordion__tip">The most powerful drill that doesn't look like training.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-duration-building">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Duration building</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Once your puppy holds place for 10 seconds reliably, start spacing rewards</li>
+              <li>Reward at 10 sec, then 20, then 30 — randomize slightly</li>
+              <li>If they break, reset calmly and start from a shorter interval</li>
+              <li>Add mild distractions only after duration is solid</li>
+            </ol>
+            <p class="drill-accordion__tip">Randomize reward timing so they don't learn to predict it and bail early.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-on-off-switch">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">On/off switch</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Get a toy your puppy loves. Hold it behind your back</li>
+              <li>Say <span class="cue-word cue-word--green">"READY?"</span> in an excited voice — then immediately play. Tug, chase, wrestling, whatever gets them fired up</li>
+              <li>After 10–15 seconds of play, say <span class="cue-word cue-word--green">"ENOUGH"</span> in a calm, flat tone. Stop all movement. Toy goes behind your back. Stand still</li>
+              <li>Wait for your puppy to settle — even a few seconds of stillness counts. The moment they calm down, mark it ("yes!") and the reward is saying <span class="cue-word cue-word--green">"READY?"</span> again — re-engaging in play is the reward. No food here.</li>
+              <li>Do 3–5 rounds. Sometimes you just say <span class="cue-word cue-word--green">"ENOUGH"</span> and walk away — game over. They need to learn that too.</li>
+              <li>Always end on a calm rep, not a play rep</li>
+            </ol>
+            <p class="drill-accordion__tip">This is one of the most powerful drills you can do. You're teaching your puppy that you control when the fun starts AND when it stops — and that coming down from excitement is just as rewarding as the excitement itself. The reward isn't food — it's getting to play again. "READY?" means go time. "ENOUGH" means it's over. They learn to switch states on your terms.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Recall<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-name-game">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Name game</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Toss a piece of kibble away from you — let them go get it</li>
+              <li>While they're still eating (or just about to finish), say their name once — don't repeat it</li>
+              <li>The instant they turn and run back to you → mark ("yes!") + reward with another piece of kibble</li>
+              <li>Toss the next piece away and repeat. Over and over. You want: name → sprint to you → reward</li>
+              <li>Do 10–15 reps. Try different rooms and different distances as they get it</li>
+            </ol>
+            <p class="drill-accordion__tip">Their name should mean "drop everything and run to mom/dad — something good is coming." Say it before they've finished eating so they're already in motion. Never use their name to scold. Every ignored rep weakens the cue, so only say it when they're likely to respond. <strong>Bonus:</strong> as they get better at this, start requiring more before the reward. Say their name + <span class="cue-word cue-word--green">"COME"</span>, and wait for a sit before you give the kibble. Raise the bar gradually.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-short-recall-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Short recall reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Stand 5–10 feet from your puppy</li>
+              <li>Say <span class="cue-word cue-word--green">"COME"</span> in an upbeat tone</li>
+              <li>When they arrive, reward heavily — treat party</li>
+              <li>Let them wander, then repeat</li>
+            </ol>
+            <p class="drill-accordion__tip">Keep distance short so they always succeed. If you call and they don't come, you were too far or there was too much going on. Don't repeat the cue — go get them, and next time make it easier. Every ignored recall teaches them "come" is optional.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-distraction-ladder">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Distraction ladder</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Start with recall in a quiet room (Level 1)</li>
+              <li>Move to a different room, then the backyard (Level 2)</li>
+              <li>Add a mild distraction — toy on the ground, another person (Level 3)</li>
+              <li>Take it outside on a long leash (Level 4)</li>
+              <li>Only move up when they're 8/10 reliable at the current level</li>
+              <li>Use a long line outside so you never have to give a recall you can't enforce</li>
+            </ol>
+            <p class="drill-accordion__tip">If they fail, you moved up too fast. Drop down and rebuild. The long line is your best friend — it means you never have to shout a command into the void and pray. Set them up so the right answer is easy.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Biting<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-redirect-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Redirect reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Keep a toy within reach at all times</li>
+              <li>The moment teeth touch skin, interrupt with "ah-ah" and present the toy</li>
+              <li>When they take the toy → praise and engage in play with it</li>
+              <li>Repeat every single time — consistency is everything</li>
+            </ol>
+            <p class="drill-accordion__tip">Speed matters. The faster you redirect, the clearer the lesson.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-reverse-timeout">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Reverse timeout</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>If biting continues after a redirect — stand up and turn away</li>
+              <li>Cross your arms, no eye contact, no talking</li>
+              <li>Wait 15–30 seconds, then re-engage calmly</li>
+              <li>If they bite again immediately → you leave the room for 30 seconds</li>
+            </ol>
+            <p class="drill-accordion__tip">You're not punishing — you're teaching that biting makes the fun person disappear.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-engagement-reset">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Engagement reset</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>If your puppy is in full shark mode, stop all interaction</li>
+              <li>Guide them to the crate or a calm area with a chew</li>
+              <li>Let them decompress for 5–10 minutes</li>
+              <li>Re-engage only when they've settled</li>
+            </ol>
+            <p class="drill-accordion__tip">Most biting spirals happen when the puppy is overtired. A reset is a kindness, not a punishment.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Manners<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-door-wait-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Door wait reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Approach the door — ask for a sit or just wait for stillness</li>
+              <li>Start opening the door slowly</li>
+              <li>If they rush forward → close the door, reset</li>
+              <li>If they stay → treat, then say <span class="cue-word cue-word--green">"LET'S GO"</span></li>
+              <li>Walk through together</li>
+            </ol>
+            <p class="drill-accordion__tip">The door is the test. Calm = it opens. Chaos = it closes. But if your puppy is already totally wired, don't even start this drill — manage with a leash and come back to it when they're in a state where they can actually think.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-threshold-training">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Threshold training</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Practice at any boundary — room to room, inside to outside, car door</li>
+              <li>Pause before crossing. Reward the pause</li>
+              <li>Release with a consistent word</li>
+              <li>Repeat at 3–4 different thresholds throughout the day</li>
+            </ol>
+            <p class="drill-accordion__tip">You're teaching a pattern: movement happens with permission, not impulse.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-leash-pressure-intro">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Leash pressure intro</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Clip the leash on inside the house — no destination</li>
+              <li>Apply light pressure in one direction</li>
+              <li>The moment your puppy yields toward you → mark + reward</li>
+              <li>Repeat in different directions — keep it short and low-pressure</li>
+            </ol>
+            <p class="drill-accordion__tip">This teaches them to follow leash guidance instead of fighting it. Start before you need it outside.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Socializing<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-distance-exposure">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Distance exposure</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Find a new stimulus — a person, dog, bike, sound — at a comfortable distance</li>
+              <li>Reward your puppy for noticing it calmly (look, then look back at you)</li>
+              <li>If they react, increase distance until they can observe without tension</li>
+              <li>Gradually decrease distance over multiple sessions</li>
+            </ol>
+            <p class="drill-accordion__tip">Distance is your best tool. If they can't be calm, you're too close.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-neutral-observation">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Neutral observation</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Sit somewhere with mild activity — a bench, a patio, a quiet park</li>
+              <li>Let your puppy watch people, dogs, or movement go by</li>
+              <li>Reward any calm behavior — sitting, lying down, soft eyes</li>
+              <li>Keep sessions short (5–10 min) and end before they get overwhelmed</li>
+            </ol>
+            <p class="drill-accordion__tip">They don't need to interact. Watching calmly is already a win.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-recovery-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Recovery reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>After a mild startle or new experience, give your puppy space</li>
+              <li>Don't comfort excessively — just be calm and present</li>
+              <li>Wait for them to reset on their own (shake off, look at you, relax)</li>
+              <li>Reward the recovery — that's the behavior you're building</li>
+            </ol>
+            <p class="drill-accordion__tip">How fast they bounce back matters more than whether they reacted.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Travel<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-carrier-comfort">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Carrier comfort</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Leave the carrier open at home with treats and a blanket inside</li>
+              <li>Let your puppy explore it freely — no closing, no pressure</li>
+              <li>Feed meals in the carrier once they're entering willingly</li>
+              <li>Gradually close the door for short periods while they eat or chew</li>
+            </ol>
+            <p class="drill-accordion__tip">Treat the carrier exactly like crate training. Same rules, smaller space.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-movement-simulation">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Movement simulation</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>With your puppy settled in the carrier, pick it up and walk around</li>
+              <li>Start with 30 seconds — set it down, reward calm</li>
+              <li>Gradually increase duration and add new locations (car, lobby, sidewalk)</li>
+              <li>Play ambient noise (airport sounds, engine noise) at low volume during sessions</li>
+            </ol>
+            <p class="drill-accordion__tip">You're teaching them that movement is boring. That's the goal.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-duration-build">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Duration build</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Once carrier + movement feel normal, start extending time inside</li>
+              <li>15 min → 30 min → 1 hr — always with a chew or Kong</li>
+              <li>Practice during calm periods, not when they're already wired</li>
+              <li>Simulate real travel: carrier under a table at a cafe, in the car for errands</li>
+            </ol>
+            <p class="drill-accordion__tip">If you can get 2 calm hours in a carrier at home, the flight will be fine.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Meeting people<span class="drill-group__count">3</span></summary>
+          <div class="drill-group__body">
+<details class="drill-accordion" id="drill-calm-greeting-setup">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Calm greeting setup</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Text your friend before they arrive: "Ignore the puppy completely until I say it's ok"</li>
+              <li>When they enter, they keep hands to themselves — no eye contact, no baby voice</li>
+              <li>Wait for your puppy to stop jumping, spinning, or whining</li>
+              <li>The second your puppy is calm (even briefly) — mark it and let your friend say hello</li>
+              <li>If the puppy escalates again, your friend goes back to ignoring</li>
+            </ol>
+            <p class="drill-accordion__tip">Coach the humans first. Most greeting chaos is a people problem, not a dog problem.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-door-knock-protocol">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Door knock protocol</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Have someone knock or ring the doorbell</li>
+              <li>Do NOT open the door yet — wait for your puppy to notice and react</li>
+              <li>Ask for a sit or just wait for any calm behavior</li>
+              <li>Reward the calm, then open the door slowly</li>
+              <li>If they lose it again, close the door and reset</li>
+              <li>Repeat until the knock doesn't trigger a meltdown</li>
+            </ol>
+            <p class="drill-accordion__tip">The doorbell is the trigger. You're teaching them that the sound means "settle," not "go crazy."</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-stranger-approach">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Stranger approach</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Have a friend your puppy hasn't met approach from a distance</li>
+              <li>If your puppy pulls, jumps, or loses focus — stop and wait</li>
+              <li>The friend only moves closer when your puppy is calm</li>
+              <li>If your puppy can't settle, increase distance and start again</li>
+              <li>Greeting only happens when all four paws are on the ground</li>
+            </ol>
+            <p class="drill-accordion__tip">You don't owe strangers access to your dog. "We're training" is a complete sentence.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Meeting dogs<span class="drill-group__count">11</span></summary>
+          <div class="drill-group__body">
+
+        <h4 class="drill-group__subtitle">Meeting dogs — in your home</h4>
+<details class="drill-accordion" id="drill-scent-swap">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Scent swap</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Rub a blanket or towel on your existing dog, then place it near the puppy's crate or bed</li>
+              <li>Do the same in reverse — give the older dog something with the puppy's scent</li>
+              <li>Watch both dogs' reactions. Curiosity is good. Stiffening or avoidance means slow down.</li>
+              <li>Repeat daily before the first face-to-face meeting</li>
+              <li>You're building familiarity before the pressure of a real introduction</li>
+            </ol>
+            <p class="drill-accordion__tip">Do this for at least 2-3 days before any in-person introduction. Scent is how dogs get to know each other first.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-gate-intro">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Gate intro</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Set up a baby gate or barrier between the two dogs</li>
+              <li>Let them see and sniff each other through the gate — no direct contact</li>
+              <li>Reward both dogs for calm behavior (soft body, loose tail, no barking)</li>
+              <li>If either dog stiffens, barks, or lunges — increase distance and try again later</li>
+              <li>Keep sessions short: 2-3 minutes, then separate</li>
+              <li>Gradually increase gate time over several days before removing the barrier</li>
+            </ol>
+            <p class="drill-accordion__tip">The gate lets both dogs opt out. That sense of control reduces stress for everyone.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-supervised-coexist">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Supervised coexist</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Both dogs in the same room — puppy on leash or tethered, older dog free to move</li>
+              <li>Give each dog their own chew or activity so they're focused on something, not each other</li>
+              <li>Reward both dogs periodically for ignoring each other — that's the behavior you want</li>
+              <li>If the puppy fixates on or pesters the older dog, redirect with a toy or remove the puppy briefly</li>
+              <li>End the session before either dog gets stressed — 10-15 minutes max early on</li>
+              <li>Always give the older dog the option to leave the room</li>
+            </ol>
+            <p class="drill-accordion__tip">Coexistence is the goal, not play. If they can be in the same room doing their own thing, that's a win.</p>
+          </div>
+        </details>
+
+        <h4 class="drill-group__subtitle">Meeting dogs — on the street</h4>
+<details class="drill-accordion" id="drill-watch-and-dismiss">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Watch and dismiss</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Find a spot where dogs pass at a comfortable distance — a park bench, sidewalk corner</li>
+              <li>When your puppy notices a dog, let them look briefly</li>
+              <li>The moment they look back at you (or you call their name and they respond) — reward heavily</li>
+              <li>Repeat: notice dog → check in with you → reward</li>
+              <li>If they can't look away, you're too close — move back</li>
+            </ol>
+            <p class="drill-accordion__tip">You're building the reflex: "I see a dog, I look at my person." That's the foundation of neutral behavior.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-street-pass">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Street pass</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Walk your puppy on a normal route where you'll encounter other dogs</li>
+              <li>When you spot a dog ahead, create space — cross the street or step to the side</li>
+              <li>Keep walking at a steady pace. Don't stop, don't tighten the leash, don't change your energy</li>
+              <li>Reward your puppy for continuing to walk with you past the other dog</li>
+              <li>If your puppy reacts (pulling, barking, fixating) — stop, wait for calm, then keep moving</li>
+              <li>The goal is passing another dog without it being an event</li>
+            </ol>
+            <p class="drill-accordion__tip">Your energy matters. If you tense up when you see another dog, your puppy feels it. Stay boring.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-body-block">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Body block</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Practice this at home first — have someone approach while you step between them and your puppy</li>
+              <li>Turn your body sideways so you're a wall between the approaching person/dog and your puppy</li>
+              <li>Stay calm. No yelling, no panic. Just calmly occupy the space</li>
+              <li>Say "we're training" or "give us space" — keep it simple</li>
+              <li>Once the person/dog passes, reward your puppy for staying behind you</li>
+              <li>On walks, use this anytime an off-leash dog or pushy stranger approaches</li>
+            </ol>
+            <p class="drill-accordion__tip">This isn't aggressive — it's advocacy. You're your puppy's only line of defense out there.</p>
+          </div>
+        </details>
+
+        <h4 class="drill-group__subtitle">Meeting dogs — off-leash and trails</h4>
+<details class="drill-accordion" id="drill-loose-leash-greeting">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Loose leash greeting</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>When a greeting is happening — planned or not — immediately drop tension on the leash</li>
+              <li>Don't reel your puppy in or hold them tight. A tight leash makes everything worse</li>
+              <li>Stand still, breathe, keep your body relaxed. Your puppy mirrors your energy</li>
+              <li>Let the dogs sniff briefly — 3-5 seconds is plenty</li>
+              <li>If things are calm, you can let it continue. If either dog stiffens or escalates, calmly walk away</li>
+              <li>Don't issue commands during the greeting — no "sit," no "leave it." Just be present</li>
+            </ol>
+            <p class="drill-accordion__tip">The leash is for safety, not control. If you're white-knuckling it, your puppy knows — and now they're stressed too.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-walk-away-reset">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Walk away reset</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>After an unexpected or intense greeting, don't stop to debrief. Just walk</li>
+              <li>Keep a steady, calm pace — no rushing, no stopping to comfort</li>
+              <li>Let your puppy move and sniff for a few minutes. Movement helps them process</li>
+              <li>After 2-3 minutes, check their body language: loose and happy = they're fine. Tucked and tense = they need more time</li>
+              <li>Don't immediately try another dog interaction. Give them space to reset</li>
+              <li>If they bounce back quickly, keep walking normally. If they're still stressed, head somewhere quiet</li>
+            </ol>
+            <p class="drill-accordion__tip">Not every encounter needs a lesson. Sometimes you just move on and let your puppy process it in their own time.</p>
+          </div>
+        </details>
+
+        <h4 class="drill-group__subtitle">Meeting dogs — controlled intros</h4>
+<details class="drill-accordion" id="drill-parallel-walk">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Parallel walk</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Find a friend with a calm dog — walk in the same direction with 10-15 feet between you</li>
+              <li>Reward your puppy for walking without fixating on the other dog</li>
+              <li>Gradually decrease distance over multiple sessions</li>
+              <li>If your puppy lunges or can't focus, increase distance and try again</li>
+              <li>The goal is neutral coexistence, not face-to-face play</li>
+            </ol>
+            <p class="drill-accordion__tip">Parallel walks teach your puppy that other dogs exist and it's not a big deal. That's the foundation for everything else.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-controlled-intro">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Controlled intro</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Only attempt this with a known, calm dog — not random dogs on the street</li>
+              <li>Start with parallel walking first (see Parallel walk drill)</li>
+              <li>When both dogs are calm, allow a brief 3-second sniff on loose leashes</li>
+              <li>Gently guide your puppy away with the leash and reward them for disengaging — don't use a recall here unless you're sure they'll respond. If they won't come, just walk away and let the leash do the work</li>
+              <li>If either dog tenses up, stiffens, or fixates — create space immediately</li>
+              <li>Keep it short. End on a win, not when things fall apart.</li>
+            </ol>
+            <p class="drill-accordion__tip">If the older dog growls, that's communication — don't punish it. Give both dogs space.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-decompression-check">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Decompression check</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>After any dog-to-dog interaction, separate and give your puppy space</li>
+              <li>Watch their body language for 5-10 minutes: are they shaking? Tucking their tail? Hiding?</li>
+              <li>If they bounce back quickly (loose body, playful, relaxed) — the interaction was fine</li>
+              <li>If they're shut down, clingy, or avoiding — that was too much. Note what went wrong</li>
+              <li>Offer a calm activity like a chew or sniff walk to help them reset</li>
+              <li>Use what you learned to adjust distance and duration next time</li>
+            </ol>
+            <p class="drill-accordion__tip">Recovery tells you more than the interaction itself. Always check how your puppy processes what just happened.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+        <details class="drill-group">
+          <summary class="drill-group__title">Handling<span class="drill-group__count">7</span></summary>
+          <div class="drill-group__body">
+
+        <h4 class="drill-group__subtitle">Handling — paw and nail work</h4>
+<details class="drill-accordion" id="drill-paw-touch-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Paw touch reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Wait until your puppy is relaxed — after play or during a chew</li>
+              <li>Rest your hand on their paw. Don't squeeze, don't hold. Just touch</li>
+              <li>If they stay relaxed → treat. If they pull away → let them, and try lighter next time</li>
+              <li>Gradually build: hold paw for 1 second → treat. 2 seconds → treat. Spread toes → treat</li>
+              <li>Do this across multiple days. No rushing. Each step should feel like nothing to them</li>
+            </ol>
+            <p class="drill-accordion__tip">The goal is boredom, not tolerance. If they barely notice you're touching their paw, you're doing it right. If they're pulling away, you moved too fast — back up and make more deposits.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-clipper-intro">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Clipper intro</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Set the clipper on the ground near your puppy. Let them sniff it → treat</li>
+              <li>Pick it up and hold it near (not on) their paw → treat</li>
+              <li>Touch the clipper to a nail without clipping → treat</li>
+              <li>Clip one single nail → huge treat party. Done for the day</li>
+              <li>Tomorrow, try two nails. Build to a full paw over a week or more</li>
+              <li>If they pull away at any step, go back to the previous step and stay there longer</li>
+            </ol>
+            <p class="drill-accordion__tip">One nail is a win. Seriously. A dog who calmly lets you clip one nail will eventually let you clip all of them. A dog you wrestled through all four paws will fight you harder next time. Slow is fast.</p>
+          </div>
+        </details>
+
+        <h4 class="drill-group__subtitle">Handling — brushing and grooming</h4>
+<details class="drill-accordion" id="drill-brush-intro">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Brush intro</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Let the brush sit on the ground near your puppy — treat for ignoring or sniffing it</li>
+              <li>Pick it up, hold it near their shoulder — treat</li>
+              <li>One gentle stroke on their back or shoulder → treat</li>
+              <li>Two strokes → treat. Three → treat. Build gradually</li>
+              <li>Stick to easy zones first (back, shoulders). Avoid legs, belly, and face until the easy spots are boring</li>
+              <li>Pair with a lick mat or chew for longer sessions once they're comfortable</li>
+            </ol>
+            <p class="drill-accordion__tip">If your puppy bites at the brush, you skipped a step. Back up to just holding it near them. Make it boring before you make it functional. Set them up to win.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-sound-desensitization">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Sound desensitization</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Identify the sound: dryer, clippers, electric toothbrush — whatever they'll need to tolerate</li>
+              <li>Play the sound from another room at low volume while your puppy eats or chews → treat</li>
+              <li>Gradually move closer over multiple sessions — only advance if they stay relaxed</li>
+              <li>Eventually run the tool in the same room, then near them, then briefly touching them</li>
+              <li>If they startle, freeze, or try to leave — you jumped ahead. Go back two steps</li>
+            </ol>
+            <p class="drill-accordion__tip">This can take weeks for intense sounds like dryers. That's completely fine. A dog who doesn't panic at the groomer's dryer is worth every patient session. The piggy bank is full when they hear the sound and don't even look up.</p>
+          </div>
+        </details>
+
+        <h4 class="drill-group__subtitle">Handling — vet and restraint prep</h4>
+<details class="drill-accordion" id="drill-mock-exam">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Mock exam</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>With your puppy relaxed, gently look in one ear → treat</li>
+              <li>Lift one lip to see their teeth → treat</li>
+              <li>Touch their belly gently like you're examining → treat</li>
+              <li>Gently move each leg through its range of motion → treat after each one</li>
+              <li>Touch the base of their tail → treat</li>
+              <li>Keep it short — 30 seconds to a minute. End while it's still easy</li>
+            </ol>
+            <p class="drill-accordion__tip">You're rehearsing everything the vet will do. If your puppy has done this 50 times at home with treats, the real exam isn't a surprise — it's just another Tuesday.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-restraint-reps">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Restraint reps</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Gently hold your puppy still with both hands — just 2 seconds → treat + release</li>
+              <li>Build to 5 seconds, then 10. Always release before they start to struggle</li>
+              <li>Practice on a raised surface with a non-slip mat (mimics the vet table)</li>
+              <li>If they squirm, hold gently until they give you even one second of stillness → mark + treat + release</li>
+              <li>Never release during active struggling — you'll teach them that fighting works. Wait for a pause, even a tiny one</li>
+            </ol>
+            <p class="drill-accordion__tip">This is cooperative care in action. You're not overpowering them — you're teaching them that being still is rewarding and that they'll always be released. The piggy bank stays full when they trust you'll let go.</p>
+          </div>
+        </details>
+
+        <details class="drill-accordion" id="drill-happy-visit">
+          <summary class="drill-accordion__head">
+            <div class="drill-accordion__info">
+              <span class="drill-accordion__name">Happy visit</span>
+            </div>
+            <span class="drill-accordion__icon">+</span>
+          </summary>
+          <div class="drill-accordion__body">
+            <ol>
+              <li>Drive to the vet's office — just the parking lot at first. Sit for 5 minutes, treat, leave</li>
+              <li>Next time, walk into the lobby. Let staff say hello and give treats. Leave after 5 minutes</li>
+              <li>If your puppy is relaxed, ask if they can hop on the scale or sniff an exam room — treat the whole time</li>
+              <li>Do the same at the groomer: walk in, treats, smell the place, leave</li>
+              <li>Repeat 2-3 times before any real appointment</li>
+            </ol>
+            <p class="drill-accordion__tip">Most vets and groomers love happy visits — just call ahead and ask. You're making massive deposits in the piggy bank. When the real appointment comes, your puppy already knows this place means treats, not trauma.</p>
+          </div>
+        </details>
+          </div>
+        </details>
+
+</div>
     </div>
   </div>
 </section>
@@ -125,13 +982,39 @@
 <footer class="footer">
   <p class="footer__tagline">Your dog is not the problem. Your inconsistency is.</p>
   <p>Made with slightly unhinged love by a friend who really wants you to stop rewarding chaos.</p>
-  <p style="margin-top: 0.5rem;">✧ Puppy Training for Puppies ✧</p>
 </footer>
 
-<button class="floating-panic" id="floatingPanic" onclick="window.location.href='index.html'">
-  <span>🚨</span> my dog is being insane
-</button>
+<div class="panic-bar">
+  <a href="#" class="panic-bar__btn" onclick="event.preventDefault(); openPanic();">PANIC</a>
+</div>
 
-<script src="script.js"></script>
+<div id="searchOverlay" class="search-overlay" onclick="if(event.target===this)closeSiteSearch()">
+  <div class="search-modal">
+    <div class="search-modal__header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" class="search-modal__input" id="siteSearchInput" placeholder="Search everything..." oninput="renderSearchResults(this.value)">
+      <button class="search-modal__close" onclick="closeSiteSearch()">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script>
+if (window.location.hash) {
+  const target = document.querySelector(window.location.hash);
+  if (target) {
+    // Open the parent drill-group first
+    const group = target.closest('.drill-group');
+    if (group) group.open = true;
+    // Then open the drill itself
+    target.open = true;
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+  }
+}
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="script.js?v=13"></script>
+<script src="auth.js?v=13"></script>
+<script src="chatbot.js?v=14"></script>
 </body>
 </html>
