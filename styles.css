@@ -1210,7 +1210,8 @@ a:hover {
 }
 
 #cardOverlayContent .place-card .tag {
-  color: var(--gold);
+  background: rgba(201, 169, 110, 0.25);
+  color: var(--cream);
 }
 
 .card-overlay-close {
