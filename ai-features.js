@@ -297,6 +297,23 @@ function renderCompletionState(dogName) {
   `;
 }
 
+function renderTooYoungState(dogName, ageWeeks) {
+  const el = document.getElementById('weeklyPlanContent');
+  if (!el) return;
+  const weeksLeft = 8 - ageWeeks;
+  el.innerHTML = `
+    <div class="plan__complete">
+      <div class="plan__complete-emoji">🍼</div>
+      <div class="plan__complete-title">this plan is for puppies 8 weeks – 1 year</div>
+      <div class="plan__complete-text">
+        ${escapeHTML(dogName)} is only ${ageWeeks} week${ageWeeks === 1 ? '' : 's'} old — still a tiny baby!
+        the training plan kicks in at 8 weeks. for now, just let them eat, sleep, and be adorable.
+        check back in ${weeksLeft} week${weeksLeft === 1 ? '' : 's'}!
+      </div>
+    </div>
+  `;
+}
+
 // ---- RETRY HANDLERS ----
 let _currentProfile = null;
 
@@ -354,7 +371,10 @@ function initAIFeatures() {
   // Show skeletons immediately
   renderFactSkeleton();
 
-  if (ageWeeks > 52) {
+  if (ageWeeks < 8) {
+    // Too young — show waiting state for plan, still load breed fact
+    renderTooYoungState(profile.dogName, ageWeeks);
+  } else if (ageWeeks > 52) {
     // Past puppyhood — show completion state for plan, still load breed fact
     renderCompletionState(profile.dogName);
   } else {
@@ -370,8 +390,8 @@ function initAIFeatures() {
     }
   });
 
-  // Fetch weekly plan (only if still in puppyhood)
-  if (ageWeeks <= 52) {
+  // Fetch weekly plan (only if in the 8 weeks – 1 year range)
+  if (ageWeeks >= 8 && ageWeeks <= 52) {
     fetchWeeklyPlan(profile).then(plan => {
       if (plan) {
         renderWeeklyPlan(plan, ageWeeks);
