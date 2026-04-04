@@ -224,6 +224,7 @@ a:hover {
   position: relative;
   z-index: 1;
   padding: 2rem;
+  padding-bottom: 10rem;
 }
 
 .hero-date {
@@ -284,29 +285,35 @@ a:hover {
 
 .hero-scroll {
   position: absolute;
-  bottom: -5rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
 }
 
 .hero-scroll span {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(252, 227, 227, 0.3);
-  transform: rotate(90deg);
+  color: var(--cream);
+  opacity: 0.7;
 }
 
 .scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, rgba(252, 227, 227, 0.3), transparent);
-  animation: scrollPulse 2.5s ease-in-out infinite;
+  width: 1.5px;
+  height: 45px;
+  background: linear-gradient(to bottom, var(--cream), transparent);
+  opacity: 0.5;
 }
 
 @keyframes scrollPulse {
@@ -357,118 +364,398 @@ a:hover {
 }
 
 /* ---- Our Story ---- */
-.story {
-  padding: 6rem 0;
-  background: var(--cream);
-  color: var(--brown);
-  position: relative;
-}
-
-.story .section-title {
-  color: var(--red);
-}
-
-.story .section-subtitle {
-  color: var(--brown);
-}
-
-.story::before {
-  content: '';
-  position: absolute;
-  top: 3rem;
-  right: 6%;
-  width: 100px;
-  height: 100px;
-  border: 1.5px solid var(--gold);
-  border-radius: 50%;
-  opacity: 0.25;
-  transform: rotate(15deg);
-}
-
-.story-hero {
-  display: flex;
-  gap: 4rem;
-  align-items: center;
-  margin-bottom: 3rem;
-}
-
-.story-hero-left {
-  flex: 1;
-}
-
-.story-hero-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.story-title {
-  font-size: 5rem !important;
-  margin-bottom: 0;
-}
-
-.story-details-row {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.story-text-block {
-  max-width: 600px;
-  margin: 0 auto;
+.welcome {
+  padding: 4rem 0;
+  background: var(--white);
   text-align: center;
 }
 
-.story-text-block p {
+.welcome-text {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--red);
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+/* ---- Scrollytelling Us Section ---- */
+.story-scroll {
+  position: relative;
+  background: var(--cream);
+}
+
+.scroll-layout {
+  display: flex;
+  position: relative;
+}
+
+/* Left column: illustrations scroll naturally */
+.scroll-left {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-visual {
+  height: 200vh;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.scroll-visual:last-child {
+  height: 120vh;
+}
+
+
+.scroll-visual-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Intro panel: illo stays pinned across frames 0, 1, 1b */
+.scroll-visual-intro {
+  height: 300vh;
+  position: relative;
+}
+
+.intro-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+/* Labels hidden by default, shown when frame 1 is active */
+.illo-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.illo-label.show {
+  opacity: 1;
+}
+
+.scroll-illo {
+  max-width: 500px;
+  max-height: 90vh;
+  display: block;
+  object-fit: contain;
+}
+
+.illo-placeholder {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--brown);
+  opacity: 0.3;
+  border: 1.5px dashed var(--gold);
+  border-radius: 12px;
+  padding: 4rem 3rem;
+  text-align: center;
+}
+
+/* Right column: text stays sticky */
+.scroll-right {
+  flex: 1;
+  position: relative;
+}
+
+.scroll-text-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.story-title {
+  font-size: 4rem !important;
+  color: var(--red);
+  margin-bottom: 1.5rem;
+}
+
+.scroll-text-area {
+  position: relative;
+  min-height: 180px;
+}
+
+.scroll-text-frame {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.scroll-text-frame.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Build effect: lead text fades in after body */
+.build-in {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.scroll-text-frame.active .build-in {
+  opacity: 1;
+  transition-delay: 1.5s;
+}
+
+.scroll-lead {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-style: italic;
+  color: var(--red);
+  line-height: 1.3;
+  transform: rotate(-1.5deg);
+  margin-bottom: 1.2rem;
+}
+
+.scroll-body {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.9;
-  margin-bottom: 1.5rem;
   color: var(--brown);
+  max-width: 400px;
 }
 
-.story-lead {
-  font-family: var(--font-heading) !important;
-  font-size: 1.5rem !important;
-  font-style: italic;
-  color: var(--red) !important;
-  transform: rotate(-1.5deg);
-  display: inline-block;
-  margin-bottom: 1.5rem !important;
-  line-height: 1.4 !important;
-}
-
-.story-detail {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 1.2rem 1.4rem;
-  background: var(--white);
-  border-radius: 10px;
-  border: 1px solid rgba(221, 16, 0, 0.06);
-  transform: rotate(3deg);
-  transition: transform 0.3s ease-in-out;
-}
-
-.story-detail:nth-child(2) { transform: rotate(-2deg); }
-.story-detail:nth-child(3) { transform: rotate(1.5deg); }
-.story-detail:hover { transform: rotate(0deg) scale(1.02); }
-
-.detail-label {
+.scroll-label {
   font-family: var(--font-mono);
   font-size: 0.55rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--red);
-  opacity: 0.7;
+  color: var(--brown);
+  opacity: 0.4;
+  margin-bottom: 1.5rem;
 }
 
-.detail-value {
+.scroll-big {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-style: italic;
+  color: var(--red);
+  transform: rotate(-2deg);
+}
+
+/* States in scrollytelling */
+.scroll-states {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-end;
+}
+
+.scroll-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.scroll-state .state-svg {
+  width: auto;
+  max-height: 130px;
+}
+
+.scroll-state:last-child .state-svg {
+  max-height: 80px;
+}
+
+.scroll-state .state-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  border-radius: 50%;
+  position: absolute;
+  top: 15%;
+  left: 60%;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+.scroll-state:last-child .state-dot {
+  top: 22%;
+  left: 60%;
+}
+
+.scroll-place {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--brown);
+  margin-top: 0.8rem;
+}
+
+.scroll-name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--red);
+}
+
+/* Dogs in scrollytelling */
+.dogs-illo {
+  max-width: 55%;
+  max-height: 50vh;
+  object-fit: contain;
+}
+
+.dog-name {
   font-family: var(--font-heading);
   font-size: 1.2rem;
   font-style: italic;
   color: var(--brown);
+}
+
+/* Illustration with name labels */
+.illo-labeled {
+  position: relative;
+  display: inline-block;
+}
+
+.label-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--red);
+}
+
+/* Haley = left person (wine glass) */
+.label-haley {
+  top: 12%;
+  left: 24%;
+}
+
+/* Sally = right person (hat) */
+.label-sally {
+  top: 12%;
+  right: 28%;
+}
+
+/* Arrows removed */
+
+/* Hot dogs */
+.hotdog-duo {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.hotdog-svg {
+  width: 120px;
+  height: auto;
+}
+
+.hotdog-1 {
+  transform: rotate(-15deg);
+}
+
+.hotdog-2 {
+  transform: rotate(10deg);
+}
+
+/* Footer area after scrollytelling */
+.scroll-footer {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 3rem;
+  margin-top: -6rem;
+  text-align: center;
+  background: var(--cream);
+}
+
+.map-mini .callout-place {
+  font-size: 0.5rem;
+}
+
+.map-mini .callout-name {
+  font-size: 0.55rem;
+}
+
+.map-mini .map-callout {
+  margin-top: 0.3rem;
+}
+
+.story-location {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: var(--brown);
+  opacity: 0.5;
+  margin-top: 3rem;
+}
+
+.story-location a {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.story-location a:hover {
+  opacity: 0.7;
+}
+
+.pickle-egg {
+  position: absolute;
+  bottom: 2rem;
+  right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 32px;
+  opacity: 0.35;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.pickle-egg:hover {
+  opacity: 0.8;
+  transform: scale(1.2);
+}
+
+.pickle-label {
+  font-family: var(--font-mono);
+  font-size: 0.45rem;
+  letter-spacing: 0.1em;
+  color: var(--brown);
+  margin-top: 0.15rem;
+  white-space: nowrap;
+}
+
+.pickle-ball {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pickleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(10deg); }
+}
+
+.pickle-float {
+  animation: pickleFloat 3s ease-in-out infinite;
 }
 
 /* ---- Song Fragment ---- */
@@ -545,6 +832,10 @@ a:hover {
 
 .couple-float {
   animation: coupleFloat 6s ease-in-out infinite;
+}
+
+.mobile-text {
+  display: none;
 }
 
 .map-right {
@@ -734,6 +1025,149 @@ a:hover {
   margin-top: 0.5rem;
 }
 
+.detail-card, .place-card { cursor: pointer; }
+
+/* Card overlay */
+.card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(107, 47, 26, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  backdrop-filter: blur(6px);
+}
+
+.card-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+#cardOverlayContent > * {
+  border-radius: 16px;
+  padding: 4rem 3.5rem;
+  max-width: 500px;
+  width: 90vw;
+  text-align: center;
+  position: relative;
+  animation: cardFloat 4s ease-in-out infinite;
+  transform: none !important;
+  cursor: default;
+}
+
+/* Expanded detail cards */
+#cardOverlayContent .detail-card {
+  background: var(--red);
+  border: none;
+}
+
+#cardOverlayContent .card-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+#cardOverlayContent h3 {
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  margin-bottom: 1.5rem;
+}
+
+#cardOverlayContent .detail-venue {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+#cardOverlayContent .detail-address {
+  font-size: 0.9rem;
+  line-height: 2.2;
+}
+
+#cardOverlayContent .detail-time {
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+/* Expanded story detail cards */
+#cardOverlayContent .story-detail {
+  background: var(--white);
+  border: 1px solid rgba(221, 16, 0, 0.06);
+}
+
+#cardOverlayContent .detail-label {
+  font-size: 0.8rem;
+}
+
+#cardOverlayContent .detail-value {
+  font-size: 2.5rem;
+}
+
+/* Expanded place cards */
+#cardOverlayContent .place-card {
+  background: var(--brown);
+  border: none;
+}
+
+#cardOverlayContent .place-card h4 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--cream);
+}
+
+#cardOverlayContent .place-card li {
+  font-size: 0.95rem;
+  padding: 0.8rem 0;
+  color: var(--cream);
+  opacity: 1;
+}
+
+#cardOverlayContent .place-card li a {
+  color: var(--cream);
+}
+
+#cardOverlayContent .place-card .tag {
+  color: var(--gold);
+}
+
+.card-overlay-close {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--cream);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(252, 227, 227, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 1001;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-overlay-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--cream);
+  border-color: rgba(252, 227, 227, 0.4);
+}
+
 /* ---- Countdown ---- */
 .countdown {
   padding: 5rem 0;
@@ -868,6 +1302,31 @@ a:hover {
   transform: rotate(-4deg);
 }
 
+/* ---- Quiz CTA ---- */
+.quiz-cta-mini {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.quiz-btn {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--red);
+  text-decoration: none;
+  border: 1px solid rgba(221, 16, 0, 0.25);
+  border-radius: 20px;
+  padding: 1.2rem 2.5rem;
+  transition: all 0.3s;
+  display: inline-block;
+}
+
+.quiz-btn:hover {
+  background: var(--red);
+  color: var(--cream);
+}
+
 /* ---- RSVP ---- */
 .rsvp {
   padding: 6rem 0;
@@ -997,15 +1456,43 @@ a:hover {
 /* ---- Footer ---- */
 .footer {
   padding: 4rem 0;
-  background: var(--brown);
+  background: var(--cream);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.uhaul-track {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+}
+
+.uhaul-truck {
+  position: absolute;
+  height: 35px;
+  width: auto;
+  bottom: 0;
+  left: -120px;
+  opacity: 0;
+  transition: none;
+}
+
+@keyframes driveAcross {
+  0% { left: -120px; opacity: 0.6; }
+  5% { opacity: 0.6; }
+  95% { opacity: 0.6; }
+  100% { left: 110%; opacity: 0; }
 }
 
 .footer-names {
   font-family: var(--font-heading);
   font-size: 2rem;
   font-style: italic;
-  color: var(--cream);
+  color: var(--red);
   margin-bottom: 0.5rem;
   transform: rotate(-3deg);
   display: inline-block;
@@ -1016,7 +1503,7 @@ a:hover {
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(252, 227, 227, 0.3);
+  color: rgba(107, 47, 26, 0.4);
   margin-bottom: 2rem;
 }
 
@@ -1051,6 +1538,105 @@ a:hover {
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
+
+  /* Scrollytelling: stack vertically on mobile */
+  .scroll-layout {
+    display: block;
+  }
+
+  .scroll-right {
+    display: none;
+  }
+
+  .scroll-left {
+    width: 100%;
+  }
+
+  /* Disable all sticky/scroll behavior */
+  .scroll-visual-intro {
+    height: auto;
+  }
+
+  .intro-sticky {
+    position: relative;
+    height: auto;
+    padding: 0.5rem 1rem 0;
+  }
+
+  .scroll-visual,
+  .scroll-visual:last-child {
+    height: auto;
+  }
+
+  .scroll-visual-inner {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding: 0.5rem 1rem 0;
+  }
+
+  .scroll-illo {
+    max-width: 220px;
+    max-height: none;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Labels: side by side under illo */
+  .illo-labeled {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .illo-label {
+    display: none;
+  }
+
+  /* Mobile text blocks */
+  .mobile-text {
+    display: block;
+    text-align: center;
+    padding: 1rem 1.5rem 1.5rem;
+  }
+
+  .mobile-text .scroll-lead {
+    font-size: 1.5rem;
+  }
+
+  .mobile-text .scroll-body {
+    font-size: 0.7rem;
+    line-height: 1.8;
+  }
+
+  .scroll-states {
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .state-svg {
+    max-width: 110px;
+  }
+
+  .hotdog-svg {
+    width: 80px !important;
+  }
+
+  .dogs-illo {
+    max-width: 250px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .scroll-footer {
+    margin-top: -1rem;
+    padding: 0 0 2rem;
+  }
+
+  .quiz-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
 
   .story-content {
     grid-template-columns: 1fr;

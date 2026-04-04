@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Well Do You Know S + H?</title>
+  <style>
+    @font-face {
+      font-family: 'Elma Mono';
+      src: url('fonts/Elma-Mono-Regular-Demo.otf') format('opentype');
+      font-weight: 400; font-style: normal;
+    }
+    @font-face {
+      font-family: 'Zodiak';
+      src: url('fonts/Zodiak-Regular.woff2') format('woff2');
+      font-weight: 400; font-style: normal;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --red: #dd1000;
+      --cream: #fce3e3;
+      --gold: #c9a96e;
+      --brown: #6b2f1a;
+      --white: #fff;
+      --font-mono: 'Elma Mono', monospace;
+      --font-heading: 'Zodiak', Georgia, serif;
+    }
+    body {
+      background: var(--cream);
+      font-family: var(--font-mono);
+      color: var(--brown);
+      min-height: 100vh;
+    }
+
+    /* Nav matching main site */
+    a.back {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 100;
+    }
+    a.back:hover { opacity: 0.7; }
+
+    /* Hero */
+    .quiz-hero {
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      background: var(--cream);
+    }
+    .quiz-hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      font-style: italic;
+      color: var(--red);
+      transform: rotate(-2deg);
+      margin-bottom: 0.8rem;
+      line-height: 1.2;
+    }
+    .quiz-hero p {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+
+    /* Container */
+    .quiz-body {
+      max-width: 550px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* Name entry card */
+    .name-card {
+      background: var(--red);
+      border-radius: 12px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      transform: rotate(0.5deg);
+    }
+    .name-card label {
+      display: block;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.5;
+      margin-bottom: 1.2rem;
+    }
+    .name-input {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--cream);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid rgba(252, 227, 227, 0.3);
+      text-align: center;
+      padding: 0.5rem 1rem;
+      width: 100%;
+      max-width: 300px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .name-input:focus { border-color: var(--cream); }
+    .name-input::placeholder { color: var(--cream); opacity: 0.25; }
+
+    .start-btn {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      background: var(--cream);
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: all 0.2s;
+    }
+    .start-btn:hover { opacity: 0.85; }
+    .start-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+    /* Progress */
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .progress-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+    .progress-score {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--red);
+    }
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(221, 16, 0, 0.1);
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    /* Question */
+    .question-card {
+      background: var(--red);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 1.5rem;
+      transform: rotate(-0.5deg);
+    }
+    .question-text {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.4;
+    }
+
+    /* Options */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .option-btn {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--brown);
+      background: var(--white);
+      border: 1px solid rgba(221, 16, 0, 0.06);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: left;
+      position: relative;
+    }
+    .option-btn:nth-child(odd) { transform: rotate(0.3deg); }
+    .option-btn:nth-child(even) { transform: rotate(-0.3deg); }
+    .option-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: rotate(0deg) scale(1.01);
+    }
+    .option-btn.correct {
+      background: var(--gold);
+      color: var(--white);
+      border-color: var(--gold);
+      transform: rotate(0deg);
+    }
+    .option-btn.wrong {
+      background: rgba(221, 16, 0, 0.08);
+      color: var(--red);
+      border-color: rgba(221, 16, 0, 0.2);
+      opacity: 0.5;
+      transform: rotate(0deg);
+    }
+    .option-btn.reveal-correct {
+      border-color: var(--gold);
+      color: var(--gold);
+      border-width: 2px;
+      transform: rotate(0deg);
+    }
+    .option-btn:disabled { cursor: default; }
+    .option-btn:disabled:hover { transform: rotate(0deg); }
+
+    /* Feedback */
+    .feedback {
+      margin-top: 1.5rem;
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-style: italic;
+      min-height: 2rem;
+      text-align: center;
+      transform: rotate(-1deg);
+    }
+    .feedback.right { color: var(--gold); }
+    .feedback.wrong { color: var(--red); }
+
+    .next-btn {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--brown);
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: opacity 0.2s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .next-btn:hover { opacity: 0.85; }
+
+    /* Results */
+    .results-card {
+      background: var(--red);
+      border-radius: 16px;
+      padding: 3.5rem 2.5rem;
+      text-align: center;
+      transform: rotate(-1deg);
+      margin-bottom: 2rem;
+    }
+    .results-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.5;
+      margin-bottom: 0.5rem;
+    }
+    .results-score {
+      font-family: var(--font-heading);
+      font-size: 5rem;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .results-message {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--cream);
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    /* Leaderboard */
+    .leaderboard {
+      margin-top: 1.5rem;
+    }
+    .leaderboard h3 {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .lb-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1.2rem;
+      background: var(--white);
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      border: 1px solid rgba(221, 16, 0, 0.06);
+      transition: transform 0.2s;
+    }
+    .lb-entry:nth-child(odd) { transform: rotate(0.3deg); }
+    .lb-entry:nth-child(even) { transform: rotate(-0.3deg); }
+    .lb-entry.highlight {
+      border-color: var(--gold);
+      background: rgba(201, 169, 110, 0.08);
+    }
+    .lb-rank {
+      font-size: 0.55rem;
+      opacity: 0.35;
+      margin-right: 0.8rem;
+    }
+    .lb-name { flex: 1; font-size: 0.75rem; }
+    .lb-score {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--red);
+    }
+    .lb-entry-inner { display: flex; align-items: center; }
+
+    .play-again {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      background: none;
+      border: 1px solid rgba(221, 16, 0, 0.3);
+      padding: 0.8rem 2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: all 0.2s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .play-again:hover {
+      background: var(--red);
+      color: var(--cream);
+    }
+
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back">&larr; Back</a>
+
+  <!-- Hero -->
+  <div class="quiz-hero">
+    <h1>How well do you actually know us?</h1>
+    <p>No cheating. No googling. Good luck.</p>
+  </div>
+
+  <!-- Quiz Body -->
+  <div class="quiz-body">
+
+    <!-- Name Entry -->
+    <div id="nameScreen">
+      <div class="name-card">
+        <label for="playerName">First, who are you?</label>
+        <input type="text" id="playerName" class="name-input" placeholder="Your name..." autocomplete="off">
+        <br>
+        <button class="start-btn" id="startBtn" disabled>Let's go</button>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quizScreen" class="hidden">
+      <div class="progress-row">
+        <span class="progress-label" id="progress">Question 1 of 20</span>
+        <span class="progress-score" id="liveScore">0 correct</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="question-card">
+        <p class="question-text" id="questionText"></p>
+      </div>
+      <div class="options" id="options"></div>
+      <p class="feedback" id="feedback"></p>
+    </div>
+
+    <!-- Results -->
+    <div id="resultsScreen" class="hidden">
+      <div class="results-card">
+        <p class="results-label">Your score</p>
+        <p class="results-score" id="finalScore"></p>
+        <p class="results-message" id="resultsMessage"></p>
+      </div>
+      <div class="leaderboard" id="leaderboard">
+        <h3>Leaderboard</h3>
+        <div id="leaderboardEntries"></div>
+      </div>
+      <button class="play-again" id="playAgain">Play again</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "Where did Sally and Haley meet?", options: ["Hinge", "Bumble", "A bar", "Through friends"], answer: 0 },
+      { q: "What was their first date spot?", options: ["Little Pep", "Neighbors", "A coffee shop", "A park"], answer: 1 },
+      { q: "What do Sally and Haley have in common that's kind of wild?", options: ["Same middle name", "Same birthday", "Same hometown", "Same college"], answer: 1 },
+      { q: "When is their shared birthday?", options: ["March 20", "March 22", "April 1", "February 14"], answer: 1 },
+      { q: "How many dogs do they have?", options: ["One", "Two", "Three", "Four"], answer: 2 },
+      { q: "What are the dogs' names?", options: ["Gilly, Esso & Dory", "Biscuit, Milo & Dory", "Gilly, Noodle & Esso", "Dory, Pepper & Gilly"], answer: 0 },
+      { q: "Where is Sally originally from?", options: ["Raleigh, NC", "Baltimore, MD", "Richmond, VA", "D.C."], answer: 1 },
+      { q: "Where is Haley originally from?", options: ["Kernersville, NC", "Greensboro, NC", "Charlotte, NC", "Asheville, NC"], answer: 0 },
+      { q: "Where is the reception?", options: ["A rooftop bar", "Little Pep", "Graylyn Estate", "A backyard"], answer: 1 },
+      { q: "What city did they U-Haul to together?", options: ["Winston-Salem", "Greensboro", "Charlotte", "Raleigh"], answer: 1 },
+      { q: "True or false: Sally canceled the first date.", options: ["True", "False"], answer: 0 },
+      { q: "True or false: Sally was working at a pickleball place when she met Haley.", options: ["True", "False"], answer: 0 },
+      { q: "Where did Sally first meet Dory?", options: ["A shelter in Greensboro", "H&M in Charleston", "A friend's house", "A park in Winston-Salem"], answer: 1 },
+      { q: "What company did Sally help found?", options: ["Bryant Capital Advisors", "Little Pep Wine Co.", "Salem Strategy Group", "Pep Holdings"], answer: 0 },
+      { q: "Who's the better cook?", options: ["Sally", "Haley", "Neither \u2014 they order out", "The dogs"], answer: 0 },
+      { q: "Their apartment in Greensboro was in an old what?", options: ["Tobacco warehouse", "Denim factory", "Furniture showroom", "Cotton mill"], answer: 1 },
+      { q: "What's Sally's go-to cocktail?", options: ["Negroni", "Espresso Martini", "The Last Word", "Old Fashioned"], answer: 2 },
+      { q: "True or false: Haley is the early bird.", options: ["True", "False"], answer: 0 },
+      { q: "Who's messier?", options: ["Sally", "Haley", "Both equally chaotic", "Neither \u2014 they're neat freaks"], answer: 1 },
+      { q: "Who usually drives on road trips?", options: ["Sally", "Haley", "They switch every hour", "The dogs"], answer: 0 },
+      { q: "What's the name of the apartment complex at the old denim factory?", options: ["Cone Mills Lofts", "Revolution Mill", "Denim Row", "Factory 54"], answer: 1 },
+      { q: "Who proposed first?", options: ["Sally", "Haley", "They did it at the same time", "Neither \u2014 it was mutual"], answer: 0 }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let playerName = '';
+    let answered = false;
+
+    const nameInput = document.getElementById('playerName');
+    const startBtn = document.getElementById('startBtn');
+    const nameScreen = document.getElementById('nameScreen');
+    const quizScreen = document.getElementById('quizScreen');
+    const resultsScreen = document.getElementById('resultsScreen');
+    const questionText = document.getElementById('questionText');
+    const optionsEl = document.getElementById('options');
+    const feedbackEl = document.getElementById('feedback');
+    const progressEl = document.getElementById('progress');
+    const progressFill = document.getElementById('progressFill');
+    const liveScore = document.getElementById('liveScore');
+
+    nameInput.addEventListener('input', () => {
+      startBtn.disabled = nameInput.value.trim().length === 0;
+    });
+    nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && nameInput.value.trim()) startQuiz();
+    });
+    startBtn.addEventListener('click', startQuiz);
+
+    function startQuiz() {
+      playerName = nameInput.value.trim();
+      nameScreen.classList.add('hidden');
+      quizScreen.classList.remove('hidden');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q = questions[currentQ];
+      progressEl.textContent = `Question ${currentQ + 1} of ${questions.length}`;
+      liveScore.textContent = `${score} correct`;
+      progressFill.style.width = `${((currentQ) / questions.length) * 100}%`;
+      questionText.textContent = q.q;
+      feedbackEl.textContent = '';
+      feedbackEl.className = 'feedback';
+
+      optionsEl.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => selectAnswer(i));
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(index) {
+      if (answered) return;
+      answered = true;
+      const q = questions[currentQ];
+      const buttons = optionsEl.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.disabled = true);
+
+      if (index === q.answer) {
+        score++;
+        liveScore.textContent = `${score} correct`;
+        buttons[index].classList.add('correct');
+        feedbackEl.textContent = getRandomRight();
+        feedbackEl.className = 'feedback right';
+      } else {
+        buttons[index].classList.add('wrong');
+        buttons[q.answer].classList.add('reveal-correct');
+        feedbackEl.textContent = getRandomWrong();
+        feedbackEl.className = 'feedback wrong';
+      }
+
+      setTimeout(() => {
+        if (currentQ < questions.length - 1) {
+          currentQ++;
+          showQuestion();
+        } else {
+          showResults();
+        }
+      }, 1200);
+    }
+
+    function getRandomRight() {
+      const msgs = ["Yes!", "Nailed it!", "Look at you!", "Correct!", "They'd be proud."];
+      return msgs[Math.floor(Math.random() * msgs.length)];
+    }
+    function getRandomWrong() {
+      const msgs = ["Not quite...", "Nope!", "Swing and a miss.", "Wrong!", "Yikes."];
+      return msgs[Math.floor(Math.random() * msgs.length)];
+    }
+
+    function showResults() {
+      quizScreen.classList.add('hidden');
+      resultsScreen.classList.remove('hidden');
+
+      document.getElementById('finalScore').textContent = `${score} / ${questions.length}`;
+
+      const pct = score / questions.length;
+      let msg = '';
+      if (pct === 1) msg = "Perfect score. You might know them better than they know each other.";
+      else if (pct >= 0.8) msg = "Impressive. You clearly pay attention.";
+      else if (pct >= 0.6) msg = "Not bad! You know a thing or two.";
+      else if (pct >= 0.4) msg = "You've got some homework to do before the wedding.";
+      else msg = "Do you even know these people? Just kidding. Mostly.";
+
+      document.getElementById('resultsMessage').textContent = msg;
+      saveScore(playerName, score);
+      renderLeaderboard();
+    }
+
+    function saveScore(name, sc) {
+      let lb = JSON.parse(localStorage.getItem('sh_quiz_lb') || '[]');
+      const existing = lb.find(e => e.name.toLowerCase() === name.toLowerCase());
+      if (existing) { if (sc > existing.score) existing.score = sc; }
+      else lb.push({ name, score: sc });
+      lb.sort((a, b) => b.score - a.score);
+      localStorage.setItem('sh_quiz_lb', JSON.stringify(lb));
+    }
+
+    function renderLeaderboard() {
+      const lb = JSON.parse(localStorage.getItem('sh_quiz_lb') || '[]');
+      const el = document.getElementById('leaderboardEntries');
+      el.innerHTML = '';
+      lb.slice(0, 10).forEach((entry, i) => {
+        const isMe = entry.name.toLowerCase() === playerName.toLowerCase();
+        const div = document.createElement('div');
+        div.className = 'lb-entry' + (isMe ? ' highlight' : '');
+        div.innerHTML = `<div class="lb-entry-inner"><span class="lb-rank">${i + 1}.</span><span class="lb-name">${entry.name}</span></div><span class="lb-score">${entry.score}/${questions.length}</span>`;
+        el.appendChild(div);
+      });
+    }
+
+    document.getElementById('playAgain').addEventListener('click', () => {
+      currentQ = 0; score = 0; answered = false;
+      resultsScreen.classList.add('hidden');
+      nameScreen.classList.remove('hidden');
+      nameInput.value = '';
+      startBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>

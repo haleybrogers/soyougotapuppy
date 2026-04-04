@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S + H Pong</title>
+  <style>
+    @font-face {
+      font-family: 'Elma Mono';
+      src: url('fonts/Elma-Mono-Regular-Demo.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #fce3e3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Elma Mono', monospace;
+      color: #6b2f1a;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+    canvas {
+      border: 2px solid #c9a96e;
+      border-radius: 4px;
+      display: block;
+    }
+    .score {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .score span {
+      color: #c9a96e;
+      font-size: 1.5rem;
+      display: block;
+      text-align: center;
+      margin-top: 0.25rem;
+    }
+    .instructions {
+      margin-top: 1rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.4;
+    }
+    a.back {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      color: #c9a96e;
+      text-decoration: none;
+      font-family: 'Elma Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    a.back:hover { opacity: 0.7; }
+    .score span { color: #dd1000; }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back">&larr; Back</a>
+  <h1>Sally AI vs Haley</h1>
+  <div class="score">
+    <div>Sally AI<span id="score1">0</span></div>
+    <div>Haley<span id="score2">0</span></div>
+  </div>
+  <canvas id="pong" width="900" height="550"></canvas>
+  <p class="instructions">&uarr; / &darr; &mdash; move paddle &nbsp;&nbsp;&middot;&nbsp;&nbsp; Space &mdash; start</p>
+
+  <script>
+    const canvas = document.getElementById('pong');
+    const ctx = canvas.getContext('2d');
+
+    // Retina / HiDPI fix
+    const dpr = window.devicePixelRatio || 1;
+    const W = 900, H = 550;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+
+    const PADDLE_W = 30;
+    const PADDLE_H = 70;
+    const BALL_R = 12;
+    const WINNING_SCORE = 11;
+
+    const paddleImg = new Image();
+    paddleImg.src = 'images/paddle.svg';
+    const ballImg = new Image();
+    ballImg.src = 'images/ball.svg';
+
+    const state = {
+      ball: { x: W / 2, y: H / 2, vx: 0, vy: 0 },
+      p1: { y: H / 2 - PADDLE_H / 2 },
+      p2: { y: H / 2 - PADDLE_H / 2 },
+      score1: 0,
+      score2: 0,
+      running: false,
+      winner: null
+    };
+
+    const keys = {};
+
+    document.addEventListener('keydown', e => {
+      keys[e.key] = true;
+      if (e.key === ' ' && !state.running && !state.winner) {
+        serve();
+      }
+      if (e.key === ' ' && state.winner) {
+        state.score1 = 0;
+        state.score2 = 0;
+        state.winner = null;
+        updateScoreDisplay();
+        resetBall();
+      }
+    });
+    document.addEventListener('keyup', e => keys[e.key] = false);
+
+    let baseSpeed = 6;
+    let speedMultiplier = 1;
+    let rallies = 0;
+
+    function serve() {
+      state.running = true;
+      speedMultiplier = 1;
+      rallies = 0;
+      const angle = (Math.random() - 0.5) * Math.PI / 3;
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      state.ball.vx = dir * baseSpeed * Math.cos(angle);
+      state.ball.vy = baseSpeed * Math.sin(angle);
+    }
+
+    function resetBall() {
+      state.ball.x = W / 2;
+      state.ball.y = H / 2;
+      state.ball.vx = 0;
+      state.ball.vy = 0;
+      state.running = false;
+    }
+
+    function updateScoreDisplay() {
+      document.getElementById('score1').textContent = state.score1;
+      document.getElementById('score2').textContent = state.score2;
+    }
+
+    function update() {
+      // Haley paddle (right) — arrow keys
+      const speed = 5;
+      if (keys['ArrowUp']) state.p2.y = Math.max(0, state.p2.y - speed);
+      if (keys['ArrowDown']) state.p2.y = Math.min(H - PADDLE_H, state.p2.y + speed);
+
+      // Sally AI (left paddle) — fast reactions, predicts ball
+      if (state.running) {
+        const sallyCenter = state.p1.y + PADDLE_H / 2;
+        const aiSpeed = 4.5 + (rallies * 0.2);
+        if (state.ball.vx < 0) {
+          // Ball coming toward Sally — predict where it will arrive
+          const timeToReach = Math.abs((20 + PADDLE_W - state.ball.x) / (state.ball.vx || 1));
+          let predictedY = state.ball.y + state.ball.vy * timeToReach;
+          // Bounce prediction
+          while (predictedY < 0 || predictedY > H) {
+            if (predictedY < 0) predictedY = -predictedY;
+            if (predictedY > H) predictedY = 2 * H - predictedY;
+          }
+          if (sallyCenter < predictedY - 4) state.p1.y += Math.min(aiSpeed, predictedY - sallyCenter);
+          if (sallyCenter > predictedY + 4) state.p1.y -= Math.min(aiSpeed, sallyCenter - predictedY);
+        } else {
+          // Ball going away — drift toward center
+          const center = H / 2;
+          if (sallyCenter < center - 15) state.p1.y += 2.5;
+          if (sallyCenter > center + 15) state.p1.y -= 2.5;
+        }
+        state.p1.y = Math.max(0, Math.min(H - PADDLE_H, state.p1.y));
+      }
+
+      if (!state.running) return;
+
+      const b = state.ball;
+      b.x += b.vx;
+      b.y += b.vy;
+
+      // Top/bottom bounce
+      if (b.y - BALL_R <= 0 || b.y + BALL_R >= H) {
+        b.vy *= -1;
+        b.y = b.y - BALL_R <= 0 ? BALL_R : H - BALL_R;
+      }
+
+      // Left paddle collision (Sally)
+      if (b.x - BALL_R <= 20 + PADDLE_W && b.y >= state.p1.y && b.y <= state.p1.y + PADDLE_H && b.vx < 0) {
+        rallies++;
+        speedMultiplier = 1 + rallies * 0.08;
+        b.vx = -b.vx * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
+        b.vx = Math.sign(b.vx) * Math.min(Math.abs(b.vx), 12);
+        const hit = (b.y - (state.p1.y + PADDLE_H / 2)) / (PADDLE_H / 2);
+        b.vy = hit * 2 * speedMultiplier;
+        b.x = 20 + PADDLE_W + BALL_R;
+      }
+
+      // Right paddle collision (Haley)
+      if (b.x + BALL_R >= W - 20 - PADDLE_W && b.y >= state.p2.y && b.y <= state.p2.y + PADDLE_H && b.vx > 0) {
+        rallies++;
+        speedMultiplier = 1 + rallies * 0.08;
+        b.vx = -b.vx * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
+        b.vx = Math.sign(b.vx) * Math.min(Math.abs(b.vx), 12);
+        const hit = (b.y - (state.p2.y + PADDLE_H / 2)) / (PADDLE_H / 2);
+        b.vy = hit * 2 * speedMultiplier;
+        b.x = W - 20 - PADDLE_W - BALL_R;
+      }
+
+      // Scoring (pickleball rules: first to 11, win by 2)
+      if (b.x < 0) {
+        state.score2++;
+        updateScoreDisplay();
+        if (state.score2 >= WINNING_SCORE && state.score2 - state.score1 >= 2) {
+          state.winner = 'Haley';
+          state.running = false;
+        } else {
+          resetBall();
+        }
+      }
+      if (b.x > W) {
+        state.score1++;
+        updateScoreDisplay();
+        if (state.score1 >= WINNING_SCORE && state.score1 - state.score2 >= 2) {
+          state.winner = 'Sally AI';
+          state.running = false;
+        } else {
+          resetBall();
+        }
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = '#fce3e3';
+      ctx.fillRect(0, 0, W, H);
+
+      // Center line
+      ctx.setLineDash([6, 8]);
+      ctx.strokeStyle = 'rgba(201, 169, 110, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(W / 2, 0);
+      ctx.lineTo(W / 2, H);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Paddles
+      if (paddleImg.complete) {
+        // Left paddle
+        ctx.save();
+        ctx.translate(20 + PADDLE_W / 2, state.p1.y + PADDLE_H / 2);
+        ctx.rotate(-Math.PI / 10);
+        ctx.drawImage(paddleImg, -PADDLE_W, -PADDLE_H, PADDLE_W * 2, PADDLE_H * 2);
+        ctx.restore();
+        // Right paddle (flipped)
+        ctx.save();
+        ctx.translate(W - 20 - PADDLE_W / 2, state.p2.y + PADDLE_H / 2);
+        ctx.scale(-1, 1);
+        ctx.rotate(-Math.PI / 10);
+        ctx.drawImage(paddleImg, -PADDLE_W, -PADDLE_H, PADDLE_W * 2, PADDLE_H * 2);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = '#c9a96e';
+        ctx.fillRect(20, state.p1.y, PADDLE_W, PADDLE_H);
+        ctx.fillRect(W - 20 - PADDLE_W, state.p2.y, PADDLE_W, PADDLE_H);
+      }
+
+      // Ball
+      if (ballImg.complete) {
+        const ballSize = BALL_R * 2.5;
+        ctx.drawImage(ballImg, state.ball.x - ballSize / 2, state.ball.y - ballSize / 2, ballSize, ballSize);
+      } else {
+        ctx.fillStyle = '#dd1000';
+        ctx.beginPath();
+        ctx.arc(state.ball.x, state.ball.y, BALL_R, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Winner screen
+      if (state.winner) {
+        ctx.fillStyle = 'rgba(252, 227, 227, 0.9)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = '#dd1000';
+        ctx.font = '24px "Elma Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(state.winner + ' wins!', W / 2, H / 2 - 10);
+        ctx.font = '11px "Elma Mono", monospace';
+        ctx.fillStyle = '#6b2f1a';
+        ctx.globalAlpha = 0.5;
+        ctx.fillText('press space to play again', W / 2, H / 2 + 25);
+        ctx.globalAlpha = 1;
+      }
+
+      // Start prompt
+      if (!state.running && !state.winner) {
+        ctx.fillStyle = '#6b2f1a';
+        ctx.globalAlpha = 0.5;
+        ctx.font = '11px "Elma Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('press space to start', W / 2, H / 2);
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+  </script>
+</body>
+</html>

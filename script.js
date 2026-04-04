@@ -97,10 +97,124 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Apply to sections
-document.querySelectorAll('.story, .song, .details, .greensboro, .rsvp, .countdown').forEach(el => {
+document.querySelectorAll('.song, .details, .greensboro, .rsvp, .countdown').forEach(el => {
   el.classList.add('fade-in');
   observer.observe(el);
 });
+
+// Scrollytelling — Us section (split screen)
+const scrollTextFrames = document.querySelectorAll('.scroll-text-frame');
+const scrollVisuals = document.querySelectorAll('.scroll-visual');
+const introPanel = document.querySelector('.scroll-visual-intro');
+const labelHaley = document.getElementById('labelHaley');
+const labelSally = document.getElementById('labelSally');
+
+function updateScrollStory() {
+  if (!introPanel) return;
+
+  const viewMid = window.innerHeight / 2;
+  let activeFrame = '0';
+
+  // Check intro panel first (3 phases: 0, 1, 1b)
+  const introRect = introPanel.getBoundingClientRect();
+  let inIntro = false;
+
+  if (introRect.bottom > viewMid) {
+    inIntro = true;
+    const scrolled = Math.max(0, -introRect.top);
+    const scrollable = introRect.height - window.innerHeight;
+    const progress = scrollable > 0 ? Math.max(0, Math.min(1, scrolled / scrollable)) : 0;
+    if (progress < 0.35) {
+      activeFrame = '0';
+    } else if (progress < 0.65) {
+      activeFrame = '1';
+    } else {
+      activeFrame = '1b';
+    }
+  }
+
+  // Regular visual panels (only if past intro)
+  if (!inIntro) {
+    scrollVisuals.forEach(v => {
+      const rect = v.getBoundingClientRect();
+      if (rect.top < viewMid && rect.bottom > 0) {
+        activeFrame = v.dataset.frame;
+      }
+    });
+  }
+
+  // Update text
+  scrollTextFrames.forEach(f => f.classList.remove('active'));
+  const activeText = document.querySelector(`.scroll-text-frame[data-frame="${activeFrame}"]`);
+  if (activeText) activeText.classList.add('active');
+
+  // Show/hide name labels + animate arrows
+  if (labelHaley && labelSally) {
+    if (activeFrame === '1' || activeFrame === '1b') {
+      labelHaley.classList.add('show');
+      labelSally.classList.add('show');
+    } else {
+      labelHaley.classList.remove('show');
+      labelSally.classList.remove('show');
+    }
+  }
+}
+
+window.addEventListener('scroll', updateScrollStory);
+updateScrollStory();
+
+// U-Haul drives across footer when it comes into view
+const uhaul = document.getElementById('uhaul');
+if (uhaul) {
+  const uhaulObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        uhaul.style.animation = 'driveAcross 6s ease-in-out forwards';
+        uhaulObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  uhaulObserver.observe(document.querySelector('.footer'));
+}
+
+// Card overlay expand
+const cardOverlay = document.getElementById('cardOverlay');
+const cardOverlayContent = document.getElementById('cardOverlayContent');
+const cardOverlayClose = document.getElementById('cardOverlayClose');
+
+document.querySelectorAll('.detail-card, .place-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') return;
+    const clone = card.cloneNode(true);
+    cardOverlayContent.innerHTML = '';
+    cardOverlayContent.appendChild(clone);
+    cardOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+if (cardOverlayClose) {
+  cardOverlayClose.addEventListener('click', () => {
+    cardOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+}
+
+if (cardOverlay) {
+  cardOverlay.addEventListener('click', (e) => {
+    if (e.target === cardOverlay) {
+      cardOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cardOverlay.classList.contains('active')) {
+      cardOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+}
 
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

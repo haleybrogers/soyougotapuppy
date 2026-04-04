@@ -40,7 +40,7 @@
       <a href="#top" class="nav-logo">S + H</a>
       <div class="nav-links">
         <a href="#our-story">Our Story</a>
-        <a href="#details">Details</a>
+        <a href="#details">The Big Day</a>
         <a href="#greensboro">Winston-Salem</a>
         <a href="#rsvp">RSVP</a>
       </div>
@@ -68,124 +68,172 @@
         <span class="name name-2">Haley</span>
       </h1>
       <p class="hero-location">Winston-Salem, North Carolina</p>
-      <div class="hero-scroll">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </header>
 
 
-  <!-- Details -->
-
-  <!-- Our Story -->
-  <section id="our-story" class="story">
-    <div class="container">
-      <div class="story-hero">
-        <div class="story-hero-left">
-          <img src="images/halsal.svg" alt="Sally and Haley illustration" class="couple-illustration couple-float">
+  <!-- Our Story — Scrollytelling -->
+  <section id="our-story" class="story-scroll">
+    <div class="scroll-layout">
+      <!-- Left: illustrations that scroll naturally -->
+      <div class="scroll-left">
+        <!-- 0+1+1b: Couple illo stays pinned, text changes -->
+        <div class="scroll-visual-intro" data-frame="0">
+          <div class="intro-sticky">
+            <div class="illo-labeled">
+              <img src="images/halsal.svg" alt="Sally and Haley" class="scroll-illo couple-float">
+              <div class="illo-label label-haley" id="labelHaley">
+                <span class="label-name">Haley</span>
+              </div>
+              <div class="illo-label label-sally" id="labelSally">
+                <span class="label-name">Sally</span>
+              </div>
+            </div>
+          </div>
+          <div class="mobile-text">
+            <p class="scroll-lead">Hi, we're getting married.</p>
+            <p class="scroll-body">And we want you there.</p>
+          </div>
         </div>
-        <div class="story-hero-right">
-          <h2 class="section-title story-title">Us</h2>
-          <div class="story-details-row">
-            <div class="story-detail">
-              <span class="detail-label">First date</span>
-              <span class="detail-value">Neighbors</span>
+        <!-- 2: State maps -->
+        <div class="scroll-visual" data-frame="2">
+          <div class="scroll-visual-inner">
+            <div class="scroll-states">
+              <div class="scroll-state">
+                <img src="images/maryland_outline.svg" alt="Maryland" class="state-svg">
+                <span class="state-dot"></span>
+                <p class="scroll-place">Baltimore, MD</p>
+                <p class="scroll-name">Sally</p>
+              </div>
+              <div class="scroll-state">
+                <img src="images/north_carolina_outline.svg" alt="North Carolina" class="state-svg">
+                <span class="state-dot"></span>
+                <p class="scroll-place">Kernersville, NC</p>
+                <p class="scroll-name">Haley</p>
+              </div>
             </div>
-            <div class="story-detail">
-              <span class="detail-label">Same birthday</span>
-              <span class="detail-value">March 22</span>
+          </div>
+          <div class="mobile-text">
+            <p class="scroll-body">A Baltimore transplant in Charlotte. A girl from a tiny town in North Carolina. One set her distance to 100 miles. The other was 99 miles away.</p>
+            <p class="scroll-lead">Close call.</p>
+          </div>
+        </div>
+        <!-- 3: Neighbors / hot dogs -->
+        <div class="scroll-visual" data-frame="3">
+          <div class="scroll-visual-inner">
+            <div class="hotdog-duo">
+              <img src="images/hotdog.svg" alt="Hot dog" class="hotdog-svg hotdog-1 couple-float">
+              <img src="images/hotdog.svg" alt="Hot dog" class="hotdog-svg hotdog-2 couple-float">
             </div>
-            <div class="story-detail">
-              <span class="detail-label">Status</span>
-              <span class="detail-value">About time</span>
-            </div>
+          </div>
+          <div class="mobile-text">
+            <p class="scroll-body">Our first date was at a bar called Neighbors. We both ordered hot dogs. We were both too nervous to eat.</p>
+            <p class="scroll-lead">Zero bites. Full commitment.</p>
+          </div>
+        </div>
+        <!-- 4: Dogs -->
+        <div class="scroll-visual" data-frame="4">
+          <div class="scroll-visual-inner">
+            <img src="images/dogs.svg" alt="Gilly, Esso, and Dory" class="dogs-illo couple-float">
+          </div>
+          <div class="mobile-text">
+            <p class="scroll-body">It wasn't long before Sally U-Hauled to Greensboro. Dory gained two big sisters. The house got louder. Life got better.</p>
+            <p class="scroll-lead">The rest is history.</p>
           </div>
         </div>
       </div>
-      <div class="story-text-block">
-        <p class="story-lead">One swipe from deleting the app.</p>
-        <p>Sally canceled the first date. Haley almost moved to Portugal. The universe had other plans.</p>
+      <!-- Right: text stays sticky -->
+      <div class="scroll-right">
+        <div class="scroll-text-inner">
+          <div class="scroll-text-area">
+            <div class="scroll-text-frame active" data-frame="0">
+              <p class="scroll-lead">Hi, we're getting married.</p>
+              <p class="scroll-body">And we want you there.</p>
+            </div>
+            <div class="scroll-text-frame" data-frame="1">
+              <p class="scroll-lead">That's us.</p>
+            </div>
+            <div class="scroll-text-frame" data-frame="1b">
+              <p class="scroll-lead">That's us.</p>
+              <p class="scroll-body">Obviously.</p>
+            </div>
+            <div class="scroll-text-frame build" data-frame="2">
+              <p class="scroll-body">A Baltimore transplant in Charlotte. A girl from a tiny town in North Carolina. One set her distance to 100 miles. The other was 99 miles away.</p>
+              <p class="scroll-lead build-in">Close call.</p>
+            </div>
+            <div class="scroll-text-frame build" data-frame="3">
+              <p class="scroll-body">Our first date was at a bar called Neighbors. We both ordered hot dogs. We were both too nervous to eat.</p>
+              <p class="scroll-lead build-in">Zero bites. Full commitment.</p>
+            </div>
+            <div class="scroll-text-frame" data-frame="4">
+              <p class="scroll-body">It wasn't long before Sally U-Hauled to Greensboro. Dory gained two big sisters. The house got louder. Life got better.</p>
+              <p class="scroll-lead">The rest is history.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-
-
-  <!-- Where We Started -->
-  <section class="origin-map">
-    <div class="container">
-      <div class="map-illustration">
-        <div class="map-layout">
-          <div class="map-left">
-            <h2 class="section-title">Where We Started</h2>
-          </div>
-          <div class="map-right">
-            <div class="map-state map-float-1">
-              <div class="state-wrapper">
-                <img src="images/maryland_outline.svg" alt="Maryland" class="state-svg">
-                <span class="state-dot dot-float-1"></span>
-              </div>
-              <div class="map-callout">
-                <span class="callout-place">Baltimore, MD</span>
-                <span class="callout-name">Sally</span>
-              </div>
-            </div>
-            <div class="map-state map-float-2">
-              <div class="state-wrapper">
-                <img src="images/north_carolina_outline.svg" alt="North Carolina" class="state-svg">
-                <span class="state-dot dot-float-2"></span>
-              </div>
-              <div class="map-callout">
-                <span class="callout-place">Kernersville, NC</span>
-                <span class="callout-name">Haley</span>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Quiz + Easter egg at the end -->
+    <div class="scroll-footer">
+      <div class="quiz-cta-mini">
+        <a href="quiz.html" class="quiz-btn">How well do you actually know us? &rarr;</a>
       </div>
+      <a href="pong.html" class="pickle-egg">
+        <img src="images/ball.svg" alt="Play pong" class="pickle-ball pickle-float">
+        <span class="pickle-label">wanna play?</span>
+      </a>
     </div>
   </section>
 
   <!-- Details -->
   <section id="details" class="details">
     <div class="container">
-      <h2 class="section-title">The Details</h2>
+      <h2 class="section-title">The Big Day</h2>
       <div class="details-grid">
-        <div class="detail-card">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
-              <path d="M3 21h18M3 7v14M21 7v14M6 7V4a1 1 0 011-1h10a1 1 0 011 1v3M9 21v-4a2 2 0 012-2h2a2 2 0 012 2v4"/>
-            </svg>
-          </div>
-          <h3>Ceremony</h3>
-          <p class="detail-venue">Winston-Salem City Hall</p>
-          <p class="detail-address">101 N Main St<br>Winston-Salem, NC 27101</p>
-          <p class="detail-time">4:00 PM</p>
-        </div>
         <div class="detail-card">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
               <path d="M8 2v3M16 2v3M3.5 9.09h17M21 8.5V17a4 4 0 01-4 4H7a4 4 0 01-4-4V8.5a4 4 0 014-4h10a4 4 0 014 4z"/>
             </svg>
           </div>
-          <h3>Reception</h3>
+          <h3>When + Where</h3>
           <p class="detail-venue"><a href="https://littlepepnc.com/" target="_blank">Little Pep</a></p>
           <p class="detail-address">533 N Trade St<br>Winston-Salem, NC 27101</p>
-          <p class="detail-time">Following the ceremony</p>
+          <p class="detail-time">5:00 PM</p>
         </div>
         <div class="detail-card">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
-              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1116 0z"/><circle cx="12" cy="10" r="3"/>
+              <path d="M8 2h8l-1 7a4 4 0 01-3 3.87V18h3v2H9v-2h3v-5.13A4 4 0 019 9L8 2z"/>
             </svg>
           </div>
-          <h3>Attire</h3>
-          <p class="detail-venue">Cocktail</p>
+          <h3>Food + Drink</h3>
+          <p class="detail-venue">Bites & wine</p>
+          <p class="detail-address">No assigned seats. No plated dinner.<br>Just good wine, great food, and the people we love.</p>
+        </div>
+        <div class="detail-card">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+              <path d="M12 12a3 3 0 100-6 3 3 0 000 6zM12 9c-3 0-8-2-8-4.5S6 2 6 2h12s0 .5 0 2.5S15 9 12 9zM12 9c3 0 8-2 8-4.5S18 2 18 2"/>
+            </svg>
+          </div>
+          <h3>What to Wear</h3>
+          <p class="detail-venue">Look cute</p>
           <p class="detail-address">Dress to celebrate.<br>Come as you are.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Card Overlay -->
+  <div class="card-overlay" id="cardOverlay">
+    <button class="card-overlay-close" id="cardOverlayClose">&times;</button>
+    <div id="cardOverlayContent"></div>
+  </div>
 
   <!-- Countdown -->
   <section class="countdown">
@@ -221,9 +269,12 @@
         <div class="place-card">
           <h4>Stay</h4>
           <ul>
-            <li><a href="https://www.ihg.com/kimptonhotels/hotels/us/en/winston-salem/intws/hoteldetail" target="_blank">Kimpton Cardinal Hotel</a></li>
-            <li><a href="https://graylyn.com" target="_blank">Graylyn Estate</a></li>
+            <li><a href="https://www.ihg.com/kimptonhotels/hotels/us/en/winston-salem/intws/hoteldetail" target="_blank">Kimpton Cardinal Hotel</a> <span class="tag">downtown</span></li>
+            <li><a href="https://graylyn.com" target="_blank">Graylyn Estate</a> <span class="tag">historic</span></li>
             <li><a href="https://www.brookstowninn.com" target="_blank">Historic Brookstown Inn</a></li>
+            <li><a href="https://www.hilton.com/en/hotels/intdtgi-hotel-indigo-winston-salem-downtown/" target="_blank">Hotel Indigo</a> <span class="tag">downtown</span></li>
+            <li><a href="https://www.hilton.com/en/hotels/inteses-embassy-suites-winston-salem/" target="_blank">Embassy Suites</a></li>
+            <li><a href="https://www.marriott.com/hotels/travel/intmc-winston-salem-marriott/" target="_blank">Winston-Salem Marriott</a></li>
           </ul>
         </div>
         <div class="place-card">
@@ -235,6 +286,8 @@
             <li><a href="https://www.thekatharine.com" target="_blank">The Katharine Brasserie</a></li>
             <li><a href="https://www.bobbyboybakeshop.com" target="_blank">Bobby Boy Pizza</a> <span class="tag">great for kids</span></li>
             <li><a href="https://www.incendiarybrewing.com" target="_blank">Incendiary Brewing</a> <span class="tag">kid friendly</span></li>
+            <li><a href="https://www.caminobakery.com" target="_blank">Camino Bakery</a></li>
+            <li><a href="https://www.krankiescoffee.com" target="_blank">Krankie's Coffee</a></li>
           </ul>
         </div>
         <div class="place-card">
@@ -304,6 +357,9 @@
     <div class="container">
       <p class="footer-names">Sally & Haley</p>
       <p class="footer-date">03.20.27 &middot; Winston-Salem, NC</p>
+    </div>
+    <div class="uhaul-track">
+      <img src="images/uhaul.svg" alt="" class="uhaul-truck" id="uhaul">
     </div>
   </footer>
 
