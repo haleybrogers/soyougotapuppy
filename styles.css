@@ -707,15 +707,23 @@ a:hover {
 }
 
 .quiz-cta-section .quiz-btn {
-  border-color: var(--brown);
+  border: none;
   color: var(--brown);
-  font-size: 0.75rem;
-  padding: 0.5rem 1.2rem;
+  font-size: 0.65rem;
+  font-style: normal;
+  font-family: var(--font-mono);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0;
+  opacity: 0.6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .quiz-cta-section .quiz-btn:hover {
-  background: var(--brown);
-  color: var(--gold);
+  background: none;
+  color: var(--brown);
+  opacity: 1;
 }
 
 .quiz-cta-section .pickle-egg {
