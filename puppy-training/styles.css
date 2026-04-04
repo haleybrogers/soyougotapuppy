@@ -6542,11 +6542,13 @@ details.log-week__day > .log-week__day-header:hover {
 }
 .sign-in-nudge__text {
   margin: 0;
+  font-size: inherit;
 }
 .sign-in-nudge__link {
   color: var(--rust);
   text-decoration: underline;
   text-underline-offset: 2px;
+  font-size: inherit;
   font-weight: 600;
 }
 .sign-in-nudge__link:hover {
