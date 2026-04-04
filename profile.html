@@ -57,6 +57,37 @@
         </button>
       </div>
 
+      <!-- Signed in but needs to set up dog info -->
+      <div id="profileSetup" style="display: none; padding: 2rem 0;">
+        <h2 style="font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.25rem; text-align: center;" id="setupGreeting">nice to meet you!</h2>
+        <p style="color: var(--soft-gray); margin-bottom: 2rem; text-align: center;">tell us about your pup so we can build a training plan just for them</p>
+
+        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem;">
+          <div style="display: grid; gap: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">puppy's name</label>
+              <input type="text" class="login-input" id="setupDogName" placeholder="what's their name?" required>
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">breed</label>
+              <input type="text" class="login-input" id="setupBreed" placeholder="breed (or best guess)">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">birthday (or gotcha day)</label>
+              <input type="date" class="login-input" id="setupBirthday">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">gender</label>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                <label class="gender-btn"><input type="radio" name="setupGender" value="girl" checked><span>girl</span></label>
+                <label class="gender-btn"><input type="radio" name="setupGender" value="boy"><span>boy</span></label>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn--primary" style="width: 100%; margin-top: 1.25rem;" onclick="completeSetup()">build my plan</button>
+        </div>
+      </div>
+
       <!-- Logged in state -->
       <div id="profileLoggedIn" style="display: none;">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
@@ -155,13 +186,16 @@
 
 <script>
 // ---- PROFILE PAGE LOGIC ----
-function initProfilePage() {
+async function initProfilePage() {
   const profile = getProfile();
   const loggedOut = document.getElementById('profileLoggedOut');
   const loggedIn = document.getElementById('profileLoggedIn');
+  const setup = document.getElementById('profileSetup');
 
+  // State 1: Setup complete — show full profile
   if (profile && profile.setupComplete) {
     loggedOut.style.display = 'none';
+    setup.style.display = 'none';
     loggedIn.style.display = 'block';
 
     // Avatar
@@ -223,10 +257,35 @@ function initProfilePage() {
       const jd = new Date(profile.joinedDate);
       joinedEl.textContent = jd.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     }
-  } else {
-    loggedOut.style.display = 'block';
-    loggedIn.style.display = 'none';
+    return;
   }
+
+  // State 2: Signed in with Supabase but no dog info yet — show setup form
+  const client = getSupaClient();
+  if (client) {
+    try {
+      const { data: { session } } = await client.auth.getSession();
+      if (session) {
+        // We have a session — show the setup form
+        loggedOut.style.display = 'none';
+        setup.style.display = 'block';
+        loggedIn.style.display = 'none';
+
+        // Set greeting with their name
+        const greetEl = document.getElementById('setupGreeting');
+        const ownerName = (profile && profile.ownerName) ? profile.ownerName.split(' ')[0].toLowerCase() : 'friend';
+        if (greetEl) greetEl.textContent = 'hey ' + ownerName + '!';
+        return;
+      }
+    } catch (err) {
+      console.warn('Session check failed:', err);
+    }
+  }
+
+  // State 3: Not logged in — show sign-in button
+  loggedOut.style.display = 'block';
+  setup.style.display = 'none';
+  loggedIn.style.display = 'none';
 }
 
 function saveProfilePage() {
@@ -253,6 +312,32 @@ function saveProfilePage() {
   }
 }
 
+function completeSetup() {
+  const profile = getProfile() || {};
+
+  const dogNameEl = document.getElementById('setupDogName');
+  const breedEl = document.getElementById('setupBreed');
+  const bdayEl = document.getElementById('setupBirthday');
+  const genderEl = document.querySelector('input[name="setupGender"]:checked');
+
+  if (!dogNameEl || !dogNameEl.value.trim()) {
+    dogNameEl.focus();
+    return;
+  }
+
+  profile.dogName = dogNameEl.value.trim();
+  if (breedEl && breedEl.value.trim()) profile.dogBreed = breedEl.value.trim();
+  if (bdayEl && bdayEl.value) profile.dogBirthday = bdayEl.value;
+  if (genderEl) profile.dogGender = genderEl.value;
+  profile.setupComplete = true;
+  profile.joinedDate = profile.joinedDate || new Date().toISOString().split('T')[0];
+
+  saveProfile(profile);
+
+  // Refresh the page to show the full profile
+  initProfilePage();
+}
+
 async function handleLogout() {
   const client = getSupaClient();
   if (client) {
@@ -266,8 +351,8 @@ async function handleLogout() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Wait a beat for auth init to finish
-  setTimeout(initProfilePage, 500);
+  // Wait a beat for auth.js init to finish (handles OAuth callback, session restore)
+  setTimeout(() => { initProfilePage(); }, 600);
 });
 </script>
 </body>

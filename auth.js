@@ -632,9 +632,13 @@ function saveSettingsProfile() {
   }
 }
 
-// ---- IS THIS THE TRACKER PAGE? ----
+// ---- PAGE DETECTION ----
 function isTrackerPage() {
   return !!document.getElementById('tracker');
+}
+
+function isProfilePage() {
+  return !!document.getElementById('profileLoggedOut');
 }
 
 // ---- INIT ----
@@ -657,12 +661,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      // New Google user — save their name, then show dog profile form
+      // New Google user — save their name
       const user = session.user;
       const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'friend';
       saveProfile({ ownerName: name, email: user.email, picture: user.user_metadata?.avatar_url });
 
-      // Show the dog profile form (step 2) so they can tell us about their pup
+      // On profile page, let initProfilePage() handle the setup form
+      if (isProfilePage()) return;
+
+      // On other pages, show the dog profile modal (step 2)
       showLoginModal(true);
       return;
     }
@@ -679,10 +686,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
       // Have session but no profile — they need to fill out dog info
+      const user = session.user;
+      const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'friend';
+      saveProfile({ ownerName: name, email: user.email, picture: user.user_metadata?.avatar_url });
+
+      // On profile page, initProfilePage() handles showing the setup form
+      if (isProfilePage()) return;
+
+      // On tracker page, show the modal
       if (isTrackerPage()) {
-        const user = session.user;
-        const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'friend';
-        saveProfile({ ownerName: name, email: user.email, picture: user.user_metadata?.avatar_url });
         showLoginModal(true);
       }
     }
