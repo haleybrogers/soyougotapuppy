@@ -49,7 +49,7 @@ function getTodayString() {
 }
 
 // ---- API CALLS ----
-async function fetchWeeklyPlan(profile) {
+async function fetchWeeklyPlan(profile, forceRefresh) {
   const deviceId = getOrCreateDeviceId();
   const age = getDogAge(profile.dogBirthday);
   const { week, year } = getISOWeekNumber(new Date());
@@ -74,6 +74,7 @@ async function fetchWeeklyPlan(profile) {
         modules_completed: modules,
         week_number: week,
         year: year,
+        force_refresh: !!forceRefresh,
       }),
     });
 
@@ -249,7 +250,10 @@ function renderWeeklyPlan(plan, ageWeeks) {
   el.innerHTML = `
     ${recapHTML}
     <div class="plan__summary">
-      <div class="plan__week-label">week ${ageWeeks} · ${phase.name}</div>
+      <div class="plan__week-label-row">
+        <div class="plan__week-label">week ${ageWeeks} · ${phase.name}</div>
+        <button class="plan__refresh-btn" onclick="refreshPlan()" title="Generate a new plan">↻</button>
+      </div>
       <div class="plan__focus">${escapeHTML(plan.week_focus)}</div>
     </div>
     <div class="plan__areas">
@@ -324,6 +328,21 @@ function retryPlan() {
     if (plan) {
       const age = getDogAge(_currentProfile.dogBirthday);
       renderWeeklyPlan(plan, age.weeks);
+      updatePlanChecks();
+    } else {
+      renderPlanError();
+    }
+  });
+}
+
+function refreshPlan() {
+  if (!_currentProfile) return;
+  renderPlanSkeleton();
+  fetchWeeklyPlan(_currentProfile, true).then(plan => {
+    if (plan) {
+      const age = getDogAge(_currentProfile.dogBirthday);
+      renderWeeklyPlan(plan, age.weeks);
+      updatePlanChecks();
     } else {
       renderPlanError();
     }
