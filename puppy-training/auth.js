@@ -256,7 +256,18 @@ function getPuppyhoodPercent(birthday) {
 }
 
 // ---- GRADING SYSTEM (weekly) ----
+// Starts at A — you lose points for missed days, not earn them from scratch.
+// No grade shown for puppies under 8 weeks.
 function getWeeklyGrade() {
+  // Check if puppy is old enough for grading
+  const profile = getProfile();
+  if (profile && profile.dogBirthday) {
+    const age = getDogAge(profile.dogBirthday);
+    if (age.weeks < 8) {
+      return { letter: '—', score: 100, desc: "too early for grades! just love them right now" };
+    }
+  }
+
   const log = JSON.parse(localStorage.getItem('puppy_training_log') || '{}');
 
   const days = [];
@@ -268,32 +279,29 @@ function getWeeklyGrade() {
   }
 
   const daysTrained = days.filter(d => d.sessions > 0).length;
-  const totalSessions = days.reduce((sum, d) => sum + d.sessions, 0);
-  const avgSessions = daysTrained > 0 ? totalSessions / daysTrained : 0;
+  const daysMissed = 7 - daysTrained;
 
-  let streak = 0;
-  for (const day of days) {
-    if (day.sessions > 0) { streak++; } else { break; }
+  // Start at 100, lose points for missed days
+  // Miss 1 day = still an A. Miss 2 = A-. Miss 3 = B+. etc.
+  let score = 100 - (daysMissed * 12);
+
+  // Small bonus for multiple sessions per day (max +5)
+  const totalSessions = days.reduce((sum, d) => sum + d.sessions, 0);
+  if (totalSessions > daysTrained) {
+    score += Math.min(5, (totalSessions - daysTrained) * 2);
   }
 
-  let score = 0;
-  score += Math.round((daysTrained / 7) * 50);
-  score += Math.round(Math.min(1, avgSessions / 3) * 30);
-  score += Math.round((streak / 7) * 20);
   score = Math.max(0, Math.min(100, score));
 
-  if (score >= 95) return { letter: 'A+', score, desc: "your dog is literally writing you a thank-you note rn" };
-  if (score >= 90) return { letter: 'A', score, desc: "you're killing it. your dog thinks you're a genius" };
-  if (score >= 85) return { letter: 'A-', score, desc: "almost perfect. your dog would give you 5 stars on yelp" };
-  if (score >= 80) return { letter: 'B+', score, desc: "solid work. your dog is bragging about you at the park" };
-  if (score >= 75) return { letter: 'B', score, desc: "good job! your dog is learning the right stuff" };
-  if (score >= 70) return { letter: 'B-', score, desc: "not bad. room for improvement but you're showing up" };
-  if (score >= 65) return { letter: 'C+', score, desc: "you're trying. your dog appreciates the effort... kinda" };
-  if (score >= 60) return { letter: 'C', score, desc: "average. check off some plan sessions to bump this up" };
-  if (score >= 55) return { letter: 'C-', score, desc: "your dog is side-eyeing you a little" };
-  if (score >= 50) return { letter: 'D+', score, desc: "hmm. your dog just filed a complaint with management" };
-  if (score >= 40) return { letter: 'D', score, desc: "your dog is considering hiring a new human" };
-  return { letter: 'F', score, desc: "ok your dog just called animal services... on YOU. (jk, check off some sessions!)" };
+  if (score >= 95) return { letter: 'A+', score, desc: "you showed up every day this week. your pup is so lucky" };
+  if (score >= 90) return { letter: 'A', score, desc: "amazing consistency. this is how good dogs are made" };
+  if (score >= 85) return { letter: 'A-', score, desc: "nearly perfect week. keep this energy going" };
+  if (score >= 75) return { letter: 'B+', score, desc: "really solid week. a couple more sessions and you're golden" };
+  if (score >= 65) return { letter: 'B', score, desc: "good effort! try to get a session in tomorrow" };
+  if (score >= 55) return { letter: 'B-', score, desc: "you're showing up — a few more days this week would help a lot" };
+  if (score >= 45) return { letter: 'C+', score, desc: "a little quiet this week. even 2 minutes a day counts!" };
+  if (score >= 35) return { letter: 'C', score, desc: "your pup is ready when you are. try one quick session today" };
+  return { letter: 'C-', score, desc: "it's been a slow week — that's ok. start fresh today" };
 }
 
 // ---- FUN FACTS BY AGE ----
