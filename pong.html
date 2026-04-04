@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>S + H Pong</title>
   <style>
     @font-face {
@@ -22,12 +22,13 @@
       font-family: 'Elma Mono', monospace;
       color: #6b2f1a;
       overflow: hidden;
+      touch-action: none;
     }
     h1 {
       font-size: 1rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       opacity: 0.6;
     }
     .play-to {
@@ -35,7 +36,7 @@
       letter-spacing: 0.15em;
       text-transform: uppercase;
       opacity: 0.35;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
     canvas {
       border: 2px solid #c9a96e;
@@ -45,20 +46,20 @@
     .score {
       display: flex;
       gap: 3rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       font-size: 0.75rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
     }
     .score span {
-      color: #c9a96e;
+      color: #dd1000;
       font-size: 1.5rem;
       display: block;
       text-align: center;
       margin-top: 0.25rem;
     }
     .instructions {
-      margin-top: 1rem;
+      margin-top: 0.8rem;
       font-size: 0.6rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -74,9 +75,9 @@
       font-size: 0.7rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
+      z-index: 50;
     }
     a.back:hover { opacity: 0.7; }
-    .score span { color: #dd1000; }
 
     /* Game over overlay */
     .game-over-overlay {
@@ -89,6 +90,7 @@
       justify-content: center;
       z-index: 100;
       animation: fadeIn 0.4s ease-out;
+      padding: 2rem;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -140,6 +142,17 @@
       opacity: 0.4;
       margin-bottom: 2rem;
     }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 0.7rem; margin-bottom: 0.3rem; }
+      .play-to { margin-bottom: 0.5rem; }
+      .score { gap: 2rem; margin-bottom: 0.5rem; font-size: 0.6rem; }
+      .score span { font-size: 1.2rem; }
+      .instructions { font-size: 0.5rem; }
+      .game-over-overlay .womp { font-size: 1.8rem; }
+      .game-over-overlay .game-over-msg { font-size: 0.65rem; }
+      .game-over-overlay .win-msg { font-size: 1.4rem; }
+    }
   </style>
 </head>
 <body>
@@ -150,37 +163,67 @@
     <div>Sally AI<span id="score1">0</span></div>
     <div>Haley<span id="score2">0</span></div>
   </div>
-  <canvas id="pong" width="900" height="550"></canvas>
-  <p class="instructions">&uarr; / &darr; &mdash; move paddle</p>
+  <canvas id="pong"></canvas>
+  <p class="instructions" id="instructions"></p>
   <div class="game-over-overlay" id="gameOverOverlay" style="display:none"></div>
 
   <script>
     const canvas = document.getElementById('pong');
     const ctx = canvas.getContext('2d');
+    const isMobile = window.innerWidth <= 768;
 
-    // Retina / HiDPI fix
+    // Dimensions: landscape on desktop, portrait on mobile
     const dpr = window.devicePixelRatio || 1;
-    const W = 900, H = 550;
+    let W, H;
+
+    if (isMobile) {
+      W = Math.min(window.innerWidth - 20, 360);
+      H = Math.min(window.innerHeight - 220, 500);
+    } else {
+      W = 900;
+      H = 550;
+    }
+
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.scale(dpr, dpr);
 
-    const PADDLE_W = 30;
-    const PADDLE_H = 70;
-    const BALL_R = 12;
+    // On mobile: game is vertical (paddles top/bottom, ball moves up/down)
+    // On desktop: game is horizontal (paddles left/right, ball moves left/right)
+    // We use "primary" axis (the long axis for ball travel) and "secondary" for paddle movement
+    // Mobile: primary = Y (ball goes up/down), secondary = X (paddle moves left/right)
+    // Desktop: primary = X (ball goes left/right), secondary = Y (paddle moves up/down)
+
+    const PADDLE_THICK = isMobile ? 12 : 30;  // thickness in primary direction
+    const PADDLE_LEN = isMobile ? 70 : 70;     // length in secondary direction
+    const BALL_R = isMobile ? 10 : 12;
     const WINNING_SCORE = 7;
+    const MARGIN = isMobile ? 15 : 20;
 
     const paddleImg = new Image();
     paddleImg.src = 'images/paddle.svg';
     const ballImg = new Image();
     ballImg.src = 'images/ball.svg';
 
+    // Instructions
+    document.getElementById('instructions').innerHTML = isMobile
+      ? 'drag to move paddle'
+      : '&uarr; / &darr; &mdash; move paddle';
+
+    // State uses abstract coords:
+    // p1/p2.pos = position along secondary axis (center of paddle)
+    // ball.x/y = actual canvas coords
+    const SEC = isMobile ? W : H;  // secondary axis length
+    const PRI = isMobile ? H : W;  // primary axis length
+
     const state = {
       ball: { x: W / 2, y: H / 2, vx: 0, vy: 0 },
-      p1: { y: H / 2 - PADDLE_H / 2 },
-      p2: { y: H / 2 - PADDLE_H / 2 },
+      // p1 = Sally (top on mobile, left on desktop)
+      // p2 = Haley (bottom on mobile, right on desktop)
+      p1: { pos: SEC / 2 },
+      p2: { pos: SEC / 2 },
       score1: 0,
       score2: 0,
       running: false,
@@ -192,6 +235,7 @@
     let countdownTimer = null;
     let waitingForStart = true;
 
+    // Keyboard (desktop)
     document.addEventListener('keydown', e => {
       keys[e.key] = true;
       if (e.key === ' ' && waitingForStart && !state.running && !state.winner) {
@@ -200,7 +244,31 @@
     });
     document.addEventListener('keyup', e => keys[e.key] = false);
 
-    let baseSpeed = 6;
+    // Touch (mobile)
+    let touchX = null;
+    if (isMobile) {
+      canvas.addEventListener('touchstart', e => {
+        e.preventDefault();
+        if (waitingForStart && !state.running && !state.winner) {
+          startCountdown();
+          return;
+        }
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        touchX = touch.clientX - rect.left;
+        state.p2.pos = touchX;
+      });
+      canvas.addEventListener('touchmove', e => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        touchX = touch.clientX - rect.left;
+        state.p2.pos = Math.max(PADDLE_LEN / 2, Math.min(W - PADDLE_LEN / 2, touchX));
+      });
+      canvas.addEventListener('touchend', () => { touchX = null; });
+    }
+
+    let baseSpeed = isMobile ? 5 : 6;
     let speedMultiplier = 1;
     let rallies = 0;
 
@@ -225,8 +293,15 @@
       rallies = 0;
       const angle = (Math.random() - 0.5) * Math.PI / 3;
       const dir = Math.random() > 0.5 ? 1 : -1;
-      state.ball.vx = dir * baseSpeed * Math.cos(angle);
-      state.ball.vy = baseSpeed * Math.sin(angle);
+
+      if (isMobile) {
+        // Ball travels vertically
+        state.ball.vy = dir * baseSpeed * Math.cos(angle);
+        state.ball.vx = baseSpeed * Math.sin(angle);
+      } else {
+        state.ball.vx = dir * baseSpeed * Math.cos(angle);
+        state.ball.vy = baseSpeed * Math.sin(angle);
+      }
     }
 
     function resetBall() {
@@ -243,92 +318,157 @@
     }
 
     function update() {
-      // Haley paddle (right) — arrow keys
-      const speed = 5;
-      if (keys['ArrowUp']) state.p2.y = Math.max(0, state.p2.y - speed);
-      if (keys['ArrowDown']) state.p2.y = Math.min(H - PADDLE_H, state.p2.y + speed);
+      const pSpeed = 5;
 
-      // Sally AI (left paddle) — fast reactions, predicts ball
-      if (state.running) {
-        const sallyCenter = state.p1.y + PADDLE_H / 2;
-        const aiSpeed = 4.5 + (rallies * 0.2);
-        if (state.ball.vx < 0) {
-          // Ball coming toward Sally — predict where it will arrive
-          const timeToReach = Math.abs((20 + PADDLE_W - state.ball.x) / (state.ball.vx || 1));
-          let predictedY = state.ball.y + state.ball.vy * timeToReach;
-          // Bounce prediction
-          while (predictedY < 0 || predictedY > H) {
-            if (predictedY < 0) predictedY = -predictedY;
-            if (predictedY > H) predictedY = 2 * H - predictedY;
+      if (isMobile) {
+        // --- MOBILE: vertical game ---
+        // Haley paddle (bottom) — touch controlled (handled in touchmove)
+
+        // Sally AI (top paddle)
+        if (state.running) {
+          const sallyCenter = state.p1.pos;
+          const aiSpeed = 4 + (rallies * 0.15);
+          if (state.ball.vy < 0) {
+            // Ball coming toward Sally (upward)
+            const timeToReach = Math.abs((MARGIN + PADDLE_THICK - state.ball.y) / (state.ball.vy || 1));
+            let predictedX = state.ball.x + state.ball.vx * timeToReach;
+            while (predictedX < 0 || predictedX > W) {
+              if (predictedX < 0) predictedX = -predictedX;
+              if (predictedX > W) predictedX = 2 * W - predictedX;
+            }
+            if (sallyCenter < predictedX - 4) state.p1.pos += Math.min(aiSpeed, predictedX - sallyCenter);
+            if (sallyCenter > predictedX + 4) state.p1.pos -= Math.min(aiSpeed, sallyCenter - predictedX);
+          } else {
+            const center = W / 2;
+            if (sallyCenter < center - 15) state.p1.pos += 2;
+            if (sallyCenter > center + 15) state.p1.pos -= 2;
           }
-          if (sallyCenter < predictedY - 4) state.p1.y += Math.min(aiSpeed, predictedY - sallyCenter);
-          if (sallyCenter > predictedY + 4) state.p1.y -= Math.min(aiSpeed, sallyCenter - predictedY);
-        } else {
-          // Ball going away — drift toward center
-          const center = H / 2;
-          if (sallyCenter < center - 15) state.p1.y += 2.5;
-          if (sallyCenter > center + 15) state.p1.y -= 2.5;
+          state.p1.pos = Math.max(PADDLE_LEN / 2, Math.min(W - PADDLE_LEN / 2, state.p1.pos));
         }
-        state.p1.y = Math.max(0, Math.min(H - PADDLE_H, state.p1.y));
-      }
 
-      if (!state.running) return;
+        if (!state.running) return;
 
-      const b = state.ball;
-      b.x += b.vx;
-      b.y += b.vy;
+        const b = state.ball;
+        b.x += b.vx;
+        b.y += b.vy;
 
-      // Top/bottom bounce
-      if (b.y - BALL_R <= 0 || b.y + BALL_R >= H) {
-        b.vy *= -1;
-        b.y = b.y - BALL_R <= 0 ? BALL_R : H - BALL_R;
-      }
-
-      // Left paddle collision (Sally)
-      if (b.x - BALL_R <= 20 + PADDLE_W && b.y >= state.p1.y && b.y <= state.p1.y + PADDLE_H && b.vx < 0) {
-        rallies++;
-        speedMultiplier = 1 + rallies * 0.08;
-        b.vx = -b.vx * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
-        b.vx = Math.sign(b.vx) * Math.min(Math.abs(b.vx), 12);
-        const hit = (b.y - (state.p1.y + PADDLE_H / 2)) / (PADDLE_H / 2);
-        b.vy = hit * 2 * speedMultiplier;
-        b.x = 20 + PADDLE_W + BALL_R;
-      }
-
-      // Right paddle collision (Haley)
-      if (b.x + BALL_R >= W - 20 - PADDLE_W && b.y >= state.p2.y && b.y <= state.p2.y + PADDLE_H && b.vx > 0) {
-        rallies++;
-        speedMultiplier = 1 + rallies * 0.08;
-        b.vx = -b.vx * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
-        b.vx = Math.sign(b.vx) * Math.min(Math.abs(b.vx), 12);
-        const hit = (b.y - (state.p2.y + PADDLE_H / 2)) / (PADDLE_H / 2);
-        b.vy = hit * 2 * speedMultiplier;
-        b.x = W - 20 - PADDLE_W - BALL_R;
-      }
-
-      // Scoring (first to 7, win by 2)
-      if (b.x < 0) {
-        state.score2++;
-        updateScoreDisplay();
-        if (state.score2 >= WINNING_SCORE && state.score2 - state.score1 >= 2) {
-          state.winner = 'Haley';
-          state.running = false;
-          showGameOver();
-        } else {
-          resetBall();
-          setTimeout(() => startCountdown(), 500);
+        // Left/right bounce
+        if (b.x - BALL_R <= 0 || b.x + BALL_R >= W) {
+          b.vx *= -1;
+          b.x = b.x - BALL_R <= 0 ? BALL_R : W - BALL_R;
         }
-      }
-      if (b.x > W) {
-        state.score1++;
-        updateScoreDisplay();
-        if (state.score1 >= WINNING_SCORE && state.score1 - state.score2 >= 2) {
-          state.winner = 'Sally AI';
-          state.running = false;
-          showGameOver();
-        } else {
-          resetBall();
-          setTimeout(() => startCountdown(), 500);
+
+        // Top paddle collision (Sally)
+        if (b.y - BALL_R <= MARGIN + PADDLE_THICK && b.x >= state.p1.pos - PADDLE_LEN / 2 && b.x <= state.p1.pos + PADDLE_LEN / 2 && b.vy < 0) {
+          rallies++;
+          speedMultiplier = 1 + rallies * 0.08;
+          b.vy = -b.vy * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
+          b.vy = Math.sign(b.vy) * Math.min(Math.abs(b.vy), 10);
+          const hit = (b.x - state.p1.pos) / (PADDLE_LEN / 2);
+          b.vx = hit * 2 * speedMultiplier;
+          b.y = MARGIN + PADDLE_THICK + BALL_R;
+        }
+
+        // Bottom paddle collision (Haley)
+        if (b.y + BALL_R >= H - MARGIN - PADDLE_THICK && b.x >= state.p2.pos - PADDLE_LEN / 2 && b.x <= state.p2.pos + PADDLE_LEN / 2 && b.vy > 0) {
+          rallies++;
+          speedMultiplier = 1 + rallies * 0.08;
+          b.vy = -b.vy * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
+          b.vy = Math.sign(b.vy) * Math.min(Math.abs(b.vy), 10);
+          const hit = (b.x - state.p2.pos) / (PADDLE_LEN / 2);
+          b.vx = hit * 2 * speedMultiplier;
+          b.y = H - MARGIN - PADDLE_THICK - BALL_R;
+        }
+
+        // Scoring
+        if (b.y < 0) {
+          state.score2++;
+          updateScoreDisplay();
+          if (state.score2 >= WINNING_SCORE && state.score2 - state.score1 >= 2) {
+            state.winner = 'Haley'; state.running = false; showGameOver();
+          } else { resetBall(); setTimeout(() => startCountdown(), 500); }
+        }
+        if (b.y > H) {
+          state.score1++;
+          updateScoreDisplay();
+          if (state.score1 >= WINNING_SCORE && state.score1 - state.score2 >= 2) {
+            state.winner = 'Sally AI'; state.running = false; showGameOver();
+          } else { resetBall(); setTimeout(() => startCountdown(), 500); }
+        }
+
+      } else {
+        // --- DESKTOP: horizontal game ---
+        if (keys['ArrowUp']) state.p2.pos = Math.max(PADDLE_LEN / 2, state.p2.pos - pSpeed);
+        if (keys['ArrowDown']) state.p2.pos = Math.min(H - PADDLE_LEN / 2, state.p2.pos + pSpeed);
+
+        if (state.running) {
+          const sallyCenter = state.p1.pos;
+          const aiSpeed = 4.5 + (rallies * 0.2);
+          if (state.ball.vx < 0) {
+            const timeToReach = Math.abs((MARGIN + PADDLE_THICK - state.ball.x) / (state.ball.vx || 1));
+            let predictedY = state.ball.y + state.ball.vy * timeToReach;
+            while (predictedY < 0 || predictedY > H) {
+              if (predictedY < 0) predictedY = -predictedY;
+              if (predictedY > H) predictedY = 2 * H - predictedY;
+            }
+            if (sallyCenter < predictedY - 4) state.p1.pos += Math.min(aiSpeed, predictedY - sallyCenter);
+            if (sallyCenter > predictedY + 4) state.p1.pos -= Math.min(aiSpeed, sallyCenter - predictedY);
+          } else {
+            const center = H / 2;
+            if (sallyCenter < center - 15) state.p1.pos += 2.5;
+            if (sallyCenter > center + 15) state.p1.pos -= 2.5;
+          }
+          state.p1.pos = Math.max(PADDLE_LEN / 2, Math.min(H - PADDLE_LEN / 2, state.p1.pos));
+        }
+
+        if (!state.running) return;
+
+        const b = state.ball;
+        b.x += b.vx;
+        b.y += b.vy;
+
+        // Top/bottom bounce
+        if (b.y - BALL_R <= 0 || b.y + BALL_R >= H) {
+          b.vy *= -1;
+          b.y = b.y - BALL_R <= 0 ? BALL_R : H - BALL_R;
+        }
+
+        // Left paddle (Sally)
+        if (b.x - BALL_R <= MARGIN + PADDLE_THICK && b.y >= state.p1.pos - PADDLE_LEN / 2 && b.y <= state.p1.pos + PADDLE_LEN / 2 && b.vx < 0) {
+          rallies++;
+          speedMultiplier = 1 + rallies * 0.08;
+          b.vx = -b.vx * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
+          b.vx = Math.sign(b.vx) * Math.min(Math.abs(b.vx), 12);
+          const hit = (b.y - state.p1.pos) / (PADDLE_LEN / 2);
+          b.vy = hit * 2 * speedMultiplier;
+          b.x = MARGIN + PADDLE_THICK + BALL_R;
+        }
+
+        // Right paddle (Haley)
+        if (b.x + BALL_R >= W - MARGIN - PADDLE_THICK && b.y >= state.p2.pos - PADDLE_LEN / 2 && b.y <= state.p2.pos + PADDLE_LEN / 2 && b.vx > 0) {
+          rallies++;
+          speedMultiplier = 1 + rallies * 0.08;
+          b.vx = -b.vx * speedMultiplier / (speedMultiplier - 0.08 + 0.0001);
+          b.vx = Math.sign(b.vx) * Math.min(Math.abs(b.vx), 12);
+          const hit = (b.y - state.p2.pos) / (PADDLE_LEN / 2);
+          b.vy = hit * 2 * speedMultiplier;
+          b.x = W - MARGIN - PADDLE_THICK - BALL_R;
+        }
+
+        // Scoring
+        if (b.x < 0) {
+          state.score2++;
+          updateScoreDisplay();
+          if (state.score2 >= WINNING_SCORE && state.score2 - state.score1 >= 2) {
+            state.winner = 'Haley'; state.running = false; showGameOver();
+          } else { resetBall(); setTimeout(() => startCountdown(), 500); }
+        }
+        if (b.x > W) {
+          state.score1++;
+          updateScoreDisplay();
+          if (state.score1 >= WINNING_SCORE && state.score1 - state.score2 >= 2) {
+            state.winner = 'Sally AI'; state.running = false; showGameOver();
+          } else { resetBall(); setTimeout(() => startCountdown(), 500); }
         }
       }
     }
@@ -342,30 +482,48 @@
       ctx.strokeStyle = 'rgba(201, 169, 110, 0.3)';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(W / 2, 0);
-      ctx.lineTo(W / 2, H);
+      if (isMobile) {
+        ctx.moveTo(0, H / 2);
+        ctx.lineTo(W, H / 2);
+      } else {
+        ctx.moveTo(W / 2, 0);
+        ctx.lineTo(W / 2, H);
+      }
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Paddles
-      if (paddleImg.complete) {
-        // Left paddle
-        ctx.save();
-        ctx.translate(20 + PADDLE_W / 2, state.p1.y + PADDLE_H / 2);
-        ctx.rotate(-Math.PI / 10);
-        ctx.drawImage(paddleImg, -PADDLE_W, -PADDLE_H, PADDLE_W * 2, PADDLE_H * 2);
-        ctx.restore();
-        // Right paddle (flipped)
-        ctx.save();
-        ctx.translate(W - 20 - PADDLE_W / 2, state.p2.y + PADDLE_H / 2);
-        ctx.scale(-1, 1);
-        ctx.rotate(-Math.PI / 10);
-        ctx.drawImage(paddleImg, -PADDLE_W, -PADDLE_H, PADDLE_W * 2, PADDLE_H * 2);
-        ctx.restore();
-      } else {
+      if (isMobile) {
+        // --- MOBILE: horizontal paddles at top/bottom ---
         ctx.fillStyle = '#c9a96e';
-        ctx.fillRect(20, state.p1.y, PADDLE_W, PADDLE_H);
-        ctx.fillRect(W - 20 - PADDLE_W, state.p2.y, PADDLE_W, PADDLE_H);
+        // Sally (top)
+        const p1x = state.p1.pos - PADDLE_LEN / 2;
+        ctx.beginPath();
+        ctx.roundRect(p1x, MARGIN, PADDLE_LEN, PADDLE_THICK, 4);
+        ctx.fill();
+        // Haley (bottom)
+        const p2x = state.p2.pos - PADDLE_LEN / 2;
+        ctx.beginPath();
+        ctx.roundRect(p2x, H - MARGIN - PADDLE_THICK, PADDLE_LEN, PADDLE_THICK, 4);
+        ctx.fill();
+      } else {
+        // --- DESKTOP: vertical paddles with images ---
+        if (paddleImg.complete) {
+          ctx.save();
+          ctx.translate(MARGIN + PADDLE_THICK / 2, state.p1.pos);
+          ctx.rotate(-Math.PI / 10);
+          ctx.drawImage(paddleImg, -PADDLE_THICK, -PADDLE_LEN, PADDLE_THICK * 2, PADDLE_LEN * 2);
+          ctx.restore();
+          ctx.save();
+          ctx.translate(W - MARGIN - PADDLE_THICK / 2, state.p2.pos);
+          ctx.scale(-1, 1);
+          ctx.rotate(-Math.PI / 10);
+          ctx.drawImage(paddleImg, -PADDLE_THICK, -PADDLE_LEN, PADDLE_THICK * 2, PADDLE_LEN * 2);
+          ctx.restore();
+        } else {
+          ctx.fillStyle = '#c9a96e';
+          ctx.fillRect(MARGIN, state.p1.pos - PADDLE_LEN / 2, PADDLE_THICK, PADDLE_LEN);
+          ctx.fillRect(W - MARGIN - PADDLE_THICK, state.p2.pos - PADDLE_LEN / 2, PADDLE_THICK, PADDLE_LEN);
+        }
       }
 
       // Ball
@@ -384,25 +542,25 @@
         ctx.fillStyle = 'rgba(252, 227, 227, 0.85)';
         ctx.fillRect(0, 0, W, H);
         ctx.fillStyle = '#dd1000';
-        ctx.font = '72px "Elma Mono", monospace';
+        ctx.font = (isMobile ? '52' : '72') + 'px "Elma Mono", monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(countdown, W / 2, H / 2 + 20);
+        ctx.fillText(countdown, W / 2, H / 2 + 15);
       }
 
-      // Start prompt (waiting for space)
+      // Start prompt
       if (waitingForStart && !state.running && !state.winner) {
         ctx.fillStyle = 'rgba(252, 227, 227, 0.9)';
         ctx.fillRect(0, 0, W, H);
         ctx.textAlign = 'center';
 
         ctx.fillStyle = '#dd1000';
-        ctx.font = '28px "Elma Mono", monospace';
-        ctx.fillText('PRESS SPACE TO PLAY', W / 2, H / 2 - 10);
+        ctx.font = (isMobile ? '18' : '28') + 'px "Elma Mono", monospace';
+        ctx.fillText(isMobile ? 'TAP TO PLAY' : 'PRESS SPACE TO PLAY', W / 2, H / 2 - 10);
 
         ctx.fillStyle = '#6b2f1a';
         ctx.globalAlpha = 0.35;
-        ctx.font = '11px "Elma Mono", monospace';
-        ctx.fillText('use arrow keys to move your paddle', W / 2, H / 2 + 25);
+        ctx.font = (isMobile ? '9' : '11') + 'px "Elma Mono", monospace';
+        ctx.fillText(isMobile ? 'drag to move your paddle' : 'use arrow keys to move your paddle', W / 2, H / 2 + 20);
         ctx.globalAlpha = 1;
       }
     }

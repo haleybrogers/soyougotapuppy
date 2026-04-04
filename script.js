@@ -120,6 +120,44 @@ document.querySelectorAll('.song, .details, .greensboro, .rsvp, .countdown').for
   observer.observe(el);
 });
 
+// Mobile slide-in animations
+if (window.innerWidth <= 768) {
+  const mobileSlides = document.querySelectorAll(
+    '.scroll-visual-intro, .scroll-visual, .scroll-footer, .details .container, .countdown .container, .greensboro .container, .rsvp .container'
+  );
+
+  // Add m-slide class to each slide's children for staggered animation
+  mobileSlides.forEach(slide => {
+    const children = slide.querySelectorAll(
+      '.scroll-visual-inner, .mobile-text, .intro-sticky, .section-title, .section-subtitle, .details-grid, .countdown-timer, .countdown-label, .places-grid, .rsvp-form, .quiz-cta-mini, .pickle-egg'
+    );
+    children.forEach((child, i) => {
+      child.classList.add('m-slide');
+      if (i > 0) child.classList.add('m-slide-delay-' + Math.min(i, 3));
+    });
+    // If no children matched, animate the slide itself
+    if (children.length === 0) {
+      slide.classList.add('m-slide');
+    }
+  });
+
+  const mobileObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate all m-slide elements within this section
+        entry.target.querySelectorAll('.m-slide').forEach(el => {
+          el.classList.add('m-visible');
+        });
+        if (entry.target.classList.contains('m-slide')) {
+          entry.target.classList.add('m-visible');
+        }
+      }
+    });
+  }, { threshold: 0.2 });
+
+  mobileSlides.forEach(slide => mobileObserver.observe(slide));
+}
+
 // Scrollytelling — Us section (split screen)
 const scrollTextFrames = document.querySelectorAll('.scroll-text-frame');
 const scrollVisuals = document.querySelectorAll('.scroll-visual');
