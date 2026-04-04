@@ -4,8 +4,8 @@
     {
       "name": "puppy-training",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "puppy-training"],
-      "port": 8080
+      "runtimeArgs": ["-m", "http.server", "8090", "--directory", "puppy-training"],
+      "port": 8090
     }
   ]
 }
