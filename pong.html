@@ -704,32 +704,37 @@
     }
 
     // --- Leaderboard ---
-    function saveScore(name, dinkCount) {
+    function saveScore(name, dinkCount, onDone) {
       const entry = { name: name.substring(0, 15), dinks: dinkCount, ts: Date.now() };
-      return db.ref('pong-leaderboard').push(entry);
+      db.ref('pong-leaderboard').push(entry, () => {
+        if (onDone) onDone();
+      });
     }
 
     function renderLeaderboard(container, highlightDinks) {
-      db.ref('pong-leaderboard').orderByChild('dinks').limitToLast(10).once('value', snap => {
-        const entries = [];
-        snap.forEach(child => entries.push(child.val()));
-        entries.sort((a, b) => b.dinks - a.dinks);
+      fetch('https://halsal-default-rtdb.firebaseio.com/pong-leaderboard.json')
+        .then(r => r.json())
+        .then(data => {
+          const entries = data ? Object.values(data) : [];
+          entries.sort((a, b) => b.dinks - a.dinks);
+          const top10 = entries.slice(0, 10);
 
-        if (entries.length === 0) {
-          container.innerHTML = '<p style="font-size:0.55rem;opacity:0.4;text-align:center">No scores yet. Be the first!</p>';
-          return;
-        }
+          if (top10.length === 0) {
+            container.innerHTML = '<p style="font-size:0.55rem;opacity:0.4;text-align:center">No scores yet. Be the first!</p>';
+            return;
+          }
 
-        container.innerHTML = entries.map((e, i) => {
-          const isYou = (e.dinks === highlightDinks && !entries.slice(0, i).some(prev => prev.dinks === highlightDinks && prev.highlighted));
-          e.highlighted = isYou;
-          return `<div class="lb-entry${isYou ? ' lb-you' : ''}">
-            <span class="lb-rank">${i + 1}</span>
-            <span class="lb-name">${e.name}</span>
-            <span class="lb-dinks">${e.dinks} dinks</span>
-          </div>`;
-        }).join('');
-      });
+          let highlighted = false;
+          container.innerHTML = top10.map((e, i) => {
+            const isYou = !highlighted && e.dinks === highlightDinks;
+            if (isYou) highlighted = true;
+            return `<div class="lb-entry${isYou ? ' lb-you' : ''}">
+              <span class="lb-rank">${i + 1}</span>
+              <span class="lb-name">${e.name}</span>
+              <span class="lb-dinks">${e.dinks} dinks</span>
+            </div>`;
+          }).join('');
+        });
     }
 
     function showGameOver() {
@@ -761,14 +766,18 @@
 
       overlay.style.display = 'flex';
 
-      renderLeaderboard(document.getElementById('lbEntries'), null);
+      // Small delay ensures Firebase SDK has synced fresh data
+      setTimeout(() => renderLeaderboard(document.getElementById('lbEntries'), null), 300);
 
       document.getElementById('saveBtn').addEventListener('click', () => {
         const name = document.getElementById('nameInput').value.trim();
         if (!name) return;
-        saveScore(name, dinks).then(() => {
+        const btn = document.getElementById('saveBtn');
+        btn.textContent = '...';
+        btn.disabled = true;
+        saveScore(name, dinks, () => {
           document.getElementById('nameEntry').innerHTML = '<p class="name-saved">Saved!</p>';
-          renderLeaderboard(document.getElementById('lbEntries'), dinks);
+          setTimeout(() => renderLeaderboard(document.getElementById('lbEntries'), dinks), 500);
         });
       });
 
