@@ -239,9 +239,11 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem clamp(1.25rem, 5vw, 3rem);
+  padding: 0.75rem clamp(1rem, 4vw, 3rem);
   max-width: 1300px;
   margin: 0 auto;
+  gap: 0.75rem;
+  overflow: visible;
 }
 
 .nav__logo {
@@ -253,6 +255,8 @@ section {
   align-items: center;
   gap: 0.5rem;
   letter-spacing: -0.01em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav__logo span {
@@ -275,6 +279,7 @@ section {
   letter-spacing: 0.05em;
   transition: color var(--transition-fast);
   position: relative;
+  white-space: nowrap;
 }
 
 .nav__links a:hover {
@@ -339,6 +344,7 @@ section {
 }
 
 @media (max-width: 768px) {
+  .nav__logo { font-size: 1.05rem; }
   .nav__hamburger { display: block; }
   .nav__links {
     display: none;

@@ -126,11 +126,19 @@ async function signInWithGoogle() {
 }
 
 // ---- LOGIN MODAL ----
-function showLoginModal() {
+function showLoginModal(skipToStep2) {
   if (isLoggedIn()) return;
 
   const existing = document.getElementById('loginOverlay');
-  if (existing) { existing.style.display = 'flex'; return; }
+  if (existing) {
+    existing.style.display = 'flex';
+    if (skipToStep2) {
+      const profile = getProfile();
+      const name = (profile && profile.ownerName) ? profile.ownerName.split(' ')[0] : 'friend';
+      goToStep2(name);
+    }
+    return;
+  }
 
   const overlay = document.createElement('div');
   overlay.id = 'loginOverlay';
@@ -139,7 +147,7 @@ function showLoginModal() {
     <div class="login-modal">
       <button class="login-close" onclick="closeLogin()">&times;</button>
       <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 0.25rem;">welcome to the chaos</h2>
-      <p style="color: var(--soft-gray); margin-bottom: 1.5rem;">sign in to track your progress, log behaviors, and get a grade on your puppy parenting (no pressure)</p>
+      <p style="color: var(--soft-gray); margin-bottom: 1.5rem;">sign in to get a personalized training plan, track your progress, and get graded on your puppy parenting</p>
 
       <div id="loginStep1">
         <button style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem; padding: 0.7rem 1rem; background: #fff; color: #3c4043; border: 1px solid #dadce0; border-radius: 9999px; font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 150ms ease, box-shadow 150ms ease;" onmouseover="this.style.background='#f7f8f8';this.style.boxShadow='0 1px 3px rgba(0,0,0,0.08)'" onmouseout="this.style.background='#fff';this.style.boxShadow='none'" onclick="signInWithGoogle()">
@@ -151,10 +159,12 @@ function showLoginModal() {
           <input type="text" class="login-input" id="manualName" placeholder="your name(s)" required>
           <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem; background: var(--cream-warm); color: var(--bark); border: 1px solid rgba(0,0,0,0.1);">continue as guest</button>
         </form>
+        <p style="font-size: 0.75rem; color: var(--soft-gray); margin-top: 1rem; text-align: center;">guest data stays on this device only. sign in with Google to save across devices.</p>
       </div>
 
       <div id="loginStep2" style="display: none;">
         <p style="font-weight: 600; margin-bottom: 1rem;" id="loginGreeting">nice to meet you!</p>
+        <p style="color: var(--soft-gray); margin-bottom: 1rem; font-size: 0.85rem;">tell us about your pup so we can build a training plan just for them</p>
         <form onsubmit="event.preventDefault(); saveDogProfile();">
           <input type="text" class="login-input" id="dogName" placeholder="your puppy's name" required>
           <input type="text" class="login-input" id="dogBreed" placeholder="breed (or best guess)" required>
@@ -164,12 +174,18 @@ function showLoginModal() {
           </div>
           <label style="display: block; font-size: 0.85rem; color: var(--soft-gray); margin-bottom: 0.25rem; margin-top: 0.5rem;">puppy's birthday (or gotcha day)</label>
           <input type="date" class="login-input" id="dogBirthday" required>
-          <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 0.75rem;">let's go</button>
+          <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 0.75rem;">build my plan</button>
         </form>
       </div>
     </div>
   `;
   document.body.appendChild(overlay);
+
+  if (skipToStep2) {
+    const profile = getProfile();
+    const name = (profile && profile.ownerName) ? profile.ownerName.split(' ')[0] : 'friend';
+    goToStep2(name);
+  }
 }
 
 function closeLogin() {
@@ -616,6 +632,11 @@ function saveSettingsProfile() {
   }
 }
 
+// ---- IS THIS THE TRACKER PAGE? ----
+function isTrackerPage() {
+  return !!document.getElementById('tracker');
+}
+
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', async () => {
   const client = getSupaClient();
@@ -625,7 +646,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Supabase handles the token exchange automatically
     const { data: { session } } = await client.auth.getSession();
     if (session) {
-      // Try to load profile from server first
+      // Clean URL hash
+      history.replaceState(null, '', window.location.pathname);
+
+      // Try to load existing profile from server
       const loaded = await loadProfileFromServer();
       if (loaded) {
         refreshDashboard();
@@ -633,38 +657,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      // New Google user — pre-fill their name and go to step 2
+      // New Google user — save their name, then show dog profile form
       const user = session.user;
       const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'friend';
       saveProfile({ ownerName: name, email: user.email, picture: user.user_metadata?.avatar_url });
-      showLoginModal();
-      goToStep2(name.split(' ')[0]);
+
+      // Show the dog profile form (step 2) so they can tell us about their pup
+      showLoginModal(true);
       return;
     }
   }
 
-  // Check if we have an existing Supabase session
+  // Check if we have an existing Supabase session but no local profile
   if (client) {
     const { data: { session } } = await client.auth.getSession();
     if (session && !isLoggedIn()) {
-      // Have a session but no local profile — try loading from server
       const loaded = await loadProfileFromServer();
       if (loaded) {
         refreshDashboard();
         populateSettings();
         return;
       }
+      // Have session but no profile — they need to fill out dog info
+      if (isTrackerPage()) {
+        const user = session.user;
+        const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'friend';
+        saveProfile({ ownerName: name, email: user.email, picture: user.user_metadata?.avatar_url });
+        showLoginModal(true);
+      }
     }
   }
 
-  // Normal flow
+  // Normal flow — only prompt login on the tracker page, never auto-popup elsewhere
   const profile = getProfile();
-  if (profile && profile.setupComplete) {
-    // Already set up
-  } else {
-    setTimeout(() => {
-      if (!isLoggedIn()) showLoginModal();
-    }, 1500);
+  if (!profile || !profile.setupComplete) {
+    if (isTrackerPage()) {
+      // On tracker page without being set up — show login prompt
+      setTimeout(() => {
+        if (!isLoggedIn()) showLoginModal();
+      }, 800);
+    }
+    // On other pages — let them browse freely, no popup
   }
 
   refreshDashboard();
