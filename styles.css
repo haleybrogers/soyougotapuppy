@@ -685,6 +685,24 @@ a:hover {
   background: var(--cream);
 }
 
+.scroll-footer-headline {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 3rem;
+  color: var(--red);
+  margin-bottom: 0.3rem;
+}
+
+.scroll-footer-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--brown);
+  opacity: 0.5;
+  margin-bottom: 2rem;
+}
+
 .map-mini .callout-place {
   font-size: 0.5rem;
 }

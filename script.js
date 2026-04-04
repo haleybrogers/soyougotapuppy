@@ -129,7 +129,7 @@ if (window.innerWidth <= 768) {
   // Add m-slide class to each slide's children for staggered animation
   mobileSlides.forEach(slide => {
     const children = slide.querySelectorAll(
-      '.scroll-visual-inner, .mobile-text, .intro-sticky, .section-title, .section-subtitle, .details-grid, .countdown-timer, .countdown-label, .places-grid, .rsvp-form, .quiz-cta-mini, .pickle-egg'
+      '.scroll-visual-inner, .mobile-text, .intro-sticky, .section-title, .section-subtitle, .details-grid, .countdown-timer, .countdown-label, .places-grid, .rsvp-form, .scroll-footer-headline, .scroll-footer-sub, .quiz-cta-mini, .pickle-egg'
     );
     children.forEach((child, i) => {
       child.classList.add('m-slide');
