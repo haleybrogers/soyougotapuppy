@@ -689,16 +689,24 @@ a:hover {
 .quiz-cta-section {
   background: var(--gold);
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
 }
 
 .quiz-cta-section .scroll-footer-headline {
   font-family: var(--font-heading);
   font-style: italic;
-  font-size: 3rem;
+  font-size: 2.4rem;
   color: var(--brown);
-  margin-bottom: 0.3rem;
+  margin: 0;
+}
+
+.quiz-cta-section .quiz-cta-mini {
+  margin: 0;
 }
 
 .quiz-cta-section .quiz-btn {
@@ -712,15 +720,15 @@ a:hover {
 }
 
 .quiz-cta-section .pickle-egg {
-  position: relative;
-  bottom: auto;
-  right: auto;
-  margin-top: 2rem;
-  opacity: 0.5;
+  position: static;
+  width: 24px;
+  opacity: 0.4;
+  margin: 0;
 }
 
 .quiz-cta-section .pickle-label {
   color: var(--brown);
+  font-size: 0.55rem;
 }
 
 .scroll-footer-headline {
@@ -1746,10 +1754,11 @@ a:hover {
 
   .quiz-cta-section {
     padding: 2rem 1.5rem;
+    gap: 0.6rem;
   }
 
   .quiz-cta-section .scroll-footer-headline {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .quiz-btn {
