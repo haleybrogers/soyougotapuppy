@@ -6460,7 +6460,7 @@ details.log-week__day > .log-week__day-header:hover {
   line-height: 1.15;
   color: var(--charcoal);
   max-width: 650px;
-  margin: 0 auto 0.5rem;
+  margin: 0 auto 0.75rem;
 }
 .learn-hero__sub {
   font-family: var(--font-mono);
