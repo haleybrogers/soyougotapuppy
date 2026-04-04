@@ -24,7 +24,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 body {
@@ -229,7 +229,7 @@ a:hover {
 
 .hero-date {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   font-weight: 300;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -276,7 +276,7 @@ a:hover {
 
 .hero-location {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: rgba(252, 227, 227, 0.5);
@@ -543,7 +543,7 @@ a:hover {
 
 .scroll-label {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--brown);
@@ -600,7 +600,7 @@ a:hover {
 
 .scroll-place {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--brown);
@@ -704,11 +704,11 @@ a:hover {
 }
 
 .map-mini .callout-place {
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 }
 
 .map-mini .callout-name {
-  font-size: 0.55rem;
+  font-size: 0.7rem;
 }
 
 .map-mini .map-callout {
@@ -718,7 +718,7 @@ a:hover {
 .story-location {
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   color: var(--brown);
   opacity: 0.5;
@@ -755,7 +755,7 @@ a:hover {
 
 .pickle-label {
   font-family: var(--font-mono);
-  font-size: 0.45rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   color: var(--brown);
   margin-top: 0.15rem;
@@ -1001,7 +1001,7 @@ a:hover {
 
 .detail-card h3 {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
@@ -1195,7 +1195,7 @@ a:hover {
 
 .countdown-label {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--red);
@@ -1229,7 +1229,7 @@ a:hover {
 
 .countdown-text {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--brown);
@@ -1307,7 +1307,7 @@ a:hover {
 
 .tag {
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   background: var(--gold);
@@ -1372,7 +1372,7 @@ a:hover {
 .form-group label {
   display: block;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--brown);
@@ -1543,7 +1543,7 @@ a:hover {
 
 .footer-date {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(107, 47, 26, 0.4);
