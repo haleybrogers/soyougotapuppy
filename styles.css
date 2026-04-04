@@ -687,7 +687,7 @@ a:hover {
 
 /* Quiz CTA standalone section */
 .quiz-cta-section {
-  background: var(--red);
+  background: var(--gold);
   text-align: center;
   padding: 4rem 2rem;
   position: relative;
@@ -697,18 +697,18 @@ a:hover {
   font-family: var(--font-heading);
   font-style: italic;
   font-size: 3rem;
-  color: var(--cream);
+  color: var(--brown);
   margin-bottom: 0.3rem;
 }
 
 .quiz-cta-section .quiz-btn {
-  border-color: var(--cream);
-  color: var(--cream);
+  border-color: var(--brown);
+  color: var(--brown);
 }
 
 .quiz-cta-section .quiz-btn:hover {
-  background: var(--cream);
-  color: var(--red);
+  background: var(--brown);
+  color: var(--gold);
 }
 
 .quiz-cta-section .pickle-egg {
@@ -720,7 +720,7 @@ a:hover {
 }
 
 .quiz-cta-section .pickle-label {
-  color: var(--cream);
+  color: var(--brown);
 }
 
 .scroll-footer-headline {
