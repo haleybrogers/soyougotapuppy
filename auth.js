@@ -36,6 +36,16 @@ function isLoggedIn() {
   return p && p.ownerName;
 }
 
+function updateNavProfile() {
+  var links = document.querySelectorAll('#navLinks li');
+  links.forEach(function(li) {
+    var a = li.querySelector('a');
+    if (a && a.getAttribute('href') === 'profile.html') {
+      li.style.display = isLoggedIn() ? '' : 'none';
+    }
+  });
+}
+
 // ---- SERVER SYNC ----
 let _syncTimeout = null;
 function syncProfileToServer() {
@@ -707,6 +717,7 @@ function updateTrackerGate(loggedIn) {
 
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', async () => {
+  updateNavProfile();
   const client = getSupaClient();
 
   // Check for OAuth callback (hash fragment from Google redirect)
@@ -721,6 +732,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const loaded = await loadProfileFromServer();
       if (loaded) {
         updateTrackerGate(true);
+        updateNavProfile();
         refreshDashboard();
         populateSettings();
         return;
@@ -753,6 +765,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const loaded = await loadProfileFromServer();
       if (loaded) {
         updateTrackerGate(true);
+        updateNavProfile();
         refreshDashboard();
         populateSettings();
         return;
@@ -781,6 +794,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateTrackerGate(false);
   }
 
+  updateNavProfile();
   refreshDashboard();
   populateSettings();
 });
