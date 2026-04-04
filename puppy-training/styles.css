@@ -3384,17 +3384,10 @@ section {
 }
 
 .glossary-link__label {
-  text-transform: uppercase;
+  text-transform: lowercase;
   font-weight: 700;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  opacity: 0.6;
-}
-
-.glossary-link__text {
-  font-size: 0.85rem;
-  font-family: var(--font-display);
-  font-style: italic;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
 }
 
 .glossary-link__arrow {
