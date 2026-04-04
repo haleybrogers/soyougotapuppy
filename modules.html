@@ -54,8 +54,9 @@
   <div class="container container--narrow">
     <div class="fade-in">
       <h2>Training modules</h2>
-      <p class="text-lg" style="margin-bottom: 0.5rem;">one topic at a time — check them off as you go</p>
+      <p class="text-lg" style="margin-bottom: 0.5rem;">everything your puppy needs to learn, one topic at a time</p>
       <p class="mod-progress-total" id="totalProgress"></p>
+      <p id="modulesSignInHint" style="display:none; background: white; border: 1px solid rgba(27,27,27,0.08); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--soft-gray); text-align: center;"><a href="profile.html" style="color: var(--bark); font-weight: 600; text-decoration: underline;">sign in</a> to check these off and track your progress</p>
 
       <h3 class="mod-phase__label">Home life</h3>
       <div class="mod-phase" data-phase="1">
@@ -688,6 +689,16 @@
       localStorage.setItem(SUB_KEY, JSON.stringify(subSaved));
     });
   });
+
+  // Hide checkboxes + progress if not signed in
+  const profile = getProfile ? getProfile() : null;
+  if (!profile || !profile.setupComplete) {
+    document.querySelectorAll('.mod-card__check-label, .mod-sub__header, .mod-phase__progress, .mod-progress-total').forEach(el => {
+      el.style.display = 'none';
+    });
+    const hint = document.getElementById('modulesSignInHint');
+    if (hint) hint.style.display = 'block';
+  }
 
   // Deep-link: auto-open module from hash
   if (window.location.hash) {
