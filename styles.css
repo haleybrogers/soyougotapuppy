@@ -1105,7 +1105,7 @@ a:hover {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(107, 47, 26, 0.85);
+  background: rgba(107, 47, 26, 0.6);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -1186,7 +1186,7 @@ a:hover {
 
 /* Expanded place cards */
 #cardOverlayContent .place-card {
-  background: var(--brown);
+  background: rgb(140, 60, 35);
   border: none;
 }
 
