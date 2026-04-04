@@ -5380,13 +5380,41 @@ details.log-week__day > .log-week__day-header:hover {
   border-bottom: 1px solid rgba(27, 27, 27, 0.06);
 }
 
+.plan__week-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.plan__refresh-btn {
+  background: none;
+  border: 1px solid rgba(27, 27, 27, 0.1);
+  border-radius: var(--radius-full);
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  color: var(--soft-gray);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 150ms ease;
+  flex-shrink: 0;
+}
+
+.plan__refresh-btn:hover {
+  color: var(--bark);
+  border-color: var(--bark);
+  transform: rotate(90deg);
+}
+
 .plan__week-label {
   font-family: var(--font-mono);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--soft-gray);
-  margin-bottom: 0.25rem;
 }
 
 .plan__focus {

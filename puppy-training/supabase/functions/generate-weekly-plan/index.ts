@@ -48,7 +48,7 @@ serve(async (req: Request) => {
   }
 
   try {
-    const { device_id, dog_name, dog_breed, dog_age_weeks, modules_completed, week_number, year } = await req.json();
+    const { device_id, dog_name, dog_breed, dog_age_weeks, modules_completed, week_number, year, force_refresh } = await req.json();
 
     if (!device_id || !dog_name || !dog_breed || dog_age_weeks == null || !week_number || !year) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -61,6 +61,16 @@ serve(async (req: Request) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // If force refresh, delete existing cache entry
+    if (force_refresh) {
+      await supabase
+        .from("weekly_plans")
+        .delete()
+        .eq("device_id", device_id)
+        .eq("week_number", week_number)
+        .eq("year", year);
+    }
 
     // Check cache
     const { data: cached } = await supabase
