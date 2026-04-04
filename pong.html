@@ -558,19 +558,77 @@
       ctx.fillStyle = '#fce3e3';
       ctx.fillRect(0, 0, W, H);
 
-      // Center line
-      ctx.setLineDash([6, 8]);
-      ctx.strokeStyle = 'rgba(201, 169, 110, 0.3)';
+      // --- Pickleball court lines ---
+      const lineColor = 'rgba(201, 169, 110, 0.3)';
+      const kitchenColor = 'rgba(201, 169, 110, 0.25)';
+      ctx.strokeStyle = lineColor;
       ctx.lineWidth = 1;
-      ctx.beginPath();
+
       if (isMobile) {
+        // Center line (net)
+        ctx.setLineDash([6, 8]);
+        ctx.beginPath();
         ctx.moveTo(0, H / 2);
         ctx.lineTo(W, H / 2);
+        ctx.stroke();
+
+        // Kitchen / NVZ lines (solid, ~22% from center each side)
+        const kitchenDist = H * 0.15;
+        ctx.setLineDash([]);
+        ctx.strokeStyle = kitchenColor;
+        ctx.beginPath();
+        ctx.moveTo(0, H / 2 - kitchenDist);
+        ctx.lineTo(W, H / 2 - kitchenDist);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, H / 2 + kitchenDist);
+        ctx.lineTo(W, H / 2 + kitchenDist);
+        ctx.stroke();
+
+        // Center service line (vertical, from kitchen to baseline)
+        ctx.setLineDash([6, 8]);
+        ctx.strokeStyle = lineColor;
+        ctx.beginPath();
+        ctx.moveTo(W / 2, 0);
+        ctx.lineTo(W / 2, H / 2 - kitchenDist);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(W / 2, H / 2 + kitchenDist);
+        ctx.lineTo(W / 2, H);
+        ctx.stroke();
       } else {
+        // Center line (net)
+        ctx.setLineDash([6, 8]);
+        ctx.beginPath();
         ctx.moveTo(W / 2, 0);
         ctx.lineTo(W / 2, H);
+        ctx.stroke();
+
+        // Kitchen / NVZ lines (solid)
+        const kitchenDist = W * 0.15;
+        ctx.setLineDash([]);
+        ctx.strokeStyle = kitchenColor;
+        ctx.beginPath();
+        ctx.moveTo(W / 2 - kitchenDist, 0);
+        ctx.lineTo(W / 2 - kitchenDist, H);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(W / 2 + kitchenDist, 0);
+        ctx.lineTo(W / 2 + kitchenDist, H);
+        ctx.stroke();
+
+        // Center service line (horizontal, from kitchen to baseline)
+        ctx.setLineDash([6, 8]);
+        ctx.strokeStyle = lineColor;
+        ctx.beginPath();
+        ctx.moveTo(0, H / 2);
+        ctx.lineTo(W / 2 - kitchenDist, H / 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(W / 2 + kitchenDist, H / 2);
+        ctx.lineTo(W, H / 2);
+        ctx.stroke();
       }
-      ctx.stroke();
       ctx.setLineDash([]);
 
       // Draw dink count on canvas
@@ -579,8 +637,9 @@
       ctx.textAlign = 'center';
       ctx.fillText(dinks, W / 2, H / 2 + (isMobile ? 30 : 40));
 
+      // Paddles — simple bars on both mobile and desktop
+      ctx.fillStyle = '#c9a96e';
       if (isMobile) {
-        ctx.fillStyle = '#c9a96e';
         const p1x = state.p1.pos - PADDLE_LEN / 2;
         ctx.beginPath();
         ctx.rect(p1x, MARGIN, PADDLE_LEN, PADDLE_THICK);
@@ -590,23 +649,8 @@
         ctx.rect(p2x, H - MARGIN - PADDLE_THICK, PADDLE_LEN, PADDLE_THICK);
         ctx.fill();
       } else {
-        if (paddleImg.complete) {
-          ctx.save();
-          ctx.translate(MARGIN + PADDLE_THICK / 2, state.p1.pos);
-          ctx.rotate(-Math.PI / 10);
-          ctx.drawImage(paddleImg, -PADDLE_THICK, -PADDLE_LEN, PADDLE_THICK * 2, PADDLE_LEN * 2);
-          ctx.restore();
-          ctx.save();
-          ctx.translate(W - MARGIN - PADDLE_THICK / 2, state.p2.pos);
-          ctx.scale(-1, 1);
-          ctx.rotate(-Math.PI / 10);
-          ctx.drawImage(paddleImg, -PADDLE_THICK, -PADDLE_LEN, PADDLE_THICK * 2, PADDLE_LEN * 2);
-          ctx.restore();
-        } else {
-          ctx.fillStyle = '#c9a96e';
-          ctx.fillRect(MARGIN, state.p1.pos - PADDLE_LEN / 2, PADDLE_THICK, PADDLE_LEN);
-          ctx.fillRect(W - MARGIN - PADDLE_THICK, state.p2.pos - PADDLE_LEN / 2, PADDLE_THICK, PADDLE_LEN);
-        }
+        ctx.fillRect(MARGIN, state.p1.pos - PADDLE_LEN / 2, PADDLE_THICK, PADDLE_LEN);
+        ctx.fillRect(W - MARGIN - PADDLE_THICK, state.p2.pos - PADDLE_LEN / 2, PADDLE_THICK, PADDLE_LEN);
       }
 
       // Ball
