@@ -1613,8 +1613,8 @@ a:hover {
   /* ---- Scroll animations ---- */
   .m-slide {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    transform: translateY(18px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
   }
   .m-slide.m-visible {
     opacity: 1 !important;
@@ -1622,9 +1622,9 @@ a:hover {
   }
 
   /* Stagger children */
-  .m-slide-delay-1 { transition-delay: 0.15s; }
-  .m-slide-delay-2 { transition-delay: 0.3s; }
-  .m-slide-delay-3 { transition-delay: 0.45s; }
+  .m-slide-delay-1 { transition-delay: 0.08s; }
+  .m-slide-delay-2 { transition-delay: 0.16s; }
+  .m-slide-delay-3 { transition-delay: 0.24s; }
 
   /* ---- Scrollytelling: stack vertically ---- */
   .scroll-layout {

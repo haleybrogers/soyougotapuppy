@@ -153,7 +153,7 @@ if (window.innerWidth <= 768) {
         }
       }
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.05 });
 
   mobileSlides.forEach(slide => mobileObserver.observe(slide));
 }
