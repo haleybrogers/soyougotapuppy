@@ -75,7 +75,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      z-index: 50;
+      z-index: 150;
     }
     a.back:hover { opacity: 0.7; }
 
@@ -706,7 +706,7 @@
     // --- Leaderboard ---
     function saveScore(name, dinkCount) {
       const entry = { name: name.substring(0, 15), dinks: dinkCount, ts: Date.now() };
-      db.ref('pong-leaderboard').push(entry);
+      return db.ref('pong-leaderboard').push(entry);
     }
 
     function renderLeaderboard(container, highlightDinks) {
@@ -766,9 +766,10 @@
       document.getElementById('saveBtn').addEventListener('click', () => {
         const name = document.getElementById('nameInput').value.trim();
         if (!name) return;
-        saveScore(name, dinks);
-        document.getElementById('nameEntry').innerHTML = '<p class="name-saved">Saved!</p>';
-        setTimeout(() => renderLeaderboard(document.getElementById('lbEntries'), dinks), 500);
+        saveScore(name, dinks).then(() => {
+          document.getElementById('nameEntry').innerHTML = '<p class="name-saved">Saved!</p>';
+          renderLeaderboard(document.getElementById('lbEntries'), dinks);
+        });
       });
 
       document.getElementById('nameInput').addEventListener('keydown', e => {
