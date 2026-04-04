@@ -366,7 +366,13 @@ section {
 
 /* --- Page top spacing (for non-hero pages) --- */
 .page-top {
-  padding-top: clamp(5rem, 10vw, 7rem);
+  padding-top: clamp(6rem, 12vw, 8rem);
+}
+
+@media (max-width: 768px) {
+  .page-top {
+    padding-top: 7rem;
+  }
 }
 
 /* --- Hero --- */
