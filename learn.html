@@ -395,23 +395,22 @@
     <div class="fade-in" style="text-align: center;">
       <h2>A day with your puppy</h2>
       <p class="text-muted" style="margin-bottom: 0.5rem;">this cycle repeats all day, every day — routine is everything</p>
-      <p class="text-muted" style="margin-bottom: 1.5rem; font-size: 0.82rem;"><em style="color: var(--rust); font-family: var(--font-display); font-style: italic;">play and food are training — use them</em></p>
       <div class="day-loop" id="dayLoop">
         <div class="day-loop__items">
           <span class="day-loop__step" data-idx="0">crate</span>
           <span class="day-loop__arrow">→</span>
           <span class="day-loop__step" data-idx="1">potty</span>
           <span class="day-loop__arrow">→</span>
-          <span class="day-loop__step day-loop__step--train" data-idx="2">play<span class="day-loop__hint">= train</span></span>
+          <span class="day-loop__step" data-idx="2">play</span>
           <span class="day-loop__arrow">→</span>
-          <span class="day-loop__step day-loop__step--train" data-idx="3">food<span class="day-loop__hint">= train</span></span>
+          <span class="day-loop__step" data-idx="3">food</span>
           <span class="day-loop__arrow">→</span>
           <span class="day-loop__step" data-idx="4">potty</span>
           <span class="day-loop__arrow">→</span>
           <span class="day-loop__step" data-idx="5">crate</span>
-          <span class="day-loop__arrow">↻</span>
         </div>
       </div>
+      <p class="text-muted" style="margin-top: 1.25rem; font-size: 0.82rem;"><em style="color: var(--rust); font-family: var(--font-display); font-style: italic;">every meal is a training session. every game is a lesson. use them.</em></p>
       <script>
       (function() {
         var steps = document.querySelectorAll('.day-loop__step');
