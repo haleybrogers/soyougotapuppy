@@ -91,6 +91,8 @@
 
       <!-- Logged in state -->
       <div id="profileLoggedIn" style="display: none;">
+
+        <!-- Header: avatar + greeting -->
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
           <div id="profileAvatar" style="width: 56px; height: 56px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.5rem; color: var(--bark); overflow: hidden; flex-shrink: 0;"></div>
           <div>
@@ -99,72 +101,123 @@
           </div>
         </div>
 
-        <!-- Dog info card -->
-        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
-          <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">your puppy</h3>
+        <!-- ====== VIEW MODE ====== -->
+        <div id="profileViewMode">
 
-          <div style="display: grid; gap: 1rem;">
-            <div>
-              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">name</label>
-              <input type="text" class="login-input" id="profileDogName" placeholder="puppy's name">
+          <!-- Dog card (view) -->
+          <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin: 0;">your puppy</h3>
+              <button style="background: none; border: none; font-family: var(--font-mono); font-size: 0.75rem; color: var(--rust); cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600;" onclick="enterEditMode()">edit</button>
             </div>
-            <div>
-              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">breed</label>
-              <input type="text" class="login-input" id="profileBreed" placeholder="breed (or best guess)">
+
+            <!-- Dog photo -->
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+              <div id="dogPhotoView" style="width: 72px; height: 72px; border-radius: var(--radius-lg); background: var(--sage); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                <span style="font-size: 2rem;">🐶</span>
+              </div>
+              <div>
+                <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--bark);" id="viewDogName">—</div>
+                <div style="font-size: 0.85rem; color: var(--soft-gray);" id="viewBreed">—</div>
+              </div>
             </div>
-            <div>
-              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">birthday</label>
-              <input type="date" class="login-input" id="profileBirthday">
-            </div>
-            <div>
-              <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">gender</label>
-              <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
-                <label class="gender-btn"><input type="radio" name="profileGender" value="girl"><span>girl</span></label>
-                <label class="gender-btn"><input type="radio" name="profileGender" value="boy"><span>boy</span></label>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div>
+                <div style="font-size: 0.65rem; color: var(--soft-gray); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">birthday</div>
+                <div style="font-size: 0.9rem; color: var(--bark); margin-top: 0.15rem;" id="viewBirthday">—</div>
+              </div>
+              <div>
+                <div style="font-size: 0.65rem; color: var(--soft-gray); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">gender</div>
+                <div style="font-size: 0.9rem; color: var(--bark); margin-top: 0.15rem;" id="viewGender">—</div>
+              </div>
+              <div>
+                <div style="font-size: 0.65rem; color: var(--soft-gray); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">owner</div>
+                <div style="font-size: 0.9rem; color: var(--bark); margin-top: 0.15rem;" id="viewOwnerName">—</div>
               </div>
             </div>
           </div>
 
-          <button class="btn btn--primary" style="width: 100%; margin-top: 1.25rem;" onclick="saveProfilePage()">save changes</button>
-          <p id="profileSaved" style="display: none; text-align: center; color: var(--green-soft); font-size: 0.85rem; margin-top: 0.5rem;">saved!</p>
-        </div>
+          <!-- Stats card -->
+          <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+            <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">stats</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <div style="font-family: var(--font-display); font-size: 2rem;" id="profileGrade">-</div>
+                <div style="font-size: 0.75rem; color: var(--soft-gray);">weekly grade</div>
+              </div>
+              <div>
+                <div style="font-family: var(--font-display); font-size: 2rem;" id="profileStreak">0</div>
+                <div style="font-size: 0.75rem; color: var(--soft-gray);">day streak</div>
+              </div>
+              <div>
+                <div style="font-family: var(--font-display); font-size: 2rem;" id="profileTotalSessions">0</div>
+                <div style="font-size: 0.75rem; color: var(--soft-gray);">total sessions</div>
+              </div>
+              <div>
+                <div style="font-family: var(--font-display); font-size: 2rem;" id="profileJoined">-</div>
+                <div style="font-size: 0.75rem; color: var(--soft-gray);">member since</div>
+              </div>
+            </div>
+          </div>
 
-        <!-- Your name card -->
-        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
-          <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">your info</h3>
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">your name</label>
-            <input type="text" class="login-input" id="profileOwnerName" placeholder="your name">
+          <!-- Logout -->
+          <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(27,27,27,0.08);">
+            <button style="width: 100%; padding: 0.75rem; background: none; border: 1px solid rgba(211,47,47,0.3); border-radius: var(--radius-full); color: #D32F2F; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; transition: all 150ms ease;" onmouseover="this.style.background='#FFEBEE'" onmouseout="this.style.background='none'" onclick="handleLogout()">log out</button>
           </div>
         </div>
 
-        <!-- Stats card -->
-        <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
-          <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 1rem;">stats</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-            <div>
-              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileGrade">-</div>
-              <div style="font-size: 0.75rem; color: var(--soft-gray);">weekly grade</div>
+        <!-- ====== EDIT MODE ====== -->
+        <div id="profileEditMode" style="display: none;">
+
+          <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin: 0;">edit profile</h3>
+              <button style="background: none; border: none; font-family: var(--font-mono); font-size: 0.75rem; color: var(--soft-gray); cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em;" onclick="cancelEdit()">cancel</button>
             </div>
-            <div>
-              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileStreak">0</div>
-              <div style="font-size: 0.75rem; color: var(--soft-gray);">day streak</div>
+
+            <!-- Dog photo upload -->
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+              <div id="dogPhotoEdit" style="width: 72px; height: 72px; border-radius: var(--radius-lg); background: var(--sage); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; position: relative; cursor: pointer;" onclick="document.getElementById('dogPhotoInput').click()">
+                <span style="font-size: 2rem;" id="dogPhotoEditPlaceholder">🐶</span>
+              </div>
+              <div>
+                <button style="background: none; border: 1px solid rgba(27,27,27,0.12); border-radius: var(--radius-full); padding: 0.4rem 0.85rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--bark); cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em;" onclick="document.getElementById('dogPhotoInput').click()">upload photo</button>
+                <input type="file" id="dogPhotoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(this)">
+                <p style="font-size: 0.65rem; color: var(--soft-gray); margin-top: 0.3rem;">jpg or png, max 2mb</p>
+              </div>
             </div>
-            <div>
-              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileTotalSessions">0</div>
-              <div style="font-size: 0.75rem; color: var(--soft-gray);">total sessions</div>
+
+            <div style="display: grid; gap: 1rem;">
+              <div>
+                <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">puppy's name</label>
+                <input type="text" class="login-input" id="profileDogName" placeholder="puppy's name">
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">breed</label>
+                <input type="text" class="login-input" id="profileBreed" placeholder="breed (or best guess)">
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">birthday</label>
+                <input type="date" class="login-input" id="profileBirthday">
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">gender</label>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                  <label class="gender-btn"><input type="radio" name="profileGender" value="girl"><span>girl</span></label>
+                  <label class="gender-btn"><input type="radio" name="profileGender" value="boy"><span>boy</span></label>
+                </div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">your name</label>
+                <input type="text" class="login-input" id="profileOwnerName" placeholder="your name">
+              </div>
             </div>
-            <div>
-              <div style="font-family: var(--font-display); font-size: 2rem;" id="profileJoined">-</div>
-              <div style="font-size: 0.75rem; color: var(--soft-gray);">member since</div>
-            </div>
+
+            <button class="btn btn--primary" style="width: 100%; margin-top: 1.25rem;" onclick="saveProfilePage()">save changes</button>
           </div>
         </div>
 
-        <!-- Danger zone -->
-        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(27,27,27,0.08);">
-          <button style="width: 100%; padding: 0.75rem; background: none; border: 1px solid rgba(211,47,47,0.3); border-radius: var(--radius-full); color: #D32F2F; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; transition: all 150ms ease;" onmouseover="this.style.background='#FFEBEE'" onmouseout="this.style.background='none'" onclick="handleLogout()">log out</button>
-        </div>
       </div>
 
     </div>
@@ -215,19 +268,29 @@ async function initProfilePage() {
     const emailEl = document.getElementById('profileEmail');
     if (emailEl) emailEl.textContent = profile.email || 'guest account';
 
-    // Fill form
-    const dogNameEl = document.getElementById('profileDogName');
-    const breedEl = document.getElementById('profileBreed');
-    const bdayEl = document.getElementById('profileBirthday');
-    const ownerEl = document.getElementById('profileOwnerName');
+    // View mode data
+    const viewName = document.getElementById('viewDogName');
+    const viewBreed = document.getElementById('viewBreed');
+    const viewBday = document.getElementById('viewBirthday');
+    const viewGender = document.getElementById('viewGender');
+    const viewOwner = document.getElementById('viewOwnerName');
 
-    if (dogNameEl) dogNameEl.value = profile.dogName || '';
-    if (breedEl) breedEl.value = profile.dogBreed || '';
-    if (bdayEl) bdayEl.value = profile.dogBirthday || '';
-    if (ownerEl) ownerEl.value = profile.ownerName || '';
+    if (viewName) viewName.textContent = profile.dogName || '—';
+    if (viewBreed) viewBreed.textContent = profile.dogBreed || '—';
+    if (viewBday && profile.dogBirthday) {
+      const bd = new Date(profile.dogBirthday + 'T00:00:00');
+      viewBday.textContent = bd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    if (viewGender) viewGender.textContent = profile.dogGender || '—';
+    if (viewOwner) viewOwner.textContent = profile.ownerName || '—';
 
-    const genderRadio = document.querySelector('input[name="profileGender"][value="' + (profile.dogGender || 'girl') + '"]');
-    if (genderRadio) genderRadio.checked = true;
+    // Dog photo (view)
+    renderDogPhoto('dogPhotoView', profile);
+    renderDogPhoto('dogPhotoEdit', profile);
+
+    // Show view mode, hide edit
+    document.getElementById('profileViewMode').style.display = 'block';
+    document.getElementById('profileEditMode').style.display = 'none';
 
     // Stats
     const grade = getWeeklyGrade();
@@ -289,6 +352,85 @@ async function initProfilePage() {
   loggedIn.style.display = 'none';
 }
 
+// ---- DOG PHOTO ----
+function renderDogPhoto(containerId, profile) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  if (profile.dogPhoto) {
+    container.innerHTML = '<img src="' + profile.dogPhoto + '" style="width:100%;height:100%;object-fit:cover;">';
+  } else {
+    container.innerHTML = '<span style="font-size:2rem;">🐶</span>';
+  }
+}
+
+function handlePhotoUpload(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+
+  // 2MB limit
+  if (file.size > 2 * 1024 * 1024) {
+    alert('Photo must be under 2MB');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    // Resize to keep localStorage manageable
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const maxSize = 300;
+      let w = img.width, h = img.height;
+      if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
+      else { w = Math.round(w * maxSize / h); h = maxSize; }
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+      // Preview immediately
+      const editPhoto = document.getElementById('dogPhotoEdit');
+      if (editPhoto) editPhoto.innerHTML = '<img src="' + dataUrl + '" style="width:100%;height:100%;object-fit:cover;">';
+
+      // Store temporarily until save
+      input.dataset.pendingPhoto = dataUrl;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ---- EDIT / VIEW MODE ----
+function enterEditMode() {
+  const profile = getProfile() || {};
+
+  // Populate edit fields
+  const dogNameEl = document.getElementById('profileDogName');
+  const breedEl = document.getElementById('profileBreed');
+  const bdayEl = document.getElementById('profileBirthday');
+  const ownerEl = document.getElementById('profileOwnerName');
+
+  if (dogNameEl) dogNameEl.value = profile.dogName || '';
+  if (breedEl) breedEl.value = profile.dogBreed || '';
+  if (bdayEl) bdayEl.value = profile.dogBirthday || '';
+  if (ownerEl) ownerEl.value = profile.ownerName || '';
+
+  const genderRadio = document.querySelector('input[name="profileGender"][value="' + (profile.dogGender || 'girl') + '"]');
+  if (genderRadio) genderRadio.checked = true;
+
+  // Clear pending photo
+  const photoInput = document.getElementById('dogPhotoInput');
+  if (photoInput) { photoInput.value = ''; delete photoInput.dataset.pendingPhoto; }
+
+  document.getElementById('profileViewMode').style.display = 'none';
+  document.getElementById('profileEditMode').style.display = 'block';
+}
+
+function cancelEdit() {
+  document.getElementById('profileViewMode').style.display = 'block';
+  document.getElementById('profileEditMode').style.display = 'none';
+}
+
 function saveProfilePage() {
   const profile = getProfile() || {};
 
@@ -304,13 +446,16 @@ function saveProfilePage() {
   if (ownerEl && ownerEl.value.trim()) profile.ownerName = ownerEl.value.trim();
   if (genderEl) profile.dogGender = genderEl.value;
 
+  // Save photo if one was uploaded
+  const photoInput = document.getElementById('dogPhotoInput');
+  if (photoInput && photoInput.dataset.pendingPhoto) {
+    profile.dogPhoto = photoInput.dataset.pendingPhoto;
+  }
+
   saveProfile(profile);
 
-  const savedEl = document.getElementById('profileSaved');
-  if (savedEl) {
-    savedEl.style.display = 'block';
-    setTimeout(() => { savedEl.style.display = 'none'; }, 2000);
-  }
+  // Refresh view mode and switch back
+  initProfilePage();
 }
 
 function completeSetup() {
