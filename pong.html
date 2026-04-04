@@ -296,7 +296,7 @@
 
     document.getElementById('instructions').innerHTML = isMobile
       ? 'drag to move paddle'
-      : '&uarr; / &darr; &mdash; move paddle';
+      : 'move mouse or &uarr; / &darr;';
 
     const SEC = isMobile ? W : H;
     const PRI = isMobile ? H : W;
@@ -326,6 +326,15 @@
       }
     });
     document.addEventListener('keyup', e => keys[e.key] = false);
+
+    // Mouse control (desktop)
+    if (!isMobile) {
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseY = e.clientY - rect.top;
+        state.p2.pos = Math.max(PADDLE_LEN / 2, Math.min(H - PADDLE_LEN / 2, mouseY));
+      });
+    }
 
     let touchX = null;
     if (isMobile) {
@@ -687,7 +696,7 @@
         ctx.fillStyle = '#6b2f1a';
         ctx.globalAlpha = 0.35;
         ctx.font = (isMobile ? '9' : '11') + 'px "Elma Mono", monospace';
-        ctx.fillText(isMobile ? 'drag to move your paddle' : 'use arrow keys to move your paddle', W / 2, H / 2 + 20);
+        ctx.fillText(isMobile ? 'drag to move your paddle' : 'move mouse or use arrow keys', W / 2, H / 2 + 20);
         ctx.globalAlpha = 1;
       }
     }
