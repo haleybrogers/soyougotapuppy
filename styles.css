@@ -6427,6 +6427,17 @@ details.log-week__day > .log-week__day-header:hover {
   text-decoration: underline;
 }
 
+/* ============ SECTION START-HERE LABEL ============ */
+.section-start-here {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--rust);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
 /* ============ LEARN HERO + TRIAGE BUTTON ============ */
 .learn-hero__headline {
   font-family: var(--font-display);
