@@ -106,7 +106,7 @@ if (rsvpForm) {
 // Mobile slide-in animations
 if (window.innerWidth <= 768) {
   const mobileSlides = document.querySelectorAll(
-    '.scroll-visual-intro, .scroll-visual, .scroll-footer, .details .container, .countdown .container, .greensboro .container, .rsvp .container'
+    '.scroll-visual-intro, .scroll-visual, .quiz-cta-section, .details .container, .countdown .container, .greensboro .container, .rsvp .container'
   );
 
   // Add m-slide class to each slide's children for staggered animation

@@ -685,6 +685,44 @@ a:hover {
   background: var(--cream);
 }
 
+/* Quiz CTA standalone section */
+.quiz-cta-section {
+  background: var(--red);
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+.quiz-cta-section .scroll-footer-headline {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-size: 3rem;
+  color: var(--cream);
+  margin-bottom: 0.3rem;
+}
+
+.quiz-cta-section .quiz-btn {
+  border-color: var(--cream);
+  color: var(--cream);
+}
+
+.quiz-cta-section .quiz-btn:hover {
+  background: var(--cream);
+  color: var(--red);
+}
+
+.quiz-cta-section .pickle-egg {
+  position: relative;
+  bottom: auto;
+  right: auto;
+  margin-top: 2rem;
+  opacity: 0.5;
+}
+
+.quiz-cta-section .pickle-label {
+  color: var(--cream);
+}
+
 .scroll-footer-headline {
   font-family: var(--font-heading);
   font-style: italic;
@@ -1581,7 +1619,7 @@ a:hover {
   .hero,
   .scroll-visual-intro,
   .scroll-visual,
-  .scroll-footer,
+  .quiz-cta-section,
   .details,
   .countdown,
   .greensboro,
@@ -1706,13 +1744,11 @@ a:hover {
     display: block;
   }
 
-  .scroll-footer {
-    margin-top: 0;
+  .quiz-cta-section {
     padding: 2rem 1.5rem;
-    position: relative;
   }
 
-  .scroll-footer-headline {
+  .quiz-cta-section .scroll-footer-headline {
     font-size: 2.2rem;
   }
 
