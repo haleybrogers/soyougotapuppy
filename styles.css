@@ -6454,6 +6454,9 @@ details.log-week__day > .log-week__day-header:hover {
 }
 
 /* ============ LEARN HERO + TRIAGE BUTTON ============ */
+.section--cream.page-top {
+  padding-bottom: 1.5rem;
+}
 .learn-hero__headline {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 6vw, 4rem);
