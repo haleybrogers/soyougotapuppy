@@ -1437,20 +1437,45 @@ a:hover {
 
 .rsvp-success {
   text-align: center;
-  padding: 3rem;
+  padding: 3rem 2rem;
+  animation: fadeUp 0.6s ease-out;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .success-icon {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: var(--red);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.rsvp-success h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-style: italic;
+  color: var(--brown);
+  margin-bottom: 0.75rem;
 }
 
 .rsvp-success p {
   font-family: var(--font-heading);
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-style: italic;
   color: var(--brown);
+  line-height: 1.6;
+}
+
+.rsvp-success .success-date {
+  margin-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-style: normal;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 
 /* ---- Footer ---- */

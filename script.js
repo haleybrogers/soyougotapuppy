@@ -72,13 +72,31 @@ if (rsvpForm) {
   rsvpForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const formData = new FormData(rsvpForm);
-    const data = Object.fromEntries(formData);
-    console.log('RSVP submitted:', data);
+    const submitBtn = rsvpForm.querySelector('.btn-submit');
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
 
-    // Show success message
-    rsvpForm.style.display = 'none';
-    document.getElementById('rsvpSuccess').style.display = 'block';
+    const formData = new FormData(rsvpForm);
+
+    // Send to Formspree — replace YOUR_FORM_ID with your Formspree form ID
+    fetch('https://formspree.io/f/xgopnjlq', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+      if (response.ok) {
+        rsvpForm.style.display = 'none';
+        document.getElementById('rsvpSuccess').style.display = 'block';
+      } else {
+        throw new Error('Form submission failed');
+      }
+    })
+    .catch(() => {
+      submitBtn.textContent = 'Send your reply';
+      submitBtn.disabled = false;
+      alert('Something went wrong — please try again!');
+    });
   });
 }
 

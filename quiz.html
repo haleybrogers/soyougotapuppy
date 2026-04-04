@@ -413,7 +413,22 @@
     </div>
   </div>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsjvumG1oXcwuADHGvoGdPypzhHX4Zxsc",
+      authDomain: "halsal.firebaseapp.com",
+      databaseURL: "https://halsal-default-rtdb.firebaseio.com",
+      projectId: "halsal",
+      storageBucket: "halsal.firebasestorage.app",
+      messagingSenderId: "614593974910",
+      appId: "1:614593974910:web:68f69c1c4afb18556ebe2f"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     const questions = [
       { q: "Where did Sally and Haley meet?", options: ["Hinge", "Bumble", "A bar", "Through friends"], answer: 0 },
       { q: "What was their first date spot?", options: ["Little Pep", "Neighbors", "A coffee shop", "A park"], answer: 1 },
@@ -426,7 +441,7 @@
       { q: "Where is the reception?", options: ["A rooftop bar", "Little Pep", "Graylyn Estate", "A backyard"], answer: 1 },
       { q: "What city did they U-Haul to together?", options: ["Winston-Salem", "Greensboro", "Charlotte", "Raleigh"], answer: 1 },
       { q: "True or false: Sally canceled the first date.", options: ["True", "False"], answer: 0 },
-      { q: "True or false: Sally was working at a pickleball place when she met Haley.", options: ["True", "False"], answer: 0 },
+      { q: "Where was Sally working when she met Haley?", options: ["An artisan pickle factory", "An upscale pickleball facility", "A NC Fusion ref", "A coffee shop"], answer: 1 },
       { q: "Where did Sally first meet Dory?", options: ["A shelter in Greensboro", "H&M in Charleston", "A friend's house", "A park in Winston-Salem"], answer: 1 },
       { q: "What company did Sally help found?", options: ["Bryant Capital Advisors", "Little Pep Wine Co.", "Salem Strategy Group", "Pep Holdings"], answer: 0 },
       { q: "Who's the better cook?", options: ["Sally", "Haley", "Neither \u2014 they order out", "The dogs"], answer: 0 },
@@ -434,7 +449,7 @@
       { q: "What's Sally's go-to cocktail?", options: ["Negroni", "Espresso Martini", "The Last Word", "Old Fashioned"], answer: 2 },
       { q: "True or false: Haley is the early bird.", options: ["True", "False"], answer: 0 },
       { q: "Who's messier?", options: ["Sally", "Haley", "Both equally chaotic", "Neither \u2014 they're neat freaks"], answer: 1 },
-      { q: "Who usually drives on road trips?", options: ["Sally", "Haley", "They switch every hour", "The dogs"], answer: 0 },
+      { q: "Who's the passenger princess?", options: ["Sally", "Haley", "They take turns", "The dogs"], answer: 1 },
       { q: "What's the name of the apartment complex at the old denim factory?", options: ["Cone Mills Lofts", "Revolution Mill", "Denim Row", "Factory 54"], answer: 1 },
       { q: "Who proposed first?", options: ["Sally", "Haley", "They did it at the same time", "Neither \u2014 it was mutual"], answer: 0 }
     ];
@@ -550,25 +565,53 @@
     }
 
     function saveScore(name, sc) {
-      let lb = JSON.parse(localStorage.getItem('sh_quiz_lb') || '[]');
-      const existing = lb.find(e => e.name.toLowerCase() === name.toLowerCase());
-      if (existing) { if (sc > existing.score) existing.score = sc; }
-      else lb.push({ name, score: sc });
-      lb.sort((a, b) => b.score - a.score);
-      localStorage.setItem('sh_quiz_lb', JSON.stringify(lb));
+      const key = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const ref = db.ref('leaderboard/' + key);
+      ref.once('value').then(snap => {
+        const existing = snap.val();
+        if (!existing || sc > existing.score) {
+          ref.set({ name, score: sc });
+        }
+      }).catch(() => {
+        // Firebase not configured yet — fall back to localStorage
+        let lb = JSON.parse(localStorage.getItem('sh_quiz_lb') || '[]');
+        const ex = lb.find(e => e.name.toLowerCase() === name.toLowerCase());
+        if (ex) { if (sc > ex.score) ex.score = sc; }
+        else lb.push({ name, score: sc });
+        lb.sort((a, b) => b.score - a.score);
+        localStorage.setItem('sh_quiz_lb', JSON.stringify(lb));
+      });
     }
 
     function renderLeaderboard() {
-      const lb = JSON.parse(localStorage.getItem('sh_quiz_lb') || '[]');
+      const el = document.getElementById('leaderboardEntries');
+      el.innerHTML = '<p style="text-align:center;opacity:0.3;font-size:0.6rem;">Loading...</p>';
+
+      db.ref('leaderboard').orderByChild('score').once('value').then(snap => {
+        const entries = [];
+        snap.forEach(child => entries.push(child.val()));
+        entries.sort((a, b) => b.score - a.score);
+        renderEntries(entries.slice(0, 10));
+      }).catch(() => {
+        // Firebase not configured — fall back to localStorage
+        const lb = JSON.parse(localStorage.getItem('sh_quiz_lb') || '[]');
+        renderEntries(lb.slice(0, 10));
+      });
+    }
+
+    function renderEntries(entries) {
       const el = document.getElementById('leaderboardEntries');
       el.innerHTML = '';
-      lb.slice(0, 10).forEach((entry, i) => {
+      entries.forEach((entry, i) => {
         const isMe = entry.name.toLowerCase() === playerName.toLowerCase();
         const div = document.createElement('div');
         div.className = 'lb-entry' + (isMe ? ' highlight' : '');
         div.innerHTML = `<div class="lb-entry-inner"><span class="lb-rank">${i + 1}.</span><span class="lb-name">${entry.name}</span></div><span class="lb-score">${entry.score}/${questions.length}</span>`;
         el.appendChild(div);
       });
+      if (entries.length === 0) {
+        el.innerHTML = '<p style="text-align:center;opacity:0.3;font-size:0.6rem;font-style:italic;">No scores yet — be the first!</p>';
+      }
     }
 
     document.getElementById('playAgain').addEventListener('click', () => {

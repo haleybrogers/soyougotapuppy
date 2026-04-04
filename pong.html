@@ -30,6 +30,13 @@
       margin-bottom: 1rem;
       opacity: 0.6;
     }
+    .play-to {
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      margin-bottom: 1.5rem;
+    }
     canvas {
       border: 2px solid #c9a96e;
       border-radius: 4px;
@@ -70,17 +77,82 @@
     }
     a.back:hover { opacity: 0.7; }
     .score span { color: #dd1000; }
+
+    /* Game over overlay */
+    .game-over-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(252, 227, 227, 0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .game-over-overlay .womp {
+      font-family: 'Elma Mono', monospace;
+      font-size: 2.5rem;
+      color: #dd1000;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .game-over-overlay .game-over-msg {
+      font-family: 'Elma Mono', monospace;
+      font-size: 0.75rem;
+      color: #6b2f1a;
+      letter-spacing: 0.1em;
+      text-align: center;
+      line-height: 1.8;
+      max-width: 360px;
+      margin-bottom: 2rem;
+    }
+    .game-over-overlay .win-msg {
+      font-family: 'Elma Mono', monospace;
+      font-size: 1.8rem;
+      color: #c9a96e;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .game-over-overlay .play-again-btn {
+      font-family: 'Elma Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fce3e3;
+      background: #dd1000;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .game-over-overlay .play-again-btn:hover { opacity: 0.85; }
+    .game-over-overlay .final-score {
+      font-family: 'Elma Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 2rem;
+    }
   </style>
 </head>
 <body>
   <a href="index.html" class="back">&larr; Back</a>
   <h1>Sally AI vs Haley</h1>
+  <p class="play-to">First to 7 &middot; Win by 2</p>
   <div class="score">
     <div>Sally AI<span id="score1">0</span></div>
     <div>Haley<span id="score2">0</span></div>
   </div>
   <canvas id="pong" width="900" height="550"></canvas>
-  <p class="instructions">&uarr; / &darr; &mdash; move paddle &nbsp;&nbsp;&middot;&nbsp;&nbsp; Space &mdash; start</p>
+  <p class="instructions">&uarr; / &darr; &mdash; move paddle</p>
+  <div class="game-over-overlay" id="gameOverOverlay" style="display:none"></div>
 
   <script>
     const canvas = document.getElementById('pong');
@@ -98,7 +170,7 @@
     const PADDLE_W = 30;
     const PADDLE_H = 70;
     const BALL_R = 12;
-    const WINNING_SCORE = 11;
+    const WINNING_SCORE = 7;
 
     const paddleImg = new Image();
     paddleImg.src = 'images/paddle.svg';
@@ -116,18 +188,14 @@
     };
 
     const keys = {};
+    let countdown = 0;
+    let countdownTimer = null;
+    let waitingForStart = true;
 
     document.addEventListener('keydown', e => {
       keys[e.key] = true;
-      if (e.key === ' ' && !state.running && !state.winner) {
-        serve();
-      }
-      if (e.key === ' ' && state.winner) {
-        state.score1 = 0;
-        state.score2 = 0;
-        state.winner = null;
-        updateScoreDisplay();
-        resetBall();
+      if (e.key === ' ' && waitingForStart && !state.running && !state.winner) {
+        startCountdown();
       }
     });
     document.addEventListener('keyup', e => keys[e.key] = false);
@@ -136,8 +204,23 @@
     let speedMultiplier = 1;
     let rallies = 0;
 
+    function startCountdown() {
+      waitingForStart = false;
+      countdown = 3;
+      if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          clearInterval(countdownTimer);
+          countdownTimer = null;
+          serve();
+        }
+      }, 700);
+    }
+
     function serve() {
       state.running = true;
+      countdown = 0;
       speedMultiplier = 1;
       rallies = 0;
       const angle = (Math.random() - 0.5) * Math.PI / 3;
@@ -223,15 +306,17 @@
         b.x = W - 20 - PADDLE_W - BALL_R;
       }
 
-      // Scoring (pickleball rules: first to 11, win by 2)
+      // Scoring (first to 7, win by 2)
       if (b.x < 0) {
         state.score2++;
         updateScoreDisplay();
         if (state.score2 >= WINNING_SCORE && state.score2 - state.score1 >= 2) {
           state.winner = 'Haley';
           state.running = false;
+          showGameOver();
         } else {
           resetBall();
+          setTimeout(() => startCountdown(), 500);
         }
       }
       if (b.x > W) {
@@ -240,8 +325,10 @@
         if (state.score1 >= WINNING_SCORE && state.score1 - state.score2 >= 2) {
           state.winner = 'Sally AI';
           state.running = false;
+          showGameOver();
         } else {
           resetBall();
+          setTimeout(() => startCountdown(), 500);
         }
       }
     }
@@ -292,30 +379,65 @@
         ctx.fill();
       }
 
-      // Winner screen
-      if (state.winner) {
-        ctx.fillStyle = 'rgba(252, 227, 227, 0.9)';
+      // Countdown overlay
+      if (countdown > 0) {
+        ctx.fillStyle = 'rgba(252, 227, 227, 0.85)';
         ctx.fillRect(0, 0, W, H);
         ctx.fillStyle = '#dd1000';
-        ctx.font = '24px "Elma Mono", monospace';
+        ctx.font = '72px "Elma Mono", monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(state.winner + ' wins!', W / 2, H / 2 - 10);
-        ctx.font = '11px "Elma Mono", monospace';
-        ctx.fillStyle = '#6b2f1a';
-        ctx.globalAlpha = 0.5;
-        ctx.fillText('press space to play again', W / 2, H / 2 + 25);
-        ctx.globalAlpha = 1;
+        ctx.fillText(countdown, W / 2, H / 2 + 20);
       }
 
-      // Start prompt
-      if (!state.running && !state.winner) {
-        ctx.fillStyle = '#6b2f1a';
-        ctx.globalAlpha = 0.5;
-        ctx.font = '11px "Elma Mono", monospace';
+      // Start prompt (waiting for space)
+      if (waitingForStart && !state.running && !state.winner) {
+        ctx.fillStyle = 'rgba(252, 227, 227, 0.9)';
+        ctx.fillRect(0, 0, W, H);
         ctx.textAlign = 'center';
-        ctx.fillText('press space to start', W / 2, H / 2);
+
+        ctx.fillStyle = '#dd1000';
+        ctx.font = '28px "Elma Mono", monospace';
+        ctx.fillText('PRESS SPACE TO PLAY', W / 2, H / 2 - 10);
+
+        ctx.fillStyle = '#6b2f1a';
+        ctx.globalAlpha = 0.35;
+        ctx.font = '11px "Elma Mono", monospace';
+        ctx.fillText('use arrow keys to move your paddle', W / 2, H / 2 + 25);
         ctx.globalAlpha = 1;
       }
+    }
+
+    function showGameOver() {
+      const overlay = document.getElementById('gameOverOverlay');
+      const isHaleyWin = state.winner === 'Haley';
+
+      if (isHaleyWin) {
+        overlay.innerHTML = `
+          <p class="win-msg">You beat Sally!</p>
+          <p class="game-over-msg">Okay, impressive. Maybe you should go pro.</p>
+          <p class="final-score">${state.score2} &ndash; ${state.score1}</p>
+          <button class="play-again-btn" id="rematchBtn">Run it back</button>
+        `;
+      } else {
+        overlay.innerHTML = `
+          <p class="womp">WOMP WOMP</p>
+          <p class="game-over-msg">Sally's pretty good at pickleball.<br>What made you think pong would be different?</p>
+          <p class="final-score">${state.score1} &ndash; ${state.score2}</p>
+          <button class="play-again-btn" id="rematchBtn">Play again... if you dare</button>
+        `;
+      }
+
+      overlay.style.display = 'flex';
+
+      document.getElementById('rematchBtn').addEventListener('click', () => {
+        overlay.style.display = 'none';
+        state.score1 = 0;
+        state.score2 = 0;
+        state.winner = null;
+        waitingForStart = true;
+        updateScoreDisplay();
+        resetBall();
+      });
     }
 
     function loop() {
