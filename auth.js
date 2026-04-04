@@ -301,7 +301,9 @@ function getWeeklyGrade() {
   if (score >= 55) return { letter: 'B-', score, desc: "you're showing up — a few more days this week would help a lot" };
   if (score >= 45) return { letter: 'C+', score, desc: "a little quiet this week. even 2 minutes a day counts!" };
   if (score >= 35) return { letter: 'C', score, desc: "your pup is ready when you are. try one quick session today" };
-  return { letter: 'C-', score, desc: "it's been a slow week — that's ok. start fresh today" };
+  if (score >= 25) return { letter: 'C-', score, desc: "it's been a slow week — that's ok. start fresh today" };
+  if (score >= 15) return { letter: 'D', score, desc: "your dog is starting to wonder if you forgot about training" };
+  return { letter: 'F', score, desc: "ok your pup is filing a complaint. one session today and you're back in business" };
 }
 
 // ---- FUN FACTS BY AGE ----
