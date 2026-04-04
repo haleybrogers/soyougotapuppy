@@ -2,6 +2,12 @@
 // Sally + Haley | Wedding Site
 // ============================================
 
+// Scroll to top on page load (prevents mobile refresh landing mid-page)
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Countdown Timer - March 20, 2027 4:00 PM EST
 const weddingDate = new Date('2027-03-20T16:00:00-05:00');
 
