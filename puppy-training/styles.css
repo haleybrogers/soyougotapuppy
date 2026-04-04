@@ -440,11 +440,20 @@ section {
   display: inline-block;
   overflow: hidden;
   vertical-align: baseline;
-  height: 1.8em;
+  height: 2em;
   min-width: 8ch;
   position: relative;
   padding-bottom: 0.4em;
   margin-bottom: -0.4em;
+}
+
+@media (max-width: 480px) {
+  .scroll-hero__line2 {
+    font-size: 0.95rem;
+  }
+  .scroll-hero__ticker {
+    height: 2em;
+  }
 }
 
 /* The sliding word inside */
@@ -3965,7 +3974,7 @@ section {
   color: white;
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   text-decoration: none;
@@ -6447,10 +6456,10 @@ details.log-week__day > .log-week__day-header:hover {
 /* ============ LEARN HERO + TRIAGE BUTTON ============ */
 .learn-hero__headline {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
-  line-height: 1.25;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.15;
   color: var(--charcoal);
-  max-width: 500px;
+  max-width: 650px;
   margin: 0 auto 0.5rem;
 }
 .learn-hero__sub {
@@ -6489,7 +6498,7 @@ details.log-week__day > .log-week__day-header:hover {
   align-items: center;
   gap: 0.4rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.01em;
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
   border: 1px solid rgba(27, 27, 27, 0.05);
