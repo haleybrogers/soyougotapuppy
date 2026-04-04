@@ -343,10 +343,14 @@ section {
   height: 24px;
 }
 
+/* Hide search item on desktop — only shows in hamburger */
+.nav__search-item { display: none; }
+
 @media (max-width: 768px) {
   .nav__logo { font-size: 1.05rem; }
   .nav__search-btn { display: none; }
   .nav__hamburger { display: block; }
+  .nav__search-item { display: list-item; }
   .nav__links {
     display: none;
     position: absolute;
@@ -5691,10 +5695,58 @@ details.log-week__day > .log-week__day-header:hover {
 @media (max-width: 600px) {
   .plan__footer {
     grid-template-columns: 1fr;
+    padding: 0.85rem 1rem;
+  }
+
+  .plan__summary {
+    padding: 1rem;
   }
 
   .plan__focus {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+
+  .plan__area-title {
+    padding: 0.85rem 1rem;
+    font-size: 0.82rem;
+    gap: 0.5rem;
+  }
+
+  .plan__area-body {
+    padding: 0 1rem 0.85rem;
+    font-size: 0.8rem;
+  }
+
+  .plan__area-duration {
+    font-size: 0.58rem;
+  }
+
+  .plan__breed-nudge {
+    font-size: 0.75rem;
+  }
+
+  .plan__drills {
+    gap: 0.25rem;
+  }
+
+  .plan__drill-link,
+  .plan__module-link {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .plan__note p,
+  .plan__warning p {
+    font-size: 0.75rem;
+  }
+
+  .plan__recap {
+    padding: 0.85rem 1rem;
+  }
+
+  .plan__recap p {
+    font-size: 0.8rem;
   }
 }
 
