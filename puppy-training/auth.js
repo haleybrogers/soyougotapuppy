@@ -478,6 +478,46 @@ function getPuppyPhase(weeks) {
   return { name: 'Finally a dog', vibe: 'you survived. they survived. everyone survived.', range: '1–2 years' };
 }
 
+// ---- DEVELOPMENTAL MILESTONES ----
+function getDevelopmentalMilestone(weeks) {
+  // What's actually happening in their brain + body right now
+  const milestones = [
+    { max: 2, text: "their eyes and ears are just starting to open. the world is brand new and blurry." },
+    { max: 3, text: "they're starting to hear sounds for the first time. everything is a surprise." },
+    { max: 4, text: "they're learning to walk and their baby teeth are coming in. wobbly little chaos agents." },
+    { max: 5, text: "they can see clearly now and are starting to play with their littermates. social skills: loading." },
+    { max: 6, text: "they're learning bite inhibition from their siblings. every nip teaches them about pressure." },
+    { max: 7, text: "their brain is entering peak curiosity mode. they want to sniff, taste, and touch everything." },
+    { max: 8, text: "their fear response is developing. gentle exposure to new things right now shapes them forever." },
+    { max: 9, text: "the socialization window is WIDE open. every positive new experience is literally wiring their brain." },
+    { max: 10, text: "their bladder is growing but still tiny. they physically can't hold it long — accidents aren't defiance." },
+    { max: 11, text: "they're learning cause and effect. 'I sit, I get a treat' is a huge neural connection right now." },
+    { max: 12, text: "their confidence is building fast. new people, sounds, and surfaces are all shaping who they'll become." },
+    { max: 13, text: "baby teeth are falling out and adult teeth are pushing through. their mouth literally hurts — chewing is medicine." },
+    { max: 14, text: "the socialization window is starting to close. new experiences now take more effort to process positively." },
+    { max: 15, text: "their attention span is growing. they can focus for a few seconds longer — perfect for short training bursts." },
+    { max: 16, text: "the critical socialization period is ending. what they've been exposed to now forms their baseline for 'normal.'" },
+    { max: 18, text: "their adult teeth are almost all in. the worst of the teething pain is fading (finally)." },
+    { max: 20, text: "they're entering puppy adolescence. their brain is literally rewiring — think of it as doggy puberty." },
+    { max: 22, text: "selective hearing has entered the chat. they haven't forgotten their training — they're testing boundaries." },
+    { max: 24, text: "their energy levels are peaking. their body is growing faster than their impulse control can keep up." },
+    { max: 26, text: "a second fear period can happen around now. don't push through fear — support it and go slow." },
+    { max: 30, text: "their brain is pruning unused neural pathways. the skills you've been practicing are getting hardwired in." },
+    { max: 34, text: "impulse control circuits are maturing. they're getting better at waiting — even when they don't want to." },
+    { max: 38, text: "their emotional regulation is improving. meltdowns are getting shorter and less frequent." },
+    { max: 42, text: "they're entering social maturity. how they interact with other dogs is becoming more 'adult.'" },
+    { max: 46, text: "their personality is really solidifying now. you're seeing who they're going to be as an adult dog." },
+    { max: 52, text: "their brain is almost fully developed. everything you've built is becoming their permanent operating system." },
+    { max: 78, text: "emotional maturity is still developing. large breeds can take up to 2-3 years to fully grow up mentally." },
+    { max: 999, text: "their brain is fully mature. your consistency during puppyhood built the dog you have now." },
+  ];
+
+  for (const m of milestones) {
+    if (weeks <= m.max) return m.text;
+  }
+  return milestones[milestones.length - 1].text;
+}
+
 function getDaysUntilOneYear(birthday) {
   if (!birthday) return 0;
   const born = new Date(birthday);
@@ -553,6 +593,11 @@ function refreshDashboard() {
 
       const phase = getPuppyPhase(dogAge.weeks);
       if (phaseText) phaseText.innerHTML = `<strong>${phase.name}</strong> · ${phase.vibe}`;
+
+      const milestoneEl = document.getElementById('puppyMilestone');
+      if (milestoneEl) {
+        milestoneEl.innerHTML = `🧠 <span>${getDevelopmentalMilestone(dogAge.weeks)}</span>`;
+      }
 
       startLiveTimer(profile.dogBirthday);
     }

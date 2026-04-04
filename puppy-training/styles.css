@@ -4817,6 +4817,22 @@ section {
   white-space: nowrap;
 }
 
+.puppy-age-card__milestone {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(27, 27, 27, 0.06);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--bark);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.puppy-age-card__milestone span {
+  color: var(--soft-gray);
+}
+
 /* Profile settings (tracker.html) */
 .profile-settings {
   margin-bottom: 1.25rem;
