@@ -345,6 +345,7 @@ section {
 
 @media (max-width: 768px) {
   .nav__logo { font-size: 1.05rem; }
+  .nav__search-btn { display: none; }
   .nav__hamburger { display: block; }
   .nav__links {
     display: none;
