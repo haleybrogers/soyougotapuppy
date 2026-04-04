@@ -5269,7 +5269,29 @@ details.log-week__day > .log-week__day-header:hover {
 
 @media (max-width: 600px) {
   .dashboard {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+
+  .dashboard__card {
+    padding: 0.85rem;
+  }
+
+  .dashboard__grade {
+    font-size: 2.2rem;
+  }
+
+  .dashboard__grade-desc {
+    font-size: 0.75rem;
+  }
+
+  .dashboard__big-number {
+    font-size: 1.8rem;
+  }
+
+  .dashboard__card-label {
+    font-size: 0.6rem;
+    margin-bottom: 0.3rem;
   }
 
   .welcome-banner__inner {
