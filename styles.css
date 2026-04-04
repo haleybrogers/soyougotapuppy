@@ -499,7 +499,7 @@ a:hover {
 
 .scroll-text-frame {
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.15s ease;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -515,12 +515,12 @@ a:hover {
 /* Build effect: lead text fades in after body */
 .build-in {
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.3s ease;
 }
 
 .scroll-text-frame.active .build-in {
   opacity: 1;
-  transition-delay: 1.5s;
+  transition-delay: 0.3s;
 }
 
 .scroll-lead {
