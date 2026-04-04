@@ -5894,89 +5894,63 @@ details.log-week__day > .log-week__day-header:hover {
   font-style: italic;
 }
 
-/* Day cycle strip */
-.day-cycle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-top: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.day-cycle__item {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--bark);
-  background: rgba(27, 27, 27, 0.06);
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--radius-full);
-}
-
-.day-cycle__arrow {
-  color: var(--soft-gray);
-  font-size: 0.7rem;
-}
-
-.day-cycle__repeat {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-style: italic;
-  color: var(--rust);
-  letter-spacing: 0.05em;
-  margin-left: 0.2rem;
-  opacity: 0.3;
-  transition: opacity 0.4s ease;
-}
-
-/* Build-on-scroll variant */
-.day-cycle--build .day-cycle__item {
-  opacity: 0.25;
-  transition: opacity 0.3s ease, background 0.3s ease, color 0.3s ease;
-}
-
-.day-cycle--build .day-cycle__arrow {
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
-}
-
-.day-cycle__item--active {
-  opacity: 1 !important;
-  background: var(--bark) !important;
-  color: var(--cream) !important;
-}
-
-/* Clickable cycle wrap */
-.day-cycle-wrap {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+/* Day loop — auto-cycling routine */
+.day-loop {
   padding: 1.5rem;
   border-radius: var(--radius-xl);
   border: 1px solid rgba(27, 27, 27, 0.06);
   background: var(--white);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  cursor: pointer;
 }
-
-.day-cycle-wrap:hover {
-  box-shadow: 0 4px 16px rgba(27, 27, 27, 0.1);
-  transform: translateY(-2px);
+.day-loop__items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
-
-.day-cycle__link {
-  font-size: 0.8rem;
+.day-loop__step {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--soft-gray);
-  margin-top: 0.75rem;
-  margin-bottom: 0;
-  transition: color 0.2s ease;
+  background: rgba(27, 27, 27, 0.04);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-full);
+  transition: all 0.4s ease;
+  position: relative;
 }
-
-.day-cycle-wrap:hover .day-cycle__link {
-  color: var(--bark);
+.day-loop__step--active {
+  color: white;
+  background: var(--rust);
+  box-shadow: 0 2px 10px rgba(212, 90, 58, 0.3);
+}
+.day-loop__hint {
+  display: block;
+  font-size: 0.55rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-top: 1px;
+}
+.day-loop__step--active .day-loop__hint {
+  opacity: 0.85;
+}
+.day-loop__arrow {
+  color: rgba(27, 27, 27, 0.15);
+  font-size: 0.75rem;
+  transition: color 0.3s ease;
+}
+.day-loop__arrow--active {
+  color: var(--rust);
+}
+@media (max-width: 480px) {
+  .day-loop__items { gap: 0.3rem; }
+  .day-loop__step { font-size: 0.65rem; padding: 0.3rem 0.5rem; }
+  .day-loop__arrow { font-size: 0.65rem; }
 }
 
 /* Timeline bar */
