@@ -3970,15 +3970,21 @@ section {
   letter-spacing: 0.08em;
   text-decoration: none;
   border-radius: var(--radius-full);
-  box-shadow: 0 3px 12px rgba(211, 47, 47, 0.3);
+  box-shadow: 0 0 12px rgba(211, 47, 47, 0.4), 0 0 24px rgba(211, 47, 47, 0.2);
+  animation: panic-glow 2s ease-in-out infinite;
   transition: all var(--transition-fast);
+}
+@keyframes panic-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(211, 47, 47, 0.4), 0 0 24px rgba(211, 47, 47, 0.2); }
+  50% { box-shadow: 0 0 18px rgba(211, 47, 47, 0.6), 0 0 36px rgba(211, 47, 47, 0.3); }
 }
 
 .panic-bar__btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 18px rgba(211, 47, 47, 0.4);
+  box-shadow: 0 0 20px rgba(211, 47, 47, 0.6), 0 0 40px rgba(211, 47, 47, 0.3);
   background: #C62828;
   color: white;
+  animation: none;
 }
 
 /* --- Site search overlay --- */
