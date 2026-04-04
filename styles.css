@@ -6458,3 +6458,60 @@ details.log-week__day > .log-week__day-header:hover {
   background: var(--rust);
   transform: translateY(-1px);
 }
+
+/* ============ SIGN-IN NUDGE ============ */
+.sign-in-nudge {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--charcoal);
+  color: var(--cream);
+  border-radius: var(--radius-full);
+  padding: 0.65rem 1.1rem 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+  z-index: 999;
+  animation: nudge-rise 0.3s ease;
+}
+@keyframes nudge-rise {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.sign-in-nudge__text {
+  margin: 0;
+}
+.sign-in-nudge__link {
+  color: var(--sand);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.sign-in-nudge__link:hover {
+  color: var(--cream);
+}
+.sign-in-nudge__close {
+  background: none;
+  border: none;
+  color: var(--soft-gray);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+.sign-in-nudge__close:hover {
+  color: var(--cream);
+}
+@media (max-width: 480px) {
+  .sign-in-nudge {
+    white-space: normal;
+    width: calc(100% - 2rem);
+    border-radius: var(--radius);
+    bottom: 1rem;
+  }
+}
