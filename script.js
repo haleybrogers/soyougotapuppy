@@ -100,24 +100,8 @@ if (rsvpForm) {
   });
 }
 
-// Scroll-triggered fade-in animations
-const observerOptions = {
-  threshold: 0.05
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, observerOptions);
-
-// Apply to sections
-document.querySelectorAll('.song, .details, .greensboro, .rsvp, .countdown').forEach(el => {
-  el.classList.add('fade-in');
-  observer.observe(el);
-});
+// Desktop: no fade-in animations — content is always visible
+// Mobile gets its own scroll-snap animations below
 
 // Mobile slide-in animations
 if (window.innerWidth <= 768) {

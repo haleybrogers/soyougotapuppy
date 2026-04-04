@@ -1566,16 +1566,7 @@ a:hover {
 }
 
 /* ---- Scroll animations ---- */
-.fade-in {
-  opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* Desktop: no fade-in, content always visible */
 
 /* ---- Responsive ---- */
 @media (max-width: 768px) {
@@ -1719,6 +1710,10 @@ a:hover {
     margin-top: 0;
     padding: 2rem 1.5rem;
     position: relative;
+  }
+
+  .scroll-footer-headline {
+    font-size: 2.2rem;
   }
 
   .quiz-btn {
