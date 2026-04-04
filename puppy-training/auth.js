@@ -37,12 +37,9 @@ function isLoggedIn() {
 }
 
 function updateNavProfile() {
-  var links = document.querySelectorAll('#navLinks li');
-  links.forEach(function(li) {
-    var a = li.querySelector('a');
-    if (a && a.getAttribute('href') === 'profile.html') {
-      li.style.display = isLoggedIn() ? '' : 'none';
-    }
+  var links = document.querySelectorAll('a[href="profile.html"]');
+  links.forEach(function(a) {
+    a.style.display = isLoggedIn() ? '' : 'none';
   });
 }
 

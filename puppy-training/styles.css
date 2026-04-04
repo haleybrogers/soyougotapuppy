@@ -270,6 +270,10 @@ section {
   align-items: center;
 }
 
+.nav__links a[href="profile.html"] {
+  display: none;
+}
+
 .nav__links a {
   font-family: var(--font-mono);
   font-size: 0.8rem;
