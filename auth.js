@@ -1,11 +1,24 @@
 /* ============================================
    SO YOU GOT A PUPPY
-   Auth + Profile System (Google Sign-In + localStorage)
+   Auth + Profile System (Supabase Auth + Google)
    ============================================ */
 
 const PROFILE_KEY = 'sygap_profile';
+const SUPABASE_AUTH_URL = 'https://rvfbszfefnrdqvuzngbf.supabase.co';
+const SUPABASE_AUTH_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2ZmJzemZlZm5yZHF2dXpuZ2JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjYyMDgsImV4cCI6MjA5MDgwMjIwOH0.LxL6Yt6e35eKRs7TgC8fhvkFvaWrWLht_CYuZuJyIqw';
+const SYNC_FN_URL = SUPABASE_AUTH_URL + '/functions/v1/sync-profile';
 
-// ---- PROFILE DATA ----
+// Supabase client (loaded from CDN in HTML)
+let _supaClient = null;
+function getSupaClient() {
+  if (_supaClient) return _supaClient;
+  if (typeof supabase !== 'undefined' && supabase.createClient) {
+    _supaClient = supabase.createClient(SUPABASE_AUTH_URL, SUPABASE_AUTH_KEY);
+  }
+  return _supaClient;
+}
+
+// ---- PROFILE DATA (localStorage cache + server sync) ----
 function getProfile() {
   try {
     return JSON.parse(localStorage.getItem(PROFILE_KEY)) || null;
@@ -14,6 +27,8 @@ function getProfile() {
 
 function saveProfile(data) {
   localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+  // Async sync to server (fire and forget)
+  syncProfileToServer();
 }
 
 function isLoggedIn() {
@@ -21,13 +36,98 @@ function isLoggedIn() {
   return p && p.ownerName;
 }
 
-// ---- LOGIN MODAL ----
-function showLoginModal() {
-  // Don't show if already logged in
-  if (isLoggedIn()) {
-    showWelcome();
+// ---- SERVER SYNC ----
+let _syncTimeout = null;
+function syncProfileToServer() {
+  // Debounce — wait 2 seconds after last save
+  if (_syncTimeout) clearTimeout(_syncTimeout);
+  _syncTimeout = setTimeout(async () => {
+    try {
+      const client = getSupaClient();
+      if (!client) return;
+
+      const { data: { session } } = await client.auth.getSession();
+      if (!session) return; // Not logged in with Supabase Auth
+
+      const profile = getProfile();
+      const trainingLog = JSON.parse(localStorage.getItem('puppy_training_log') || '{}');
+      const modules = JSON.parse(localStorage.getItem('puppy_modules') || '{}');
+
+      await fetch(SYNC_FN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + SUPABASE_AUTH_KEY,
+        },
+        body: JSON.stringify({
+          user_id: session.user.id,
+          profile: profile,
+          training_log: trainingLog,
+          modules: modules,
+        }),
+      });
+    } catch (err) {
+      console.warn('Profile sync failed:', err);
+    }
+  }, 2000);
+}
+
+async function loadProfileFromServer() {
+  try {
+    const client = getSupaClient();
+    if (!client) return false;
+
+    const { data: { session } } = await client.auth.getSession();
+    if (!session) return false;
+
+    const res = await fetch(SYNC_FN_URL + '?user_id=' + session.user.id, {
+      headers: { 'Authorization': 'Bearer ' + SUPABASE_AUTH_KEY },
+    });
+
+    if (!res.ok) return false;
+
+    const data = await res.json();
+    if (data.profile && data.profile.setupComplete) {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(data.profile));
+      if (data.training_log && Object.keys(data.training_log).length > 0) {
+        localStorage.setItem('puppy_training_log', JSON.stringify(data.training_log));
+      }
+      if (data.modules && Object.keys(data.modules).length > 0) {
+        localStorage.setItem('puppy_modules', JSON.stringify(data.modules));
+      }
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.warn('Profile load failed:', err);
+    return false;
+  }
+}
+
+// ---- GOOGLE SIGN-IN (Supabase Auth) ----
+async function signInWithGoogle() {
+  const client = getSupaClient();
+  if (!client) {
+    console.error('Supabase client not available');
     return;
   }
+
+  const { data, error } = await client.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin + window.location.pathname,
+    },
+  });
+
+  if (error) {
+    console.error('Google sign-in error:', error);
+  }
+  // User gets redirected to Google, then back
+}
+
+// ---- LOGIN MODAL ----
+function showLoginModal() {
+  if (isLoggedIn()) return;
 
   const existing = document.getElementById('loginOverlay');
   if (existing) { existing.style.display = 'flex'; return; }
@@ -42,11 +142,14 @@ function showLoginModal() {
       <p style="color: var(--soft-gray); margin-bottom: 1.5rem;">sign in to track your progress, log behaviors, and get a grade on your puppy parenting (no pressure)</p>
 
       <div id="loginStep1">
-        <div id="googleBtnWrap"></div>
-        <div class="login-divider"><span>or</span></div>
+        <button class="btn btn--primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onclick="signInWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 18 18" style="flex-shrink:0;"><path fill="#4285F4" d="M17.64 9.2a10 10 0 0 0-.164-1.8H9v3.4h4.844a4.14 4.14 0 0 1-1.796 2.716v2.264h2.908c1.702-1.567 2.684-3.874 2.684-6.58z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.264c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.338A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.956H.957A8.997 8.997 0 0 0 0 9a9 9 0 0 0 .957 4.044l3.007-2.338z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.956L3.964 7.294C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+          sign in with Google
+        </button>
+        <div class="login-divider"><span>or continue without account</span></div>
         <form onsubmit="event.preventDefault(); manualLogin();">
           <input type="text" class="login-input" id="manualName" placeholder="your name(s)" required>
-          <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 0.5rem;">continue</button>
+          <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem; background: var(--cream-warm); color: var(--bark); border: 1px solid rgba(0,0,0,0.1);">continue as guest</button>
         </form>
       </div>
 
@@ -67,14 +170,6 @@ function showLoginModal() {
     </div>
   `;
   document.body.appendChild(overlay);
-
-  // Try to render Google button
-  if (typeof google !== 'undefined' && google.accounts) {
-    google.accounts.id.renderButton(
-      document.getElementById('googleBtnWrap'),
-      { theme: 'outline', size: 'large', width: '100%', text: 'signin_with', shape: 'pill' }
-    );
-  }
 }
 
 function closeLogin() {
@@ -87,15 +182,6 @@ function manualLogin() {
   if (!name) return;
 
   saveProfile({ ownerName: name });
-  goToStep2(name);
-}
-
-function handleGoogleSignIn(response) {
-  // Decode the JWT to get user info
-  const payload = JSON.parse(atob(response.credential.split('.')[1]));
-  const name = payload.given_name || payload.name || 'friend';
-
-  saveProfile({ ownerName: name, email: payload.email, picture: payload.picture });
   goToStep2(name);
 }
 
@@ -121,7 +207,8 @@ function saveDogProfile() {
   saveProfile(profile);
 
   closeLogin();
-  showWelcome();
+  refreshDashboard();
+  populateSettings();
 }
 
 // ---- WELCOME BANNER ----
@@ -149,7 +236,6 @@ function getPuppyhoodPercent(birthday) {
   const born = new Date(birthday);
   const now = new Date();
   const months = (now - born) / (30.44 * 24 * 60 * 60 * 1000);
-  // Puppyhood is roughly 0-18 months
   return Math.min(100, Math.round((months / 18) * 100));
 }
 
@@ -157,7 +243,6 @@ function getPuppyhoodPercent(birthday) {
 function getWeeklyGrade() {
   const log = JSON.parse(localStorage.getItem('puppy_training_log') || '{}');
 
-  // Get last 7 days
   const days = [];
   const d = new Date();
   for (let i = 0; i < 7; i++) {
@@ -166,38 +251,21 @@ function getWeeklyGrade() {
     d.setDate(d.getDate() - 1);
   }
 
-  // Days trained this week (at least 1 session)
   const daysTrained = days.filter(d => d.sessions > 0).length;
-
-  // Average sessions per training day
   const totalSessions = days.reduce((sum, d) => sum + d.sessions, 0);
   const avgSessions = daysTrained > 0 ? totalSessions / daysTrained : 0;
 
-  // Streak (consecutive days from today going back)
   let streak = 0;
   for (const day of days) {
     if (day.sessions > 0) { streak++; } else { break; }
   }
 
-  // Score: days trained (0-7) x consistency + session depth
-  // 7 days trained + 3 avg sessions = 100 (A+)
-  // 5 days + 2 avg = ~80 (B+)
-  // 3 days + 1 avg = ~50 (C-)
-  // 0 days = 0 (F)
   let score = 0;
-
-  // Days trained: up to 50 points (7 days = 50)
   score += Math.round((daysTrained / 7) * 50);
-
-  // Session depth: up to 30 points (3+ avg = 30)
   score += Math.round(Math.min(1, avgSessions / 3) * 30);
-
-  // Streak bonus: up to 20 points (7-day streak = 20)
   score += Math.round((streak / 7) * 20);
-
   score = Math.max(0, Math.min(100, score));
 
-  // Letter grade with funny descriptions
   if (score >= 95) return { letter: 'A+', score, desc: "your dog is literally writing you a thank-you note rn" };
   if (score >= 90) return { letter: 'A', score, desc: "you're killing it. your dog thinks you're a genius" };
   if (score >= 85) return { letter: 'A-', score, desc: "almost perfect. your dog would give you 5 stars on yelp" };
@@ -235,7 +303,7 @@ function getFunFact(dogAge) {
       "regression is normal. stuff they knew last week? suddenly forgotten. stay the course."
     ],
     adolescent: [
-      "this is the #1 age dogs get surrendered. you're in the hardest phase. it DOES get better.",
+      "this is the hardest phase. you're doing better than you think. it DOES get better.",
       "their brain is literally rewiring right now. it's like puberty but with more chewing.",
       "a second fear period can happen between 6-14 months. don't punish fear — support it.",
       "keep training even when it feels pointless. the foundation is being laid whether you see it or not."
@@ -255,7 +323,6 @@ function getFunFact(dogAge) {
   else if (weeks >= 12) stage = 'teething';
 
   const pool = facts[stage];
-  // Use day of year to pick a "daily" fact
   const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
   return pool[dayOfYear % pool.length];
 }
@@ -271,36 +338,26 @@ function getDrillsToday() {
 function toggleDrill(drillName) {
   const data = getDrillsToday();
   const idx = data.completed.indexOf(drillName);
-  if (idx === -1) {
-    data.completed.push(drillName);
-  } else {
-    data.completed.splice(idx, 1);
-  }
+  if (idx === -1) { data.completed.push(drillName); } else { data.completed.splice(idx, 1); }
   localStorage.setItem('sygap_drills_today', JSON.stringify(data));
   updateDrillChecklist();
 }
 
 function updateDrillChecklist() {
   const data = getDrillsToday();
-
-  // Tracker page checklist items
   document.querySelectorAll('.drill-checklist__item').forEach(el => {
     const name = el.dataset.drill;
     el.classList.toggle('drill-checklist__item--done', data.completed.includes(name));
   });
-
-  // Learn page checkboxes (if any)
   document.querySelectorAll('.drill-check').forEach(el => {
     const name = el.dataset.drill;
     el.classList.toggle('drill-check--done', data.completed.includes(name));
   });
-
   const countEl = document.getElementById('drillsDoneCount');
   if (countEl) countEl.textContent = data.completed.length;
 }
 
 // ---- MODULE TRACKING ----
-// Canonical module list matching modules.html (3 phases, 11 modules)
 const MODULE_LIST = [
   { key: 'crate', name: 'Crate', phase: 'Home life' },
   { key: 'potty', name: 'Potty', phase: 'Home life' },
@@ -325,6 +382,7 @@ function toggleModuleTracker(moduleName) {
   localStorage.setItem('puppy_modules', JSON.stringify(data));
   updateModuleUI();
   refreshDashboard();
+  syncProfileToServer(); // Sync modules too
 }
 
 function updateModuleUI() {
@@ -336,13 +394,11 @@ function updateModuleUI() {
   const total = MODULE_LIST.length;
   const pct = total ? Math.round((done / total) * 100) : 0;
 
-  // Update count + bar
   const countEl = document.getElementById('moduleProgressCount');
   const fillEl = document.getElementById('moduleTrackerFill');
   if (countEl) countEl.textContent = done;
   if (fillEl) fillEl.style.width = pct + '%';
 
-  // Build module list grouped by phase (read-only, links to modules page)
   let html = '';
   let currentPhase = '';
   MODULE_LIST.forEach(m => {
@@ -361,7 +417,6 @@ function updateModuleUI() {
   });
   container.innerHTML = html;
 
-  // Also update old-style grid items if they exist (modules.html compat)
   document.querySelectorAll('.module-progress__item').forEach(el => {
     const name = el.dataset.module;
     el.classList.toggle('module-progress__item--done', !!data[name]);
@@ -413,8 +468,7 @@ function getDaysUntilOneYear(birthday) {
   const oneYear = new Date(born);
   oneYear.setFullYear(oneYear.getFullYear() + 1);
   const now = new Date();
-  const diff = Math.ceil((oneYear - now) / (1000 * 60 * 60 * 24));
-  return diff;
+  return Math.ceil((oneYear - now) / (1000 * 60 * 60 * 24));
 }
 
 function getYearProgress(birthday) {
@@ -431,7 +485,6 @@ function getYearProgress(birthday) {
 function refreshDashboard() {
   const profile = getProfile();
 
-  // Personalized heading (changes every visit)
   const headingEl = document.getElementById('trackerHeading');
   const subEl = document.getElementById('trackerSubheading');
   if (headingEl && profile && profile.ownerName && profile.dogName) {
@@ -446,14 +499,12 @@ function refreshDashboard() {
     }
   }
 
-  // Grade (weekly)
   const grade = getWeeklyGrade();
   const gradeEl = document.getElementById('dashGrade');
   const gradeDescEl = document.getElementById('dashGradeDesc');
   if (gradeEl) gradeEl.textContent = grade.letter;
   if (gradeDescEl) gradeDescEl.textContent = grade.desc;
 
-  // Puppyhood %
   if (profile && profile.dogBirthday) {
     const pct = getPuppyhoodPercent(profile.dogBirthday);
     const pctEl = document.getElementById('dashPuppyhood');
@@ -461,12 +512,10 @@ function refreshDashboard() {
     if (pctEl) pctEl.innerHTML = `${pct}<span style="font-size: 1rem;">%</span>`;
     if (fillEl) fillEl.style.width = `${pct}%`;
 
-    // Fun fact
     const dogAge = getDogAge(profile.dogBirthday);
     const factEl = document.getElementById('dashFact');
     if (factEl) factEl.textContent = getFunFact(dogAge);
 
-    // Puppy age card
     const ageCard = document.getElementById('puppyAgeCard');
     if (ageCard) {
       ageCard.style.display = '';
@@ -480,11 +529,7 @@ function refreshDashboard() {
 
       const daysLeft = getDaysUntilOneYear(profile.dogBirthday);
       if (countdownEl) {
-        if (daysLeft > 0) {
-          countdownEl.textContent = `${daysLeft} days until the 1-year mark`;
-        } else {
-          countdownEl.textContent = `past the 1-year mark!`;
-        }
+        countdownEl.textContent = daysLeft > 0 ? `${daysLeft} days until the 1-year mark` : `past the 1-year mark!`;
       }
 
       const yearPct = getYearProgress(profile.dogBirthday);
@@ -493,15 +538,11 @@ function refreshDashboard() {
       const phase = getPuppyPhase(dogAge.weeks);
       if (phaseText) phaseText.innerHTML = `<strong>${phase.name}</strong> · ${phase.vibe}`;
 
-      // Start live timer
       startLiveTimer(profile.dogBirthday);
     }
   }
 
-  // Drills
   updateDrillChecklist();
-
-  // Modules
   updateModuleUI();
 }
 
@@ -510,14 +551,12 @@ let _liveTimerInterval = null;
 function startLiveTimer(birthday) {
   const el = document.getElementById('puppyLiveTimer');
   if (!el || !birthday) return;
-
   if (_liveTimerInterval) clearInterval(_liveTimerInterval);
 
   function tick() {
     const born = new Date(birthday);
     const now = new Date();
     let diff = Math.abs(now - born);
-
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     diff -= days * (1000 * 60 * 60 * 24);
     const hrs = Math.floor(diff / (1000 * 60 * 60));
@@ -525,7 +564,6 @@ function startLiveTimer(birthday) {
     const mins = Math.floor(diff / (1000 * 60));
     diff -= mins * (1000 * 60);
     const secs = Math.floor(diff / 1000);
-
     const pad = n => String(n).padStart(2, '0');
     el.textContent = `${days}d ${pad(hrs)}h ${pad(mins)}m ${pad(secs)}s alive`;
   }
@@ -571,7 +609,6 @@ function saveSettingsProfile() {
   saveProfile(profile);
   refreshDashboard();
 
-  // Show saved confirmation
   const savedEl = document.getElementById('settingsSaved');
   if (savedEl) {
     savedEl.style.display = 'inline';
@@ -580,13 +617,51 @@ function saveSettingsProfile() {
 }
 
 // ---- INIT ----
-document.addEventListener('DOMContentLoaded', () => {
-  const profile = getProfile();
+document.addEventListener('DOMContentLoaded', async () => {
+  const client = getSupaClient();
 
+  // Check for OAuth callback (hash fragment from Google redirect)
+  if (client && window.location.hash.includes('access_token')) {
+    // Supabase handles the token exchange automatically
+    const { data: { session } } = await client.auth.getSession();
+    if (session) {
+      // Try to load profile from server first
+      const loaded = await loadProfileFromServer();
+      if (loaded) {
+        refreshDashboard();
+        populateSettings();
+        return;
+      }
+
+      // New Google user — pre-fill their name and go to step 2
+      const user = session.user;
+      const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'friend';
+      saveProfile({ ownerName: name, email: user.email, picture: user.user_metadata?.avatar_url });
+      showLoginModal();
+      goToStep2(name.split(' ')[0]);
+      return;
+    }
+  }
+
+  // Check if we have an existing Supabase session
+  if (client) {
+    const { data: { session } } = await client.auth.getSession();
+    if (session && !isLoggedIn()) {
+      // Have a session but no local profile — try loading from server
+      const loaded = await loadProfileFromServer();
+      if (loaded) {
+        refreshDashboard();
+        populateSettings();
+        return;
+      }
+    }
+  }
+
+  // Normal flow
+  const profile = getProfile();
   if (profile && profile.setupComplete) {
-    showWelcome();
+    // Already set up
   } else {
-    // Show login prompt after a short delay (non-blocking)
     setTimeout(() => {
       if (!isLoggedIn()) showLoginModal();
     }, 1500);
@@ -595,6 +670,3 @@ document.addEventListener('DOMContentLoaded', () => {
   refreshDashboard();
   populateSettings();
 });
-
-// Google Sign-In callback (called from the GSI script)
-window.handleGoogleSignIn = handleGoogleSignIn;
