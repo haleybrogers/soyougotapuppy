@@ -641,6 +641,15 @@ function isProfilePage() {
   return !!document.getElementById('profileLoggedOut');
 }
 
+// Show/hide tracker gate vs content
+function updateTrackerGate(loggedIn) {
+  const gate = document.getElementById('trackerLoggedOut');
+  const content = document.getElementById('trackerContent');
+  if (!gate || !content) return;
+  gate.style.display = loggedIn ? 'none' : 'block';
+  content.style.display = loggedIn ? 'block' : 'none';
+}
+
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', async () => {
   const client = getSupaClient();
@@ -656,6 +665,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Try to load existing profile from server
       const loaded = await loadProfileFromServer();
       if (loaded) {
+        updateTrackerGate(true);
         refreshDashboard();
         populateSettings();
         return;
@@ -669,6 +679,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       // On profile page, let initProfilePage() handle the setup form
       if (isProfilePage()) return;
 
+      // On tracker page, redirect to profile to complete setup
+      if (isTrackerPage()) {
+        window.location.href = 'profile.html';
+        return;
+      }
+
       // On other pages, show the dog profile modal (step 2)
       showLoginModal(true);
       return;
@@ -681,6 +697,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (session && !isLoggedIn()) {
       const loaded = await loadProfileFromServer();
       if (loaded) {
+        updateTrackerGate(true);
         refreshDashboard();
         populateSettings();
         return;
@@ -693,23 +710,20 @@ document.addEventListener('DOMContentLoaded', async () => {
       // On profile page, initProfilePage() handles showing the setup form
       if (isProfilePage()) return;
 
-      // On tracker page, show the modal
+      // On tracker page, redirect to profile to complete setup
       if (isTrackerPage()) {
-        showLoginModal(true);
+        window.location.href = 'profile.html';
+        return;
       }
     }
   }
 
-  // Normal flow — only prompt login on the tracker page, never auto-popup elsewhere
+  // Normal flow — show tracker gate or content based on login state
   const profile = getProfile();
-  if (!profile || !profile.setupComplete) {
-    if (isTrackerPage()) {
-      // On tracker page without being set up — show login prompt
-      setTimeout(() => {
-        if (!isLoggedIn()) showLoginModal();
-      }, 800);
-    }
-    // On other pages — let them browse freely, no popup
+  if (profile && profile.setupComplete) {
+    updateTrackerGate(true);
+  } else {
+    updateTrackerGate(false);
   }
 
   refreshDashboard();
