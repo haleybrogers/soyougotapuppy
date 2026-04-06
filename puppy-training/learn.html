@@ -1091,16 +1091,24 @@
   function showNudge() {
     if (sessionStorage.getItem('nudge_dismissed')) return;
     if (typeof isLoggedIn === 'function' && isLoggedIn()) return;
+    if (typeof getProfile === 'function' && getProfile()) return;
     var el = document.getElementById('signInNudge');
     if (el) el.hidden = false;
   }
-  window.dismissNudge = function () {
-    sessionStorage.setItem('nudge_dismissed', '1');
+  function hideNudge() {
     var el = document.getElementById('signInNudge');
     if (el) el.hidden = true;
+  }
+  window.dismissNudge = function () {
+    sessionStorage.setItem('nudge_dismissed', '1');
+    hideNudge();
   };
-  // Wait a beat so auth.js has had a chance to restore session
-  setTimeout(showNudge, 800);
+  // Check after auth.js has had time to restore session
+  setTimeout(showNudge, 1500);
+  // Backup: hide if user signs in after nudge appeared
+  setTimeout(function() {
+    if (typeof isLoggedIn === 'function' && isLoggedIn()) hideNudge();
+  }, 3000);
 })();
 </script>
 </body>

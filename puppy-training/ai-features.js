@@ -400,14 +400,33 @@ function initAIFeatures() {
     renderPlanSkeleton();
   }
 
-  // Fetch breed fact (always, regardless of age)
-  fetchBreedFact(profile).then(fact => {
-    if (fact) {
-      renderBreedFact(fact);
-    } else {
-      renderFactError();
+  // Fetch breed fact (always, regardless of age) — cache per day
+  var cachedFact = null;
+  try {
+    var stored = JSON.parse(localStorage.getItem('sygap_breed_fact') || 'null');
+    if (stored && stored.date === getTodayString() && stored.breed === profile.dogBreed) {
+      cachedFact = stored.fact;
     }
-  });
+  } catch(e) {}
+
+  if (cachedFact) {
+    renderBreedFact(cachedFact);
+  } else {
+    fetchBreedFact(profile).then(fact => {
+      if (fact) {
+        renderBreedFact(fact);
+        try {
+          localStorage.setItem('sygap_breed_fact', JSON.stringify({
+            date: getTodayString(),
+            breed: profile.dogBreed,
+            fact: fact
+          }));
+        } catch(e) {}
+      } else {
+        renderFactError();
+      }
+    });
+  }
 
   // Fetch weekly plan (only if in the 8 weeks – 1 year range)
   if (ageWeeks >= 8 && ageWeeks <= 52) {
