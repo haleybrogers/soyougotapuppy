@@ -678,6 +678,8 @@ function populateSettings() {
 
 function saveSettingsProfile() {
   const profile = getProfile() || {};
+  const oldBirthday = profile.dogBirthday;
+  const oldBreed = profile.dogBreed;
 
   const ownerEl = document.getElementById('settingsOwnerName');
   const dogEl = document.getElementById('settingsDogName');
@@ -690,6 +692,12 @@ function saveSettingsProfile() {
   if (breedEl && breedEl.value.trim()) profile.dogBreed = breedEl.value.trim();
   if (bdayEl && bdayEl.value) profile.dogBirthday = bdayEl.value;
   if (genderEl) profile.dogGender = genderEl.value;
+
+  // If birthday or breed changed, mark plan as stale
+  if (profile.dogBirthday !== oldBirthday || profile.dogBreed !== oldBreed) {
+    localStorage.setItem('sygap_plan_stale', '1');
+    localStorage.removeItem('sygap_breed_fact');
+  }
 
   saveProfile(profile);
   refreshDashboard();

@@ -467,6 +467,8 @@ function cancelEdit() {
 
 function saveProfilePage() {
   const profile = getProfile() || {};
+  const oldBirthday = profile.dogBirthday;
+  const oldBreed = profile.dogBreed;
 
   const dogNameEl = document.getElementById('profileDogName');
   const breedEl = document.getElementById('profileBreed');
@@ -484,6 +486,13 @@ function saveProfilePage() {
   const photoInput = document.getElementById('dogPhotoInput');
   if (photoInput && photoInput.dataset.pendingPhoto) {
     profile.dogPhoto = photoInput.dataset.pendingPhoto;
+  }
+
+  // If birthday or breed changed, mark the plan as stale so it regenerates
+  if (profile.dogBirthday !== oldBirthday || profile.dogBreed !== oldBreed) {
+    localStorage.setItem('sygap_plan_stale', '1');
+    // Also clear the cached breed fact so it refreshes for the new breed/age
+    localStorage.removeItem('sygap_breed_fact');
   }
 
   saveProfile(profile);

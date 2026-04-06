@@ -465,7 +465,14 @@ function initAIFeatures() {
 
   // Fetch weekly plan (only if in the 8 weeks – 1 year range)
   if (ageWeeks >= 8 && ageWeeks <= 52) {
-    fetchWeeklyPlan(profile).then(plan => {
+    // Check if profile was changed (birthday/breed) — force refresh if so
+    var forceRefresh = false;
+    if (localStorage.getItem('sygap_plan_stale') === '1') {
+      forceRefresh = true;
+      localStorage.removeItem('sygap_plan_stale');
+    }
+
+    fetchWeeklyPlan(profile, forceRefresh).then(plan => {
       if (plan) {
         renderWeeklyPlan(plan, ageWeeks);
         updatePlanChecks();
