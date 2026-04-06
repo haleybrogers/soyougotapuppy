@@ -49,11 +49,76 @@ function getTodayString() {
 }
 
 // ---- API CALLS ----
-async function fetchWeeklyPlan(profile, forceRefresh) {
+function getWeeklyProgress() {
+  // Gather what the user actually completed this week from the training log
+  try {
+    const log = JSON.parse(localStorage.getItem('puppy_training_log') || '{}');
+    const now = new Date();
+    const dayOfWeek = now.getDay(); // 0=Sun
+    const weekSessions = [];
+
+    // Look back through this week (Mon-Sun)
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(now);
+      d.setDate(d.getDate() - i);
+      const key = d.toISOString().split('T')[0];
+      const dayData = log[key];
+      if (dayData && dayData.completed && dayData.completed.length > 0) {
+        const details = dayData.completedDetails || {};
+        const names = dayData.completed.map(id => {
+          // Get the human-readable name from completedDetails, fallback to ID
+          const baseName = id.replace(/-rep-\d+$/, '');
+          return details[baseName] || baseName.replace('plan-area-', 'focus ');
+        });
+        weekSessions.push({ date: key, count: dayData.sessions || 0, items: [...new Set(names)] });
+      }
+    }
+
+    // Get this week's reflection
+    const { week, year } = getISOWeekNumber(now);
+    const reflectionKey = 'sygap_reflection_' + year + '_' + week;
+    const reflection = localStorage.getItem(reflectionKey) || '';
+
+    // Get last week's reflection too
+    const lastWeekDate = new Date(now);
+    lastWeekDate.setDate(lastWeekDate.getDate() - 7);
+    const lastWeek = getISOWeekNumber(lastWeekDate);
+    const lastReflectionKey = 'sygap_reflection_' + lastWeek.year + '_' + lastWeek.week;
+    const lastReflection = localStorage.getItem(lastReflectionKey) || '';
+
+    // Get last week's AI training summary (from "how am I doing?" button)
+    let lastWeekSummary = null;
+    try {
+      const summaryRaw = localStorage.getItem('sygap_log_summary_' + lastWeek.year + '_' + lastWeek.week);
+      if (summaryRaw) lastWeekSummary = JSON.parse(summaryRaw);
+    } catch(e) { /* ignore */ }
+
+    return {
+      sessions_this_week: weekSessions,
+      total_sessions_this_week: weekSessions.reduce((sum, d) => sum + d.count, 0),
+      reflection: reflection,
+      last_week_reflection: lastReflection,
+      last_week_summary: lastWeekSummary,
+    };
+  } catch(e) {
+    return { sessions_this_week: [], total_sessions_this_week: 0, reflection: '', last_week_reflection: '', last_week_summary: null };
+  }
+}
+
+async function fetchWeeklyPlan(profile, forceRefresh, checkinAnswers) {
   const deviceId = getOrCreateDeviceId();
   const age = getDogAge(profile.dogBirthday);
   const { week, year } = getISOWeekNumber(new Date());
   const modules = getModuleProgress();
+  const progress = getWeeklyProgress();
+
+  // If no checkin answers passed, try loading saved ones
+  if (!checkinAnswers) {
+    try {
+      const saved = localStorage.getItem('sygap_checkin_' + year + '_' + week);
+      if (saved) checkinAnswers = JSON.parse(saved);
+    } catch(e) {}
+  }
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
@@ -76,6 +141,8 @@ async function fetchWeeklyPlan(profile, forceRefresh) {
         week_number: week,
         year: year,
         force_refresh: !!forceRefresh,
+        weekly_progress: progress,
+        checkin_answers: checkinAnswers || null,
       }),
     });
 
@@ -113,6 +180,8 @@ async function fetchWeeklyPlan(profile, forceRefresh) {
             week_number: getISOWeekNumber(new Date()).week,
             year: getISOWeekNumber(new Date()).year,
             force_refresh: true,
+            weekly_progress: getWeeklyProgress(),
+            checkin_answers: checkinAnswers || null,
           }),
         });
         if (retryRes.ok) {
@@ -187,6 +256,178 @@ function renderPlanSkeleton() {
       <div class="skeleton skeleton--line-short"></div>
     </div>
   `;
+}
+
+// ---- WEEKLY CHECK-IN (interactive plan builder) ----
+function renderPlanCheckin() {
+  const el = document.getElementById('weeklyPlanContent');
+  if (!el || !_currentProfile) return;
+
+  const progress = getWeeklyProgress();
+  const profile = _currentProfile;
+  const dogName = profile.dogName || 'your pup';
+
+  // Build last week recap from actual data
+  let recapHTML = '';
+  if (progress.sessions_this_week && progress.sessions_this_week.length > 0) {
+    const totalSessions = progress.total_sessions_this_week;
+    const allItems = [];
+    progress.sessions_this_week.forEach(d => {
+      d.items.forEach(item => { if (!allItems.includes(item)) allItems.push(item); });
+    });
+    const daysActive = progress.sessions_this_week.length;
+    recapHTML = `
+      <div class="checkin__recap">
+        <div class="checkin__recap-label">last week's recap</div>
+        <div class="checkin__recap-stats">
+          <span class="checkin__stat">${totalSessions} session${totalSessions !== 1 ? 's' : ''}</span>
+          <span class="checkin__stat">${daysActive} day${daysActive !== 1 ? 's' : ''} active</span>
+        </div>
+        ${allItems.length ? `<div class="checkin__recap-items">worked on: ${allItems.map(i => escapeHTML(i)).join(', ')}</div>` : ''}
+      </div>
+    `;
+  } else {
+    recapHTML = `
+      <div class="checkin__recap">
+        <div class="checkin__recap-label">last week</div>
+        <p class="checkin__recap-empty">no sessions logged yet — that's ok, we're starting fresh</p>
+      </div>
+    `;
+  }
+
+  // Last week's reflection if they wrote one
+  let reflectionHTML = '';
+  if (progress.last_week_reflection) {
+    reflectionHTML = `<div class="checkin__prev-reflection"><span class="checkin__prev-reflection-label">you said:</span> "${escapeHTML(progress.last_week_reflection)}"</div>`;
+  }
+
+  // Focus area options based on phase
+  const age = getDogAge(profile.dogBirthday);
+  const phase = getDogPhase(age.weeks);
+  const focusOptions = getFocusOptions(age.weeks);
+
+  el.innerHTML = `
+    <div class="checkin">
+      <div class="checkin__header">
+        <div class="checkin__title">weekly check-in</div>
+        <p class="checkin__subtitle">let's build ${escapeHTML(dogName)}'s plan for this week</p>
+      </div>
+
+      ${recapHTML}
+      ${reflectionHTML}
+
+      <div class="checkin__questions">
+        <div class="checkin__question">
+          <label class="checkin__label" for="checkinHowItWent">how did last week go?</label>
+          <div class="checkin__quick-options" id="checkinMoodOptions">
+            <button class="checkin__option" data-value="great" onclick="selectCheckinOption(this)">crushed it 💪</button>
+            <button class="checkin__option" data-value="ok" onclick="selectCheckinOption(this)">it was ok</button>
+            <button class="checkin__option" data-value="rough" onclick="selectCheckinOption(this)">pretty rough</button>
+            <button class="checkin__option" data-value="skip" onclick="selectCheckinOption(this)">didn't train much</button>
+          </div>
+          <textarea class="checkin__input" id="checkinHowItWent" rows="2" placeholder="anything specific? wins, struggles, things you noticed..."></textarea>
+        </div>
+
+        <div class="checkin__question">
+          <label class="checkin__label">what do you want to focus on most?</label>
+          <div class="checkin__focus-options" id="checkinFocusOptions">
+            ${focusOptions.map(opt => `<button class="checkin__focus-btn" data-value="${escapeHTML(opt.key)}" onclick="toggleCheckinFocus(this)">${escapeHTML(opt.label)}</button>`).join('')}
+          </div>
+          <textarea class="checkin__input" id="checkinFocusNotes" rows="1" placeholder="anything else you want to work on?"></textarea>
+        </div>
+
+        <div class="checkin__question">
+          <label class="checkin__label">anything you're struggling with?</label>
+          <textarea class="checkin__input" id="checkinStruggles" rows="2" placeholder="biting? potty accidents? leash pulling? leave blank if nothing specific"></textarea>
+        </div>
+      </div>
+
+      <button class="checkin__submit" onclick="submitCheckin()">build my plan ✨</button>
+    </div>
+  `;
+}
+
+function getFocusOptions(ageWeeks) {
+  // Return relevant focus areas based on age phase
+  const allOptions = [
+    { key: 'potty', label: 'potty training' },
+    { key: 'crate', label: 'crate training' },
+    { key: 'biting', label: 'biting / mouthing' },
+    { key: 'calm', label: 'calm / settle' },
+    { key: 'come', label: 'recall / come' },
+    { key: 'manners', label: 'manners / impulse control' },
+    { key: 'socializing', label: 'socialization' },
+    { key: 'handling', label: 'handling / grooming' },
+    { key: 'leash', label: 'leash walking' },
+    { key: 'meeting-dogs', label: 'meeting dogs' },
+    { key: 'meeting-people', label: 'meeting people' },
+  ];
+
+  // For young puppies, prioritize foundation skills
+  if (ageWeeks <= 12) {
+    return allOptions.filter(o => ['potty', 'crate', 'biting', 'come', 'handling', 'socializing'].includes(o.key));
+  }
+  if (ageWeeks <= 20) {
+    return allOptions.filter(o => ['potty', 'crate', 'biting', 'calm', 'come', 'manners', 'socializing', 'leash', 'handling'].includes(o.key));
+  }
+  return allOptions;
+}
+
+function selectCheckinOption(btn) {
+  // Single-select for mood
+  btn.parentElement.querySelectorAll('.checkin__option').forEach(b => b.classList.remove('checkin__option--selected'));
+  btn.classList.add('checkin__option--selected');
+}
+
+function toggleCheckinFocus(btn) {
+  // Multi-select for focus areas (max 3)
+  if (btn.classList.contains('checkin__focus-btn--selected')) {
+    btn.classList.remove('checkin__focus-btn--selected');
+    return;
+  }
+  const selected = btn.parentElement.querySelectorAll('.checkin__focus-btn--selected');
+  if (selected.length >= 3) return; // max 3
+  btn.classList.add('checkin__focus-btn--selected');
+}
+
+async function submitCheckin() {
+  if (!_currentProfile) return;
+
+  // Gather answers
+  const moodBtn = document.querySelector('.checkin__option--selected');
+  const mood = moodBtn ? moodBtn.dataset.value : '';
+  const howItWent = (document.getElementById('checkinHowItWent') || {}).value || '';
+  const focusBtns = document.querySelectorAll('.checkin__focus-btn--selected');
+  const focusAreas = Array.from(focusBtns).map(b => b.dataset.value);
+  const focusNotes = (document.getElementById('checkinFocusNotes') || {}).value || '';
+  const struggles = (document.getElementById('checkinStruggles') || {}).value || '';
+
+  const checkinAnswers = {
+    mood,
+    how_it_went: howItWent,
+    focus_areas: focusAreas,
+    focus_notes: focusNotes,
+    struggles,
+  };
+
+  // Save the check-in answers so they persist
+  try {
+    const { week, year } = getISOWeekNumber(new Date());
+    localStorage.setItem('sygap_checkin_' + year + '_' + week, JSON.stringify(checkinAnswers));
+  } catch(e) {}
+
+  // Show skeleton while generating
+  renderPlanSkeleton();
+
+  // Fetch plan with check-in answers
+  const plan = await fetchWeeklyPlan(_currentProfile, true, checkinAnswers);
+  if (plan) {
+    const age = getDogAge(_currentProfile.dogBirthday);
+    renderWeeklyPlan(plan, age.weeks);
+    updatePlanChecks();
+  } else {
+    renderPlanError();
+  }
 }
 
 // ---- CONTENT RENDERERS ----
@@ -429,16 +670,12 @@ function saveWeeklyReflection() {
 
 function refreshPlan() {
   if (!_currentProfile) return;
-  renderPlanSkeleton();
-  fetchWeeklyPlan(_currentProfile, true).then(plan => {
-    if (plan) {
-      const age = getDogAge(_currentProfile.dogBirthday);
-      renderWeeklyPlan(plan, age.weeks);
-      updatePlanChecks();
-    } else {
-      renderPlanError();
-    }
-  });
+  // Clear this week's checkin answers so they can re-answer
+  try {
+    const { week, year } = getISOWeekNumber(new Date());
+    localStorage.removeItem('sygap_checkin_' + year + '_' + week);
+  } catch(e) {}
+  renderPlanCheckin();
 }
 
 function retryFact() {
@@ -529,12 +766,14 @@ function initAIFeatures() {
       localStorage.removeItem('sygap_plan_stale');
     }
 
+    // First try to load cached plan (non-force, no API call needed if cached)
     fetchWeeklyPlan(profile, forceRefresh).then(plan => {
       if (plan) {
         renderWeeklyPlan(plan, ageWeeks);
         updatePlanChecks();
       } else {
-        renderPlanError();
+        // No cached plan — show the interactive check-in instead of auto-generating
+        renderPlanCheckin();
       }
     });
   }
@@ -863,6 +1102,12 @@ async function generateLogSummary() {
     const data = await res.json();
 
     if (data.summary) {
+      // Cache the summary so the weekly plan can build on it
+      try {
+        const { week, year } = getISOWeekNumber(new Date());
+        localStorage.setItem('sygap_log_summary_' + year + '_' + week, JSON.stringify(data.summary));
+      } catch(e) { /* ignore storage errors */ }
+
       contentEl.innerHTML = `
         <div class="log-summary__text">
           ${data.summary.themes ? `<div class="log-summary__section"><span class="log-summary__label">themes</span><p>${escapeHTML(data.summary.themes)}</p></div>` : ''}

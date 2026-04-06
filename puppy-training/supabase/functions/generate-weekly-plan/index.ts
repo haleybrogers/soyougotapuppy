@@ -48,7 +48,7 @@ serve(async (req: Request) => {
   }
 
   try {
-    const { device_id, dog_name, dog_breed, dog_gender, dog_age_weeks, modules_completed, week_number, year, force_refresh } = await req.json();
+    const { device_id, dog_name, dog_breed, dog_gender, dog_age_weeks, modules_completed, week_number, year, force_refresh, weekly_progress, checkin_answers } = await req.json();
 
     if (!device_id || !dog_name || !dog_breed || dog_age_weeks == null || !week_number || !year) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -100,10 +100,85 @@ serve(async (req: Request) => {
     if (previousPlans && previousPlans.length > 0) {
       const summaries = previousPlans.map(p => {
         const plan = p.plan;
-        const areas = (plan.focus_areas || []).map((a: any) => a.title).join(", ");
-        return `- Week ${p.week_number}: "${plan.week_focus}" — focus areas: ${areas}`;
+        const areas = (plan.focus_areas || []).map((a: any) => {
+          const typeLabel = a.type === 'habit' ? 'habit' : `session, ${a.reps || '?'} reps`;
+          return `${a.title} (${typeLabel})`;
+        }).join(", ");
+        return `- Week ${p.week_number}: "${plan.week_focus}" — areas: ${areas}`;
       }).join("\n");
-      previousContext = `\n\nPREVIOUS WEEKS' PLANS (build on these, do NOT repeat the same focus areas):\n${summaries}`;
+      previousContext = `\n\nPREVIOUS WEEKS' PLANS (build on these, don't repeat the same focus):\n${summaries}`;
+    }
+
+    // Build progress context from what the user actually did
+    let progressContext = "";
+    if (weekly_progress) {
+      const parts: string[] = [];
+
+      // What sessions they actually completed
+      if (weekly_progress.sessions_this_week && weekly_progress.sessions_this_week.length > 0) {
+        const sessionSummary = weekly_progress.sessions_this_week.map((d: any) =>
+          `${d.date}: ${d.count} session(s) — ${d.items.join(", ")}`
+        ).join("\n  ");
+        parts.push(`WHAT THEY ACTUALLY DID THIS WEEK:\n  ${sessionSummary}\n  Total sessions: ${weekly_progress.total_sessions_this_week}`);
+      } else {
+        parts.push("WHAT THEY ACTUALLY DID THIS WEEK: nothing logged yet");
+      }
+
+      // Their reflection on last week
+      if (weekly_progress.last_week_reflection) {
+        parts.push(`OWNER'S REFLECTION ON LAST WEEK: "${weekly_progress.last_week_reflection}"`);
+      }
+
+      // Current week reflection (if mid-week refresh)
+      if (weekly_progress.reflection) {
+        parts.push(`OWNER'S NOTES THIS WEEK SO FAR: "${weekly_progress.reflection}"`);
+      }
+
+      // Last week's AI-generated training summary (the "how am I doing?" analysis)
+      if (weekly_progress.last_week_summary) {
+        const s = weekly_progress.last_week_summary;
+        let summaryParts: string[] = [];
+        if (s.themes) summaryParts.push(`Themes: ${s.themes}`);
+        if (s.wins) summaryParts.push(`Wins: ${s.wins}`);
+        if (s.recommendations) summaryParts.push(`Recommendations: ${s.recommendations}`);
+        if (summaryParts.length > 0) {
+          parts.push(`LAST WEEK'S TRAINING SUMMARY (AI-analyzed from their actual log):\n  ${summaryParts.join("\n  ")}`);
+        }
+      }
+
+      if (parts.length > 0) {
+        progressContext = "\n\n" + parts.join("\n\n");
+      }
+    }
+
+    // Build check-in context from user's answers
+    let checkinContext = "";
+    if (checkin_answers) {
+      const parts: string[] = [];
+      if (checkin_answers.mood) {
+        const moodMap: Record<string, string> = {
+          'great': 'They said last week went great — they crushed it',
+          'ok': 'They said last week was just ok — decent but not amazing',
+          'rough': 'They said last week was pretty rough — they need encouragement and maybe simpler goals',
+          'skip': "They didn't train much last week — ease them back in gently, no guilt",
+        };
+        parts.push(moodMap[checkin_answers.mood] || `Mood: ${checkin_answers.mood}`);
+      }
+      if (checkin_answers.how_it_went) {
+        parts.push(`Owner's notes on last week: "${checkin_answers.how_it_went}"`);
+      }
+      if (checkin_answers.focus_areas && checkin_answers.focus_areas.length > 0) {
+        parts.push(`OWNER WANTS TO FOCUS ON: ${checkin_answers.focus_areas.join(', ')} — this is their top priority, build the plan around this`);
+      }
+      if (checkin_answers.focus_notes) {
+        parts.push(`Additional focus notes: "${checkin_answers.focus_notes}"`);
+      }
+      if (checkin_answers.struggles) {
+        parts.push(`CURRENT STRUGGLES: "${checkin_answers.struggles}" — address this directly in the plan`);
+      }
+      if (parts.length > 0) {
+        checkinContext = "\n\nWEEKLY CHECK-IN (the owner just answered these questions — use their answers to customize the plan):\n" + parts.join("\n");
+      }
     }
 
     // Build prompt
@@ -117,14 +192,22 @@ serve(async (req: Request) => {
       .map(([name]) => name)
       .join(", ") || "none";
 
-    const systemPrompt = `You are a puppy training coach who keeps things simple. People are busy and overwhelmed. Your job is to give them ONE main thing to work on this week, plus 1-2 small extras they can sprinkle in. That's it.
+    const systemPrompt = `You are a puppy training coach who's basically their funny, slightly chaotic best friend who happens to know a LOT about dogs. You keep things simple because people are busy and overwhelmed. Your job is to give them ONE main thing to work on this week, plus 1-2 small extras they can sprinkle in. That's it.
+
+Personality rules:
+- Be genuinely funny. Not corny-funny, actually funny. Reference specific things from their check-in and training log
+- If they said last week was rough, be like "ok so [dog name] chose violence last week, noted. here's the game plan"
+- If they crushed it, hype them up for real
+- If they didn't train much, zero guilt — just get them back in it with something easy
+- Mirror their energy. If their notes are casual, be casual. If they're stressed, acknowledge it and keep things simple
+- The last_week_recap is your chance to be a real friend — reference what ACTUALLY happened, not generic encouragement
 
 You MUST respond with valid JSON matching this exact schema:
 {
-  "last_week_recap": "1 sentence on what they worked on last week and how it went. Encouraging. If no previous week data, set to null.",
+  "last_week_recap": "1-2 sentences that acknowledge what actually happened. Be specific — reference their check-in answers, their log data, their struggles. Make it funny and warm. If they said 'pretty rough' and mentioned biting, say something like 'so [name] turned into a land shark last week. classic. here's what we're gonna do.' If no data at all, set to null.",
   "week_focus": "A short, punchy theme for the week (e.g., 'this week is all about impulse control')",
-  "dev_note": "1-2 sentences about what's happening developmentally. Make it feel like 'oh that explains everything.' Breed-specific.",
-  "watch_out": "1 sentence — the thing most likely to trip them up this week",
+  "dev_note": "1-2 sentences about what's happening developmentally. Make it feel like 'oh that explains everything.' Breed-specific. Can be funny too.",
+  "watch_out": "1 sentence — the thing most likely to trip them up this week. Keep it real.",
   "focus_areas": [
     {
       "title": "Short, clear title",
@@ -165,7 +248,7 @@ Rules:
 - "reps" = how many formal training sessions to do THIS WEEK. Usually 3-5 for the main focus, 2-3 for extras. Keep it reasonable
 - "reps_label" = "sessions this week" usually. Keep it consistent
 - Session lengths should feel doable: "2-3 minutes" not "5-7 minutes, 3x daily"
-- Tone: warm, direct, lowercase energy. Like a friend who knows dogs texting you advice
+- Tone: warm, funny, lowercase energy. Like your funniest friend who also happens to be a dog trainer texting you advice. Reference their actual check-in answers and log data to make it personal
 - Breed-specific and age-specific — no generic filler
 - CRITICAL: If a module is "completed", suggest advancing it — never re-introduce
 - Only include related_drills when one genuinely fits. null is fine
@@ -177,15 +260,19 @@ Rules:
 
 Phase: ${phase.name} (${phase.range}) — focus: ${phase.focus}
 
-Done: ${completedList}
-Not started: ${notStartedList}
-${previousContext}
+Modules done: ${completedList}
+Modules not started: ${notStartedList}
+${previousContext}${progressContext}${checkinContext}
 
-Keep it simple. One main thing to focus on, plus 1-2 small extras. Total daily effort: under 10 minutes. These are real people with jobs and lives — not professional trainers. Make it feel doable, not like homework.
-
-If something is "completed," level it up — don't re-introduce it.
-Build naturally from previous weeks if there's history.
-For last_week_recap: one warm sentence like "you worked on X — nice. this week we're building on that." Or null if no history.`;
+CRITICAL INSTRUCTIONS:
+- The owner just did a weekly check-in. USE THEIR ANSWERS to build this plan. Their chosen focus areas are the #1 priority.
+- If they mentioned struggles, address those directly — don't ignore them.
+- This plan must BUILD on what actually happened. If they completed sessions, advance them. If they struggled, adjust. If they didn't train much, start easy.
+- The last_week_recap MUST reference specific things from their check-in and log data. Be funny and personal. Not generic motivation.
+- If the owner chose specific focus areas in their check-in, the plan's focus_areas MUST align with those choices.
+- Keep it simple. One main thing to focus on, plus 1-2 small extras. Total daily effort: under 10 minutes.
+- If something is "completed," level it up — don't re-introduce basics.
+- For last_week_recap: be specific and funny. "you got 4 recall sessions in and ${dog_name} only ignored you twice — that's progress." Or null if truly no history at all.`;
 
     // Call Anthropic API
     const anthropicKey = Deno.env.get("ANTHROPIC_API_KEY");
