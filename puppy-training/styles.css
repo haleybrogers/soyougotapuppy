@@ -5516,14 +5516,15 @@ details.log-week__day > .log-week__day-header:hover {
   background: none;
   border: 1px solid rgba(27, 27, 27, 0.1);
   border-radius: var(--radius-full);
-  width: 28px;
-  height: 28px;
-  font-size: 1rem;
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
   color: var(--soft-gray);
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.3rem;
+  white-space: nowrap;
   transition: all 150ms ease;
   flex-shrink: 0;
 }
@@ -5531,7 +5532,6 @@ details.log-week__day > .log-week__day-header:hover {
 .plan__refresh-btn:hover {
   color: var(--bark);
   border-color: var(--bark);
-  transform: rotate(90deg);
 }
 
 .plan__week-label {
