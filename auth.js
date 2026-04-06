@@ -43,6 +43,13 @@ function updateNavProfile() {
   });
 }
 
+function hideSignInNudge() {
+  if (isLoggedIn()) {
+    var el = document.getElementById('signInNudge');
+    if (el) el.hidden = true;
+  }
+}
+
 // ---- SERVER SYNC ----
 let _syncTimeout = null;
 function syncProfileToServer() {
@@ -730,6 +737,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (loaded) {
         updateTrackerGate(true);
         updateNavProfile();
+        hideSignInNudge();
         refreshDashboard();
         populateSettings();
         return;
@@ -763,6 +771,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (loaded) {
         updateTrackerGate(true);
         updateNavProfile();
+        hideSignInNudge();
         refreshDashboard();
         populateSettings();
         return;
@@ -792,6 +801,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   updateNavProfile();
+  hideSignInNudge();
   refreshDashboard();
   populateSettings();
 });
