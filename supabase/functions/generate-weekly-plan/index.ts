@@ -48,7 +48,7 @@ serve(async (req: Request) => {
   }
 
   try {
-    const { device_id, dog_name, dog_breed, dog_age_weeks, modules_completed, week_number, year, force_refresh } = await req.json();
+    const { device_id, dog_name, dog_breed, dog_gender, dog_age_weeks, modules_completed, week_number, year, force_refresh } = await req.json();
 
     if (!device_id || !dog_name || !dog_breed || dog_age_weeks == null || !week_number || !year) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -129,7 +129,9 @@ You MUST respond with valid JSON matching this exact schema:
     {
       "title": "Short, clear title",
       "what_to_do": "2-3 sentences max. Tell them exactly what to do like you're texting a friend. No jargon.",
-      "session_length": "Keep it minimal. e.g., '2-3 minutes' or 'during meals' or 'on your morning walk'. Never more than 5 minutes per session.",
+      "session_length": "How long each rep takes. e.g., '2-3 minutes' or 'during a meal' or 'on your walk'. Never more than 5 minutes.",
+      "reps": 3,
+      "reps_label": "times this week",
       "breed_nudge": "1 sentence of breed-specific advice, or null if not applicable",
       "related_drills": ["drill-id-1"] or null,
       "related_modules": ["module-key-1"]
@@ -158,6 +160,8 @@ Rules:
 - The first focus area is THE thing for the week. The others are bonus
 - Total daily training time should be 5-10 minutes max. These people have lives
 - Session lengths should feel doable: "2 minutes before breakfast" not "5-7 minutes, 3x daily"
+- "reps" = how many times to do this focus area THIS WEEK (not per day). Usually 3-5 for the main focus, 2-3 for extras. For things woven into daily life (like "sit before meals"), use 7
+- "reps_label" = "times this week" or "days this week" or "times total" — whatever makes sense
 - Tone: warm, direct, lowercase energy. Like a friend who knows dogs texting you advice
 - Breed-specific and age-specific — no generic filler
 - CRITICAL: If a module is "completed", suggest advancing it — never re-introduce
@@ -165,7 +169,8 @@ Rules:
 - EVERY focus area MUST include related_modules with exactly 1 module key. Never null
 - Return ONLY valid JSON, no markdown, no backticks, no extra text`;
 
-    const userPrompt = `Week ${week_number} plan for ${dog_name}, a ${dog_breed}, ${dog_age_weeks} weeks old.
+    const pronouns = dog_gender === 'boy' ? 'he/him' : dog_gender === 'girl' ? 'she/her' : 'they/them';
+    const userPrompt = `Week ${week_number} plan for ${dog_name}, a ${dog_gender || ''} ${dog_breed}, ${dog_age_weeks} weeks old. Use ${pronouns} pronouns for ${dog_name}.
 
 Phase: ${phase.name} (${phase.range}) — focus: ${phase.focus}
 

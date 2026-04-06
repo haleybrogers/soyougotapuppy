@@ -70,6 +70,7 @@ async function fetchWeeklyPlan(profile, forceRefresh) {
         device_id: deviceId,
         dog_name: profile.dogName,
         dog_breed: profile.dogBreed,
+        dog_gender: profile.dogGender || null,
         dog_age_weeks: age.weeks,
         modules_completed: modules,
         week_number: week,
@@ -106,6 +107,7 @@ async function fetchWeeklyPlan(profile, forceRefresh) {
             device_id: getOrCreateDeviceId(),
             dog_name: profile.dogName,
             dog_breed: profile.dogBreed,
+            dog_gender: profile.dogGender || null,
             dog_age_weeks: getDogAge(profile.dogBirthday).weeks,
             modules_completed: getModuleProgress(),
             week_number: getISOWeekNumber(new Date()).week,
@@ -260,12 +262,22 @@ function renderWeeklyPlan(plan, ageWeeks) {
       }
 
       const areaId = 'plan-area-' + idx;
+      const reps = area.reps || 1;
+      const repsLabel = area.reps_label || 'times this week';
+
+      // Build checkboxes for each rep
+      let checksHTML = '';
+      for (let r = 0; r < reps; r++) {
+        const repId = areaId + '-rep-' + r;
+        checksHTML += `<span class="plan__area-check" data-area="${repId}" onclick="event.stopPropagation(); togglePlanArea('${repId}')"></span>`;
+      }
+
       return `
-        <details class="plan__area">
+        <details class="plan__area" data-area-id="${areaId}" data-total-reps="${reps}">
           <summary class="plan__area-title">
-            <span class="plan__area-check" data-area="${areaId}" onclick="event.stopPropagation(); togglePlanArea('${areaId}')"></span>
+            <div class="plan__area-checks">${checksHTML}</div>
             <span class="plan__area-name">${escapeHTML(area.title)}</span>
-            <span class="plan__area-duration">${escapeHTML(area.session_length)}</span>
+            <span class="plan__area-duration">${escapeHTML(area.session_length)} · ${reps} ${escapeHTML(repsLabel)}</span>
           </summary>
           <div class="plan__area-body">
             <p>${escapeHTML(area.what_to_do)}</p>
@@ -287,7 +299,7 @@ function renderWeeklyPlan(plan, ageWeeks) {
     <div class="plan__summary">
       <div class="plan__week-label-row">
         <div class="plan__week-label">week ${ageWeeks} · ${phase.name}</div>
-        <button class="plan__refresh-btn" onclick="refreshPlan()" title="Generate a new plan">↻</button>
+        <button class="plan__refresh-btn" onclick="refreshPlan()" title="Generate a new plan">↻ new plan</button>
       </div>
       <div class="plan__focus">${escapeHTML(plan.week_focus)}</div>
     </div>
@@ -502,21 +514,22 @@ function saveTrainingLog(log) {
   localStorage.setItem(TRAINING_LOG_KEY, JSON.stringify(log));
 }
 
-function togglePlanArea(areaId) {
+function togglePlanArea(repId) {
   const { date, data, full } = getTodayLog();
   if (!data.completedDetails) data.completedDetails = {};
 
-  const idx = data.completed.indexOf(areaId);
+  const idx = data.completed.indexOf(repId);
   if (idx === -1) {
-    data.completed.push(areaId);
+    data.completed.push(repId);
     // Store the title so the log can show what was done
-    const checkEl = document.querySelector(`.plan__area-check[data-area="${areaId}"]`);
+    const checkEl = document.querySelector(`.plan__area-check[data-area="${repId}"]`);
     const nameEl = checkEl ? checkEl.closest('.plan__area-title')?.querySelector('.plan__area-name') : null;
-    if (nameEl) data.completedDetails[areaId] = nameEl.textContent.trim();
+    // Use the base area name (without rep suffix) for display
+    const baseName = repId.replace(/-rep-\d+$/, '');
+    if (nameEl) data.completedDetails[baseName] = nameEl.textContent.trim();
     data.sessions = data.completed.length;
   } else {
     data.completed.splice(idx, 1);
-    delete data.completedDetails[areaId];
     data.sessions = data.completed.length;
   }
   full[date] = data;
@@ -528,11 +541,21 @@ function togglePlanArea(areaId) {
 
 function updatePlanChecks() {
   const { data } = getTodayLog();
+  // Update individual rep checkmarks
   document.querySelectorAll('.plan__area-check').forEach(el => {
     const id = el.dataset.area;
     const done = data.completed.includes(id);
     el.classList.toggle('plan__area-check--done', done);
-    el.closest('.plan__area')?.classList.toggle('plan__area--done', done);
+  });
+  // Mark parent area as fully done if all reps are checked
+  document.querySelectorAll('.plan__area[data-area-id]').forEach(area => {
+    const totalReps = parseInt(area.dataset.totalReps) || 1;
+    const areaId = area.dataset.areaId;
+    let doneCount = 0;
+    for (let r = 0; r < totalReps; r++) {
+      if (data.completed.includes(areaId + '-rep-' + r)) doneCount++;
+    }
+    area.classList.toggle('plan__area--done', doneCount === totalReps);
   });
 }
 

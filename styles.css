@@ -5538,6 +5538,12 @@ details.log-week__day > .log-week__day-header:hover {
   border-bottom: none;
 }
 
+.plan__area-checks {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
 .plan__area-check {
   width: 18px;
   height: 18px;
