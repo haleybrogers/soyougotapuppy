@@ -194,6 +194,11 @@ function renderBreedFact(fact) {
   const el = document.getElementById('breedFactContent');
   if (!el) return;
   el.textContent = fact;
+  // Update label with current breed
+  const label = document.querySelector('#breedFactCard .ai-card__label');
+  if (label && _currentProfile && _currentProfile.dogBreed) {
+    label.textContent = _currentProfile.dogBreed.toLowerCase() + ' fact of the day';
+  }
 }
 
 function renderWeeklyPlan(plan, ageWeeks) {
@@ -317,6 +322,12 @@ function renderWeeklyPlan(plan, ageWeeks) {
     <div class="plan__areas">
       ${areasHTML}
     </div>
+    <div class="plan__reflection">
+      <div class="plan__reflection-label">how's it going this week?</div>
+      <textarea class="plan__reflection-input" id="weeklyReflection" rows="2" placeholder="what's clicking? what's hard? what did you notice?">${escapeHTML(getWeeklyReflection())}</textarea>
+      <button class="plan__reflection-save" onclick="saveWeeklyReflection()">save</button>
+      <span class="plan__reflection-saved" id="reflectionSaved">saved</span>
+    </div>
     <div class="plan__footer">
       <div class="plan__note">
         <span class="plan__note-label">development note</span>
@@ -391,6 +402,29 @@ function retryPlan() {
       renderPlanError();
     }
   });
+}
+
+// ---- WEEKLY REFLECTION ----
+function getWeeklyReflection() {
+  try {
+    const { week, year } = getISOWeekNumber(new Date());
+    const key = 'sygap_reflection_' + year + '_' + week;
+    return localStorage.getItem(key) || '';
+  } catch(e) { return ''; }
+}
+
+function saveWeeklyReflection() {
+  const el = document.getElementById('weeklyReflection');
+  if (!el) return;
+  const { week, year } = getISOWeekNumber(new Date());
+  const key = 'sygap_reflection_' + year + '_' + week;
+  localStorage.setItem(key, el.value);
+
+  const saved = document.getElementById('reflectionSaved');
+  if (saved) {
+    saved.classList.add('plan__reflection-saved--show');
+    setTimeout(() => { saved.classList.remove('plan__reflection-saved--show'); }, 1500);
+  }
 }
 
 function refreshPlan() {
