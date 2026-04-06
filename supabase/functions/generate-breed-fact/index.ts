@@ -26,12 +26,13 @@ serve(async (req: Request) => {
     const supabaseServiceKey = Deno.env.get("SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Check cache
+    // Check cache (must match breed too — user might change breed)
     const { data: cached } = await supabase
       .from("daily_breed_facts")
       .select("fact")
       .eq("device_id", device_id)
       .eq("fact_date", date)
+      .eq("breed", dog_breed)
       .maybeSingle();
 
     if (cached) {
@@ -83,14 +84,14 @@ Rules:
     const anthropicData = await anthropicRes.json();
     const fact = anthropicData.content[0].text.trim();
 
-    // Cache in Supabase
-    await supabase.from("daily_breed_facts").insert({
+    // Cache in Supabase (upsert in case breed changed mid-day)
+    await supabase.from("daily_breed_facts").upsert({
       device_id,
       fact_date: date,
       breed: dog_breed,
       dog_age_weeks,
       fact,
-    });
+    }, { onConflict: "device_id,fact_date" });
 
     return new Response(JSON.stringify({ cached: false, fact }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
