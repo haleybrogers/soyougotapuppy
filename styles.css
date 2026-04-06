@@ -5607,6 +5607,25 @@ details.log-week__day > .log-week__day-header:hover {
   flex: 1;
 }
 
+.plan__area-habit-tag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.5rem;
+  background: var(--sage);
+  color: var(--bark);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-full);
+  vertical-align: middle;
+}
+
+.plan__area--habit > .plan__area-title {
+  padding-left: 0.5rem;
+}
+
 .plan__area-title {
   padding: 1rem 1.25rem;
   font-size: 0.9rem;

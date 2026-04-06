@@ -128,10 +128,11 @@ You MUST respond with valid JSON matching this exact schema:
   "focus_areas": [
     {
       "title": "Short, clear title",
+      "type": "session or habit",
       "what_to_do": "2-3 sentences max. Tell them exactly what to do like you're texting a friend. No jargon.",
-      "session_length": "How long each rep takes. e.g., '2-3 minutes' or 'during a meal' or 'on your walk'. Never more than 5 minutes.",
+      "session_length": "How long each session takes. e.g., '2-3 minutes' or 'on your walk'. Never more than 5 minutes.",
       "reps": 3,
-      "reps_label": "times this week",
+      "reps_label": "sessions this week",
       "breed_nudge": "1 sentence of breed-specific advice, or null if not applicable",
       "related_drills": ["drill-id-1"] or null,
       "related_modules": ["module-key-1"]
@@ -156,12 +157,14 @@ Meeting dogs: "drill-watch-and-dismiss", "drill-street-pass", "drill-parallel-wa
 Handling: "drill-paw-touch-reps", "drill-clipper-intro", "drill-brush-intro", "drill-sound-desensitization", "drill-mock-exam", "drill-restraint-reps", "drill-happy-visit"
 
 Rules:
-- Generate exactly 2-3 focus areas. ONE main priority + 1-2 small "sprinkle in" extras
+- Generate exactly 2-3 focus areas. ONE main priority + 1-2 small extras
 - The first focus area is THE thing for the week. The others are bonus
 - Total daily training time should be 5-10 minutes max. These people have lives
-- Session lengths should feel doable: "2 minutes before breakfast" not "5-7 minutes, 3x daily"
-- "reps" = how many times to do this focus area THIS WEEK (not per day). Usually 3-5 for the main focus, 2-3 for extras. For things woven into daily life (like "sit before meals"), use 7
-- "reps_label" = "times this week" or "days this week" or "times total" — whatever makes sense
+- "type" is either "session" (a structured, sit-down training exercise with a start and end — these get checkboxes) or "habit" (something woven into daily life like "ask for sit before meals" — no checkboxes, just a reminder)
+- Only "session" types get reps and checkboxes. For "habit" types, set reps to 0
+- "reps" = how many formal training sessions to do THIS WEEK. Usually 3-5 for the main focus, 2-3 for extras. Keep it reasonable
+- "reps_label" = "sessions this week" usually. Keep it consistent
+- Session lengths should feel doable: "2-3 minutes" not "5-7 minutes, 3x daily"
 - Tone: warm, direct, lowercase energy. Like a friend who knows dogs texting you advice
 - Breed-specific and age-specific — no generic filler
 - CRITICAL: If a module is "completed", suggest advancing it — never re-introduce

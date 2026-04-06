@@ -262,22 +262,33 @@ function renderWeeklyPlan(plan, ageWeeks) {
       }
 
       const areaId = 'plan-area-' + idx;
-      const reps = area.reps || 1;
-      const repsLabel = area.reps_label || 'times this week';
+      const isSession = area.type === 'session';
+      const reps = isSession ? (area.reps || 1) : 0;
+      const repsLabel = area.reps_label || 'sessions this week';
 
-      // Build checkboxes for each rep
+      // Build checkboxes only for formal sessions
       let checksHTML = '';
-      for (let r = 0; r < reps; r++) {
-        const repId = areaId + '-rep-' + r;
-        checksHTML += `<span class="plan__area-check" data-area="${repId}" onclick="event.stopPropagation(); togglePlanArea('${repId}')"></span>`;
+      if (isSession && reps > 0) {
+        for (let r = 0; r < reps; r++) {
+          const repId = areaId + '-rep-' + r;
+          checksHTML += `<span class="plan__area-check" data-area="${repId}" onclick="event.stopPropagation(); togglePlanArea('${repId}')"></span>`;
+        }
       }
 
+      const durationText = isSession
+        ? `${escapeHTML(area.session_length)} · ${reps} ${escapeHTML(repsLabel)}`
+        : escapeHTML(area.session_length || 'weave into your day');
+
+      const typeTag = isSession
+        ? ''
+        : '<span class="plan__area-habit-tag">daily habit</span>';
+
       return `
-        <details class="plan__area" data-area-id="${areaId}" data-total-reps="${reps}">
+        <details class="plan__area ${isSession ? '' : 'plan__area--habit'}" data-area-id="${areaId}" data-total-reps="${reps}">
           <summary class="plan__area-title">
-            <div class="plan__area-checks">${checksHTML}</div>
-            <span class="plan__area-name">${escapeHTML(area.title)}</span>
-            <span class="plan__area-duration">${escapeHTML(area.session_length)} · ${reps} ${escapeHTML(repsLabel)}</span>
+            ${checksHTML ? `<div class="plan__area-checks">${checksHTML}</div>` : ''}
+            <span class="plan__area-name">${escapeHTML(area.title)}${typeTag}</span>
+            <span class="plan__area-duration">${durationText}</span>
           </summary>
           <div class="plan__area-body">
             <p>${escapeHTML(area.what_to_do)}</p>
