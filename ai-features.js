@@ -262,6 +262,24 @@ function renderPlanSkeleton() {
 function renderPlanCheckin() {
   const el = document.getElementById('weeklyPlanContent');
   if (!el || !_currentProfile) return;
+  const dogName = _currentProfile.dogName || 'your pup';
+
+  el.innerHTML = `
+    <div class="checkin-prompt">
+      <div class="checkin-prompt__emoji">📋</div>
+      <div class="checkin-prompt__title">ready to build this week's plan?</div>
+      <p class="checkin-prompt__sub">quick check-in so we can make it perfect for ${escapeHTML(dogName)}</p>
+      <button class="checkin-prompt__btn" onclick="openCheckinModal()">let's do it ✨</button>
+    </div>
+  `;
+}
+
+function openCheckinModal() {
+  if (!_currentProfile) return;
+
+  // Remove existing modal if any
+  const existing = document.getElementById('checkinModal');
+  if (existing) existing.remove();
 
   const progress = getWeeklyProgress();
   const profile = _currentProfile;
@@ -303,22 +321,24 @@ function renderPlanCheckin() {
 
   // Focus area options based on phase
   const age = getDogAge(profile.dogBirthday);
-  const phase = getDogPhase(age.weeks);
   const focusOptions = getFocusOptions(age.weeks);
 
-  el.innerHTML = `
-    <div class="checkin">
-      <div class="checkin__header">
-        <div class="checkin__title">weekly check-in</div>
-        <p class="checkin__subtitle">let's build ${escapeHTML(dogName)}'s plan for this week</p>
-      </div>
+  const modal = document.createElement('div');
+  modal.id = 'checkinModal';
+  modal.className = 'checkin-modal-overlay';
+  modal.innerHTML = `
+    <div class="checkin-modal">
+      <button class="checkin-modal__close" onclick="closeCheckinModal()">&times;</button>
 
-      ${recapHTML}
-      ${reflectionHTML}
-
-      <div class="checkin__questions">
+      <div class="checkin-modal__step checkin-modal__step--active" data-step="1">
+        <div class="checkin__header">
+          <div class="checkin__title">weekly check-in</div>
+          <p class="checkin__subtitle">let's build ${escapeHTML(dogName)}'s plan</p>
+        </div>
+        ${recapHTML}
+        ${reflectionHTML}
         <div class="checkin__question">
-          <label class="checkin__label" for="checkinHowItWent">how did last week go?</label>
+          <label class="checkin__label">how did last week go?</label>
           <div class="checkin__quick-options" id="checkinMoodOptions">
             <button class="checkin__option" data-value="great" onclick="selectCheckinOption(this)">crushed it 💪</button>
             <button class="checkin__option" data-value="ok" onclick="selectCheckinOption(this)">it was ok</button>
@@ -327,24 +347,56 @@ function renderPlanCheckin() {
           </div>
           <textarea class="checkin__input" id="checkinHowItWent" rows="2" placeholder="anything specific? wins, struggles, things you noticed..."></textarea>
         </div>
+        <button class="checkin__next-btn" onclick="checkinNextStep(2)">next →</button>
+      </div>
 
+      <div class="checkin-modal__step" data-step="2">
         <div class="checkin__question">
-          <label class="checkin__label">what do you want to focus on most?</label>
+          <label class="checkin__label">what do you want to focus on this week?</label>
+          <p class="checkin__hint">pick up to 3</p>
           <div class="checkin__focus-options" id="checkinFocusOptions">
             ${focusOptions.map(opt => `<button class="checkin__focus-btn" data-value="${escapeHTML(opt.key)}" onclick="toggleCheckinFocus(this)">${escapeHTML(opt.label)}</button>`).join('')}
           </div>
           <textarea class="checkin__input" id="checkinFocusNotes" rows="1" placeholder="anything else you want to work on?"></textarea>
         </div>
-
-        <div class="checkin__question">
-          <label class="checkin__label">anything you're struggling with?</label>
-          <textarea class="checkin__input" id="checkinStruggles" rows="2" placeholder="biting? potty accidents? leash pulling? leave blank if nothing specific"></textarea>
+        <div class="checkin__nav-row">
+          <button class="checkin__back-btn" onclick="checkinNextStep(1)">← back</button>
+          <button class="checkin__next-btn" onclick="checkinNextStep(3)">next →</button>
         </div>
       </div>
 
-      <button class="checkin__submit" onclick="submitCheckin()">build my plan ✨</button>
+      <div class="checkin-modal__step" data-step="3">
+        <div class="checkin__question">
+          <label class="checkin__label">anything you're struggling with?</label>
+          <textarea class="checkin__input" id="checkinStruggles" rows="3" placeholder="biting? potty accidents? leash pulling? leave blank if nothing specific"></textarea>
+        </div>
+        <div class="checkin__nav-row">
+          <button class="checkin__back-btn" onclick="checkinNextStep(2)">← back</button>
+          <button class="checkin__submit" onclick="submitCheckin()">build my plan ✨</button>
+        </div>
+      </div>
     </div>
   `;
+
+  document.body.appendChild(modal);
+  requestAnimationFrame(() => modal.classList.add('checkin-modal-overlay--open'));
+}
+
+function closeCheckinModal() {
+  const modal = document.getElementById('checkinModal');
+  if (!modal) return;
+  modal.classList.remove('checkin-modal-overlay--open');
+  setTimeout(() => modal.remove(), 300);
+}
+
+function checkinNextStep(step) {
+  const modal = document.getElementById('checkinModal');
+  if (!modal) return;
+  modal.querySelectorAll('.checkin-modal__step').forEach(el => {
+    el.classList.remove('checkin-modal__step--active');
+  });
+  const target = modal.querySelector('[data-step="' + step + '"]');
+  if (target) target.classList.add('checkin-modal__step--active');
 }
 
 function getFocusOptions(ageWeeks) {
@@ -415,6 +467,9 @@ async function submitCheckin() {
     const { week, year } = getISOWeekNumber(new Date());
     localStorage.setItem('sygap_checkin_' + year + '_' + week, JSON.stringify(checkinAnswers));
   } catch(e) {}
+
+  // Close the modal
+  closeCheckinModal();
 
   // Show skeleton while generating
   renderPlanSkeleton();
