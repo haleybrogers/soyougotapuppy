@@ -161,6 +161,38 @@
             </div>
           </div>
 
+          <!-- Reminders card -->
+          <div style="background: white; border-radius: var(--radius-lg); border: 1px solid rgba(27,27,27,0.08); padding: 1.5rem; margin-bottom: 1.5rem;">
+            <h3 style="font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft-gray); margin-bottom: 0.25rem;">training reminders</h3>
+            <p style="font-size: 0.8rem; color: var(--soft-gray); margin-bottom: 1rem;">get a text with your training plan so you actually do it</p>
+
+            <div id="reminderOptIn">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <label class="toggle">
+                  <input type="checkbox" id="reminderToggle" onchange="handleReminderToggle(this)">
+                  <span class="toggle__slider"></span>
+                </label>
+                <span style="font-size: 0.85rem; color: var(--bark);">send me reminders</span>
+              </div>
+
+              <div id="reminderSettings" style="display: none;">
+                <div style="margin-bottom: 0.75rem;">
+                  <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.25rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">phone number</label>
+                  <input type="tel" class="login-input" id="reminderPhone" placeholder="(555) 123-4567" style="font-size: 0.9rem;">
+                </div>
+                <div style="margin-bottom: 0.75rem;">
+                  <label style="display: block; font-size: 0.75rem; color: var(--soft-gray); margin-bottom: 0.4rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.04em;">how often</label>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <label class="gender-btn"><input type="radio" name="reminderFreq" value="daily"><span>daily</span></label>
+                    <label class="gender-btn"><input type="radio" name="reminderFreq" value="weekly" checked><span>weekly</span></label>
+                  </div>
+                </div>
+                <button class="btn btn--primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.8rem;" onclick="saveReminderSettings()" id="saveReminderBtn">save</button>
+                <div id="reminderSaved" style="display: none; text-align: center; font-size: 0.75rem; color: var(--sage-dark, #5a7a5a); margin-top: 0.5rem; font-family: var(--font-mono);">saved!</div>
+              </div>
+            </div>
+          </div>
+
           <!-- Logout -->
           <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(27,27,27,0.08);">
             <button style="width: 100%; padding: 0.75rem; background: none; border: 1px solid rgba(211,47,47,0.3); border-radius: var(--radius-full); color: #D32F2F; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; transition: all 150ms ease;" onmouseover="this.style.background='#FFEBEE'" onmouseout="this.style.background='none'" onclick="handleLogout()">log out</button>
@@ -320,6 +352,9 @@ async function initProfilePage() {
       const jd = new Date(profile.joinedDate);
       joinedEl.textContent = jd.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
     }
+
+    // Load reminder settings
+    loadReminderSettings();
     return;
   }
 
@@ -481,6 +516,104 @@ function completeSetup() {
 
   // Refresh the page to show the full profile
   initProfilePage();
+}
+
+// ---- REMINDER SETTINGS ----
+function handleReminderToggle(checkbox) {
+  const settings = document.getElementById('reminderSettings');
+  if (settings) settings.style.display = checkbox.checked ? 'block' : 'none';
+  if (!checkbox.checked) {
+    // Turning off — clear reminder prefs
+    const profile = getProfile() || {};
+    delete profile.reminderPhone;
+    delete profile.reminderFrequency;
+    profile.remindersEnabled = false;
+    saveProfile(profile);
+  }
+}
+
+function saveReminderSettings() {
+  const phoneEl = document.getElementById('reminderPhone');
+  const freqEl = document.querySelector('input[name="reminderFreq"]:checked');
+  const phone = phoneEl ? phoneEl.value.trim() : '';
+
+  if (!phone) {
+    phoneEl.focus();
+    return;
+  }
+
+  // Basic phone cleanup — strip everything except digits and +
+  const cleaned = phone.replace(/[^\d+]/g, '');
+  if (cleaned.length < 10) {
+    alert('Please enter a valid phone number');
+    return;
+  }
+
+  const profile = getProfile() || {};
+  profile.reminderPhone = cleaned;
+  profile.reminderFrequency = freqEl ? freqEl.value : 'weekly';
+  profile.remindersEnabled = true;
+  saveProfile(profile);
+
+  // Show saved confirmation
+  const savedEl = document.getElementById('reminderSaved');
+  if (savedEl) {
+    savedEl.style.display = 'block';
+    setTimeout(() => { savedEl.style.display = 'none'; }, 2000);
+  }
+
+  // Register with Supabase for reminders
+  registerForReminders(profile);
+}
+
+async function registerForReminders(profile) {
+  try {
+    const deviceId = localStorage.getItem('sygap_device_id');
+    const SUPABASE_URL = 'https://rvfbszfefnrdqvuzngbf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ2ZmJzemZlZm5yZHF2dXpuZ2JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjYyMDgsImV4cCI6MjA5MDgwMjIwOH0.LxL6Yt6e35eKRs7TgC8fhvkFvaWrWLht_CYuZyJyIqw';
+
+    await fetch(SUPABASE_URL + '/functions/v1/register-reminders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      },
+      body: JSON.stringify({
+        device_id: deviceId,
+        phone: profile.reminderPhone,
+        frequency: profile.reminderFrequency,
+        dog_name: profile.dogName,
+        dog_breed: profile.dogBreed,
+        dog_age_weeks: profile.dogBirthday ? Math.floor((Date.now() - new Date(profile.dogBirthday + 'T00:00:00').getTime()) / (7 * 24 * 60 * 60 * 1000)) : null,
+        enabled: true,
+      }),
+    });
+  } catch (err) {
+    console.warn('Failed to register reminders:', err);
+  }
+}
+
+function loadReminderSettings() {
+  const profile = getProfile();
+  if (!profile) return;
+
+  const toggle = document.getElementById('reminderToggle');
+  const settings = document.getElementById('reminderSettings');
+  const phoneEl = document.getElementById('reminderPhone');
+
+  if (toggle && profile.remindersEnabled) {
+    toggle.checked = true;
+    if (settings) settings.style.display = 'block';
+  }
+
+  if (phoneEl && profile.reminderPhone) {
+    phoneEl.value = profile.reminderPhone;
+  }
+
+  if (profile.reminderFrequency) {
+    const freqRadio = document.querySelector('input[name="reminderFreq"][value="' + profile.reminderFrequency + '"]');
+    if (freqRadio) freqRadio.checked = true;
+  }
 }
 
 async function handleLogout() {
