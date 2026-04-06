@@ -256,6 +256,8 @@
   </div>
 </section>
 
+<div class="saved-toast" id="savedToast">saved ✓</div>
+
 <footer class="footer">
   <p>Made with slightly unhinged love by a friend who promises it gets easier.</p>
 </footer>
@@ -499,6 +501,9 @@ function saveProfilePage() {
 
   // Refresh view mode and switch back
   initProfilePage();
+
+  // Show saved confirmation
+  showSavedToast();
 }
 
 function completeSetup() {
@@ -525,6 +530,14 @@ function completeSetup() {
 
   // Refresh the page to show the full profile
   initProfilePage();
+}
+
+// ---- SAVED TOAST ----
+function showSavedToast() {
+  const toast = document.getElementById('savedToast');
+  if (!toast) return;
+  toast.classList.add('saved-toast--show');
+  setTimeout(() => { toast.classList.remove('saved-toast--show'); }, 2000);
 }
 
 // ---- REMINDER SETTINGS ----
