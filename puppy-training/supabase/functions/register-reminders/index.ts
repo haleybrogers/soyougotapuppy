@@ -77,8 +77,8 @@ async function sendWelcomeText(phone: string, dogName?: string) {
     return;
   }
 
-  const name = dogName ? dogName + "'s" : "your";
-  const body = `🐾 welcome to puppy training reminders! you'll get ${name} training plan sent right here. reply STOP anytime to opt out.`;
+  const name = dogName || "your little monster";
+  const body = `🐾 hey — you're in. ${name}'s training reminders will land right here. short, specific, actually useful. reply STOP anytime if you want out.`;
 
   const params = new URLSearchParams({
     To: phone.startsWith("+") ? phone : "+1" + phone,

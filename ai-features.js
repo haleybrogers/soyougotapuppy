@@ -80,13 +80,48 @@ async function fetchWeeklyPlan(profile, forceRefresh) {
 
     clearTimeout(timeout);
 
-    if (!res.ok) throw new Error('API returned ' + res.status);
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      console.error('fetchWeeklyPlan API error:', res.status, errBody);
+      throw new Error('API returned ' + res.status);
+    }
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     return data.plan;
   } catch (err) {
     clearTimeout(timeout);
     console.error('fetchWeeklyPlan error:', err);
+
+    // Auto-retry once after a short delay
+    if (!forceRefresh) {
+      console.log('Retrying weekly plan...');
+      try {
+        const retryRes = await fetch(EDGE_FN_BASE + '/generate-weekly-plan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+          },
+          body: JSON.stringify({
+            device_id: getOrCreateDeviceId(),
+            dog_name: profile.dogName,
+            dog_breed: profile.dogBreed,
+            dog_age_weeks: getDogAge(profile.dogBirthday).weeks,
+            modules_completed: getModuleProgress(),
+            week_number: getISOWeekNumber(new Date()).week,
+            year: getISOWeekNumber(new Date()).year,
+            force_refresh: true,
+          }),
+        });
+        if (retryRes.ok) {
+          const retryData = await retryRes.json();
+          if (retryData.plan) return retryData.plan;
+        }
+      } catch (retryErr) {
+        console.error('Retry also failed:', retryErr);
+      }
+    }
+
     return null;
   }
 }

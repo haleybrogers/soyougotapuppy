@@ -92,7 +92,7 @@ async function generateReminder(anthropicKey: string | undefined, sub: any): Pro
   const breed = sub.dog_breed || "mixed breed";
   const ageWeeks = sub.dog_age_weeks || "unknown";
 
-  const systemPrompt = `You write short, warm, motivating SMS training reminders for puppy owners. Max 160 characters. Include one specific, actionable training tip relevant to the dog's age/breed. Use the dog's name. Tone: encouraging friend, not lecture-y. Start with 🐾. No links, no hashtags.`;
+  const systemPrompt = `You write short SMS training reminders for puppy owners. Max 160 characters. Include one specific, actionable thing to practice today. Use the dog's name. Tone: warm, direct, slightly irreverent — like a knowledgeable friend who texts you. Lowercase. Start with 🐾. No links, no hashtags, no exclamation marks.`;
 
   const userPrompt = `Write a training reminder for ${dogName}, a ${breed} who is ${ageWeeks} weeks old.`;
 
@@ -117,7 +117,7 @@ async function generateReminder(anthropicKey: string | undefined, sub: any): Pro
     return data.content[0].text.trim();
   } catch (err) {
     console.warn("AI generation failed, using fallback:", err);
-    return `🐾 training time! ${dogName} is waiting. even 5 minutes of focused practice today makes a difference. you've got this.`;
+    return `🐾 ${dogName} is ready when you are. 5 minutes of focused practice > 30 minutes of chaos management. go do the thing.`;
   }
 }
 

@@ -48,7 +48,7 @@ serve(async (req: Request) => {
   }
 
   try {
-    const { device_id, dog_name, dog_breed, dog_age_weeks, modules_completed, week_number, year } = await req.json();
+    const { device_id, dog_name, dog_breed, dog_age_weeks, modules_completed, week_number, year, force_refresh } = await req.json();
 
     if (!device_id || !dog_name || !dog_breed || dog_age_weeks == null || !week_number || !year) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
@@ -61,6 +61,16 @@ serve(async (req: Request) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    // If force refresh, delete existing cache entry
+    if (force_refresh) {
+      await supabase
+        .from("weekly_plans")
+        .delete()
+        .eq("device_id", device_id)
+        .eq("week_number", week_number)
+        .eq("year", year);
+    }
 
     // Check cache
     const { data: cached } = await supabase
@@ -199,7 +209,7 @@ Important:
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
-        max_tokens: 1024,
+        max_tokens: 2048,
         messages: [
           { role: "user", content: userPrompt },
         ],
@@ -217,8 +227,31 @@ Important:
     const rawText = anthropicData.content[0].text;
 
     // Parse JSON from response (strip any accidental markdown fencing)
-    const jsonStr = rawText.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, "").trim();
-    const plan = JSON.parse(jsonStr);
+    let jsonStr = rawText.replace(/^```(?:json)?\s*/, "").replace(/\s*```$/, "").trim();
+
+    // If the response was truncated (stop_reason: max_tokens), try to salvage
+    const stopReason = anthropicData.stop_reason;
+    if (stopReason === "max_tokens") {
+      console.warn("Response was truncated — attempting to close JSON");
+      // Try to close open brackets/braces
+      const openBraces = (jsonStr.match(/\{/g) || []).length;
+      const closeBraces = (jsonStr.match(/\}/g) || []).length;
+      const openBrackets = (jsonStr.match(/\[/g) || []).length;
+      const closeBrackets = (jsonStr.match(/\]/g) || []).length;
+
+      // Close arrays then objects
+      for (let i = 0; i < openBrackets - closeBrackets; i++) jsonStr += "]";
+      for (let i = 0; i < openBraces - closeBraces; i++) jsonStr += "}";
+    }
+
+    let plan;
+    try {
+      plan = JSON.parse(jsonStr);
+    } catch (parseErr) {
+      console.error("JSON parse failed. Raw text:", rawText.slice(0, 500));
+      console.error("Stop reason:", stopReason);
+      throw new Error("Failed to parse plan JSON — response may have been truncated");
+    }
 
     // Cache in Supabase
     await supabase.from("weekly_plans").insert({
